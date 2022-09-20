@@ -1,6 +1,5 @@
-import { DeliveryInMemoryRepository } from "../../infra/db/in-memory/delivery/delivery-in-memory.repository"
+import { DeliveryInMemoryRepository } from "../../infra/db/in-memory/delivery-in-memory.repository"
 import { CreateDeliveryUseCase } from "./create-delivery.use-case"
-
 
 describe('Testing Create Deliverys UseCase', ()=>{
     it('Should Create a Delivery', async() =>{

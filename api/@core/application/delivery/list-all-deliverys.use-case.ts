@@ -5,7 +5,7 @@ export class ListAllDeliveryUseCase{
     constructor(private deliveryRepo: DeliveryRepositoryInterface){}
 
     async execute():Promise<ListAllDeliveryOutput>{
-        const delvierys = await this.deliveryRepo.findAll();
+        const delvierys = await this.deliveryRepo.listAll();
         return delvierys.map(delivery => delivery.toJSON())
     }
 }

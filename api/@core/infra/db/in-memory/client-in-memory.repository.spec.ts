@@ -1,5 +1,5 @@
 import { ClientInMemoryRepository } from "./client-in-memory.repository";
-import { Client, ClientProps } from "../../../../domain/client/client.entity";
+import { Client, ClientProps } from "../../../domain/client/client.entity";
 
 describe('ClientInMemoryRepository', () =>{
     it('Should insert a new Client', async() =>{

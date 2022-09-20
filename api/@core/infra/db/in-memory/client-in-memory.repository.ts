@@ -7,9 +7,11 @@ export class ClientInMemoryRepository implements ClientRepositoryInterface{
     async insert(client: Client): Promise<void> {
         this.clients.push(client);
     }
-    async findAll(): Promise<Client[]> {
+    
+    async listAll(): Promise<Client[]> {
         return this.clients;
     }
+
     async update(id: string, client: Client): Promise<void> {
         const newListClients:Client[] = []
         this.clients.forEach((client) =>{
@@ -18,6 +20,7 @@ export class ClientInMemoryRepository implements ClientRepositoryInterface{
         newListClients.push(client)
         this.clients = newListClients;
     }
+
     async delete(id: string): Promise<void> {
         const newListClients:Client[] = []
         this.clients.forEach((client) =>{
