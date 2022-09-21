@@ -12,6 +12,15 @@ export class DeliverymanInMemoryRepository implements DeliverymanRepositoryInter
         return this.deliverymen;
     }
 
+    async findOne(id: string): Promise<Deliveryman> {
+        const newListDeliverymen:Deliveryman[] = []
+        this.deliverymen.forEach((deliveryman) =>{
+            if(deliveryman.id === id) newListDeliverymen.push(deliveryman)          
+        })
+        return newListDeliverymen[0]
+
+    }
+
     async update(id: string, deliveryman: Deliveryman): Promise<void> {
         const newListDeliverymen:Deliveryman[] = []
         this.deliverymen.forEach((deliveryman) =>{

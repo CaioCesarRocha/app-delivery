@@ -12,6 +12,14 @@ export class DeliveryInMemoryRepository implements DeliveryRepositoryInterface{
         return this.deliverys;
     }
 
+    async findOne(id: string): Promise<Delivery> {
+        const newListDeliverys:Delivery[] = []
+        this.deliverys.forEach((delivery) =>{
+            if(delivery.id === id) newListDeliverys.push(delivery)          
+        })
+        return newListDeliverys[0]
+    }
+
     async update(id: string, delivery: Delivery): Promise<void> {
         const newListDeliverys:Delivery[] = []
         this.deliverys.forEach((delivery) =>{

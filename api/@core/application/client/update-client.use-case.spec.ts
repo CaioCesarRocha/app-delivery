@@ -1,5 +1,4 @@
 import { ClientInMemoryRepository } from "../../infra/db/in-memory/client-in-memory.repository";
-import { Client } from "../../domain/client/client.entity";
 import { CreateClientUseCase } from "./create-client.use-case"
 import { UpdateClientUseCase } from "./update-client.use-case";
 

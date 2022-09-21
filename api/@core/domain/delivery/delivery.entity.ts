@@ -16,14 +16,18 @@ export type DeliveryProps={
 
 export class Delivery{
     public readonly id: string;
+    public readonly feeDistance = 5;
+    public readonly feeSmall = 20;
+    public readonly feeMedium = 50;
+    public readonly feeLarge = 100;
     public props: Required<DeliveryProps>
 
     private constructor(props: DeliveryProps, id?: string){
         this.id = id || crypto.randomUUID();
-        let calculatedPrice = getDistanceFromLatLntInKm(props.startPosition, props.endPosition) * 5;
-        if(props.size_item === 'small') calculatedPrice = calculatedPrice + 20;
-        if(props.size_item === 'medium') calculatedPrice = calculatedPrice + 50;
-        if(props.size_item === 'large') calculatedPrice = calculatedPrice + 100;
+        let calculatedPrice = getDistanceFromLatLntInKm(props.startPosition, props.endPosition) * this.feeDistance;
+        if(props.size_item === 'small') calculatedPrice = calculatedPrice + this.feeSmall;
+        if(props.size_item === 'medium') calculatedPrice = calculatedPrice + this.feeMedium;
+        if(props.size_item === 'large') calculatedPrice = calculatedPrice + this.feeLarge;
 
         this.props ={
             ...props,
