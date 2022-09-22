@@ -1,6 +1,6 @@
 import { Client } from "@core/domain/client/client.entity";
 import { ClientRepositoryInterface } from "@core/domain/client/client.repository";
-import { HighlightSpanKind } from "typescript";
+
 
 export class ClientInMemoryRepository implements ClientRepositoryInterface{
     clients: Client[] = [];

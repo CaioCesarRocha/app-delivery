@@ -6,8 +6,8 @@ export class CreateClientUseCase{
     constructor(private clientRepo: ClientRepositoryInterface){}
 
     async execute(input: CreateClientInput): Promise<CreateClientOutput>{
-        const client = Client.create(input)
-        await this.clientRepo.insert(client)
+        const client = Client.create(input);
+        await this.clientRepo.insert(client);
         return client.toJSON();
     }
 }

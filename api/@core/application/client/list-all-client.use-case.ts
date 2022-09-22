@@ -4,7 +4,7 @@ export class ListAllClientUseCase{
     constructor(private clientRepo: ClientRepositoryInterface){}
 
     async execute():Promise<ListAllClientOutput>{
-        const clients = await this.clientRepo.listAll()
+        const clients = await this.clientRepo.listAll()  
         return clients.map(client => client.toJSON())
     }
 }
