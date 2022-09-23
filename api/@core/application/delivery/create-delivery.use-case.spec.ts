@@ -10,8 +10,8 @@ describe('Testing Create Deliverys UseCase', ()=>{
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
+            startPosition: [-23.522400,-46.736600],
+            endPosition: [-23.522600,-46.736800],
         })
 
         expect(repository.deliverys).toHaveLength(1);
@@ -20,8 +20,8 @@ describe('Testing Create Deliverys UseCase', ()=>{
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
+            startPosition: [-23.522400, -46.736600],
+            endPosition: [-23.522600,-46.736800],
             id_deliveryman: '',
             status: 'open',
             price: 200

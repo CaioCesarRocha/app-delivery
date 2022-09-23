@@ -22,6 +22,7 @@ type CreateDeliveryInput={
 type CreateDeliveryOutput={
     id: string;
     id_client: string;
+    id_deliveryman: string;
     name_item: string;
     size_item: 'small' | 'medium' | 'large';
     startPosition: LatLng;

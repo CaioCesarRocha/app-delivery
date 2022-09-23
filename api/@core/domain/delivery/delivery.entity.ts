@@ -1,16 +1,18 @@
 import crypto from 'crypto';
 import { getDistanceFromLatLntInKm } from './_calculate_distance';
 
-export type LatLng = {lat: number, lng: number}
+export type LatLng = [ number, number]
+export type sizeItem = 'small' | 'medium' | 'large'
+export type statusDelivery = 'open' | 'inprogress' | 'closed'
 
 export type DeliveryProps={
     id_client: string,
     id_deliveryman?: string,
     name_item: string,
-    size_item: 'small' | 'medium' | 'large',
+    size_item: sizeItem,
     startPosition: LatLng,
     endPosition: LatLng,
-    status?: 'open' | 'inprogress' | 'closed'
+    status?: statusDelivery,
     price?: number
 }
 
@@ -45,7 +47,7 @@ export class Delivery{
         this.props.name_item = name_item;
     }
 
-    updateSizeItem(size: 'small' | 'medium' | 'large'){
+    updateSizeItem(size: sizeItem){
         this.props.size_item = size;
     }
 
@@ -54,7 +56,7 @@ export class Delivery{
         this.props.endPosition = endPosition;
     }
 
-    updateStatus(status: 'open' | 'inprogress' |'closed'){
+    updateStatus(status: statusDelivery){
         this.props.status = status;
     }
 
@@ -66,7 +68,7 @@ export class Delivery{
         return this.props.name_item;
     }
 
-    private set size_item(value: 'small' | 'medium' | 'large'){
+    private set size_item(value: sizeItem){
         this.props.size_item = value
     }
 
@@ -90,7 +92,7 @@ export class Delivery{
         return this.props.endPosition;
     }
 
-    private set status(value: 'open' | 'inprogress' |'closed'){ 
+    private set status(value: statusDelivery){ 
         this.props.status= value;  
     }
 

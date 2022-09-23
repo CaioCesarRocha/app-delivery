@@ -1,11 +1,5 @@
 import { Client } from "./client.entity";
 
-export type ClientDTO = {
-    id: string;
-    username: string;
-    password: string;
-}
-
 
 export interface ClientRepositoryInterface{
     insert(client: Client): Promise<void>;

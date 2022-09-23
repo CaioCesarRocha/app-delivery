@@ -1,7 +1,5 @@
 import { Client } from "../../../../domain/client/client.entity";
 import { ClientRepositoryInterface } from "@core/domain/client/client.repository";
-import { CreateClientUseCase } from "@core/application/client/create-client.use-case";
-import { ClientDTO } from "@core/domain/client/client.repository";
 import { prisma } from "../prismaClient";
 
 export class ClientPrismaRepository implements ClientRepositoryInterface{ 
