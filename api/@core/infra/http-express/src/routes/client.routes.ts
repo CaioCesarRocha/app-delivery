@@ -10,8 +10,6 @@ import { ClientPrismaRepository } from "../../../db/prisma/repositorys/client.pr
 const clientsRoutes = Router();
 const clientRepo = new ClientPrismaRepository();
 
-clientsRoutes.get('/')
-
 clientsRoutes.get('/clients',  async(req: Request, res: Response) =>{  
     const listallClientUseCase = new ListAllClientUseCase(clientRepo);
     const output = await listallClientUseCase.execute();
