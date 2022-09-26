@@ -6,14 +6,20 @@ describe('Testing Delivery Entity', () =>{
             id_client: 'K1K2K3',
             name_item : 'Documents',
             size_item: 'small',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
+            startPosition: [-23.522400,  -46.736600],
+            endPosition: [ -23.522600,  -46.736800],
         }
         const newDelivery =  Delivery.create(deliveryProps)
         expect(newDelivery.id).toBeDefined();
         expect(newDelivery.props.price).toBeDefined();
         expect(newDelivery.props).toStrictEqual(
-            {...deliveryProps, price: 170, id_deliveryman: '', status: 'open'}
+            {...deliveryProps, 
+                price: 170,
+                id_deliveryman: undefined, 
+                status: 'open',
+                created_at: undefined,
+                end_at: undefined
+            }
         )
     })
 
@@ -23,8 +29,8 @@ describe('Testing Delivery Entity', () =>{
             id_client: 'K1K2K3',
             name_item : 'Bateria',
             size_item: 'medium',
-            startPosition: {lat: 10, lng: 10},
-            endPosition: {lat: 20, lng: 20},
+            startPosition: [10,  10],
+            endPosition: [ 20,  20],
         }
         const newDelivery =  Delivery.create(deliveryProps)
         newDelivery.updateNameItem('Bateria, Violão, Baixo e 2 caixas de som')

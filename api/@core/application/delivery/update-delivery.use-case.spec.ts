@@ -10,8 +10,8 @@ describe('Testing Update Delivery Use Case', () =>{
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
+            startPosition: [ -23.522400, -46.736600],
+            endPosition: [ -23.522600,  -46.736800],
         })
         const updateDeliverys = new UpdateDeliveryUseCase(repository); 
         delivery.name_item = 'Eletrodomésticos';
@@ -20,15 +20,14 @@ describe('Testing Update Delivery Use Case', () =>{
 
         expect(repository.deliverys).toHaveLength(1);
         expect(updatedDelivery).toStrictEqual({
+            ...delivery,
             id: repository.deliverys[0].id,
             id_client: delivery.id_client,
-            name_item: 'Eletrodomésticos',
-            size_item: 'large',
-            startPosition: delivery.startPosition,
-            endPosition: delivery.endPosition,
-            id_deliveryman: '',
+            id_deliveryman: undefined,
             status: 'open',
-            price: 200
+            price: 200,
+            created_at: undefined,
+            end_at: undefined
         })
     })
 })

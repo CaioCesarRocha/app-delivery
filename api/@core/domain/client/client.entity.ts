@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { hash } from 'bcrypt';
 
 export type ClientProps={
     username: string;

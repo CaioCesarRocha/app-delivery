@@ -10,8 +10,8 @@ describe('Testing ListAll Deliverys UseCase', ()=>{
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
+            startPosition: [-23.522400, -46.736600],
+            endPosition: [ -23.522600, -46.736800],
         })
 
         const listAllDeliverys = new ListAllDeliveryUseCase(repository)
@@ -23,11 +23,13 @@ describe('Testing ListAll Deliverys UseCase', ()=>{
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
-            startPosition: {lat: -23.522400, lng: -46.736600},
-            endPosition: {lat: -23.522600, lng: -46.736800},
-            id_deliveryman: '',
+            startPosition: [-23.522400, -46.736600],
+            endPosition: [ -23.522600,  -46.736800],
+            id_deliveryman: undefined,
             status: 'open',
-            price: 200
+            price: 200,
+            created_at: undefined,
+            end_at: undefined
         })
     })   
 })

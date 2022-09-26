@@ -4,9 +4,9 @@ import { CreateDeliveryUseCase } from "./create-delivery.use-case"
 describe('Testing Create Deliverys UseCase', ()=>{
     it('Should Create a Delivery', async() =>{
         const repository = new DeliveryInMemoryRepository();
-        const newDelivery = new CreateDeliveryUseCase(repository)
+        const createDelivery = new CreateDeliveryUseCase(repository)
 
-        const response = await newDelivery.execute({
+        const newDelivery = await createDelivery.execute({
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
@@ -15,16 +15,18 @@ describe('Testing Create Deliverys UseCase', ()=>{
         })
 
         expect(repository.deliverys).toHaveLength(1);
-        expect(response).toStrictEqual({
+        expect(newDelivery).toStrictEqual({
             id: repository.deliverys[0].id,
             id_client: '1',
             name_item: 'Geladeira',
             size_item: 'medium',
             startPosition: [-23.522400, -46.736600],
             endPosition: [-23.522600,-46.736800],
-            id_deliveryman: '',
+            id_deliveryman: undefined,
             status: 'open',
-            price: 200
+            price: 200,
+            created_at: undefined,
+            end_at: undefined
         })
     })   
 })

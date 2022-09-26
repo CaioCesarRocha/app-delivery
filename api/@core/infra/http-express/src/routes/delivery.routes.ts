@@ -1,10 +1,10 @@
 import { Router, Request, Response} from "express";
-import { DeliveryPrismaRepository } from "../../db/prisma/repositorys/delivery.prisma.repository";
-import { ListAllDeliveryUseCase } from "../../../application/delivery/list-all-deliverys.use-case";
-import { FindOneDeliveryUseCase } from "../../../application/delivery/find-one-delivery.use-case";
-import { CreateDeliveryUseCase } from "../../../application/delivery/create-delivery.use-case";
-import { DeleteDeliveryUseCase } from "../../../application/delivery/delete-delviery.use-case";
-import { UpdateDeliveryUseCase } from "../../../application/delivery/update-delivery.use-case";
+import { DeliveryPrismaRepository } from "../../../db/prisma/repositorys/delivery.prisma.repository";
+import { ListAllDeliveryUseCase } from "../../../../application/delivery/list-all-deliverys.use-case";
+import { FindOneDeliveryUseCase } from "../../../../application/delivery/find-one-delivery.use-case";
+import { CreateDeliveryUseCase } from "../../../../application/delivery/create-delivery.use-case";
+import { DeleteDeliveryUseCase } from "../../../../application/delivery/delete-delviery.use-case";
+import { UpdateDeliveryUseCase } from "../../../../application/delivery/update-delivery.use-case";
 
 const deliveryRoutes = Router();
 const deliveryRepo = new DeliveryPrismaRepository();

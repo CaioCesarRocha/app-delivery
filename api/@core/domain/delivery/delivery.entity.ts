@@ -13,7 +13,9 @@ export type DeliveryProps={
     startPosition: LatLng,
     endPosition: LatLng,
     status?: statusDelivery,
-    price?: number
+    price?: number,
+    created_at?: Date,
+    end_at?: Date
 }
 
 export class Delivery{
@@ -33,9 +35,11 @@ export class Delivery{
 
         this.props ={
             ...props,
-            id_deliveryman: props.id_deliveryman || '',
+            id_deliveryman: props.id_deliveryman,
             status: props.status || 'open',
-            price: props.price || calculatedPrice
+            price: props.price || calculatedPrice,
+            created_at: props.created_at,
+            end_at: props.end_at
         }
     }
 

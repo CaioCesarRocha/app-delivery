@@ -13,7 +13,7 @@ export function getDistanceFromLatLntInKm(position1, position2){
             * Math.cos(deg2rad(position1Lat))
             * Math.sin(dLng / 2) * Math.sin(dLng / 2),
         c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        console.log(parseInt(((R * c *1000).toFixed())))
+        //console.log(parseInt(((R * c *1000).toFixed())))
     return parseInt(((R * c *1000).toFixed()));
 }
 
