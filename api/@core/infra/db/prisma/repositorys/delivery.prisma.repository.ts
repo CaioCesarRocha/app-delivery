@@ -33,14 +33,23 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
         })     
         return listDeliverys;
     }
-    async listAllAvaliable(): Promise<Delivery[]> {
-        const listDeliverysAvaliable: Delivery[] = []
+    async listAllClient(id_client: string): Promise<Delivery[]> {
+        const listDeliverysClient: Delivery[] = []
+        const deliverys = await prisma.delivery.findMany({where: {id_client: id_client}});     
+        deliverys.map( async(delivery) => {
+            const deliveryNormalized = await this.normalizeDelivery(delivery)
+            listDeliverysClient.push(deliveryNormalized)
+        })     
+        return listDeliverysClient;
+    }
+    async listAllAvailable(): Promise<Delivery[]> {
+        const listDeliverysAvailable: Delivery[] = []
         const deliverys = await prisma.delivery.findMany({where: {id_deliveryman: null}});     
         deliverys.map( async(delivery) => {
             const deliveryNormalized = await this.normalizeDelivery(delivery)
-            listDeliverysAvaliable.push(deliveryNormalized)
+            listDeliverysAvailable.push(deliveryNormalized)
         })     
-        return listDeliverysAvaliable;
+        return listDeliverysAvailable;
     }
     async findOne(id: string): Promise<Delivery> {
         const delivery = await prisma.delivery.findFirst({where: { id: id}})

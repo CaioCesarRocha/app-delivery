@@ -1,9 +1,9 @@
 import { DeliveryInMemoryRepository } from "../../infra/db/in-memory/delivery-in-memory.repository";
-import { ListAllAvaliableDeliveryUseCase } from "./list-all-delivery-avaliable.use-case";
+import { ListAvailableDeliveryUseCase } from "./list-delivery-avaliable.use-case";
 import { CreateDeliveryUseCase } from "./create-delivery.use-case"
 
-describe('Testing ListAll Deliverys UseCase', ()=>{
-    it('Should ListAll Deliverys Avaliable', async() =>{
+describe('Testing List Deliverys Available UseCase', ()=>{
+    it('Should List Deliverys Available', async() =>{
         const repository = new DeliveryInMemoryRepository();
         const newDelivery = new CreateDeliveryUseCase(repository)
         await newDelivery.execute({
@@ -14,8 +14,8 @@ describe('Testing ListAll Deliverys UseCase', ()=>{
             endPosition: [ -23.522600, -46.736800],
         })
 
-        const listAllDeliverys = new ListAllAvaliableDeliveryUseCase(repository)
-        const response = await listAllDeliverys.execute();
+        const listDeliverysAvaliable = new ListAvailableDeliveryUseCase(repository)
+        const response = await listDeliverysAvaliable.execute();
 
         expect(response).toHaveLength(1);
         expect(response[0]).toStrictEqual({

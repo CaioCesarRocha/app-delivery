@@ -1,13 +1,15 @@
 import { Router, Request, Response} from "express";
 import { DeliveryPrismaRepository } from "../../../db/prisma/repositorys/delivery.prisma.repository";
 import { ListAllDeliveryUseCase } from "../../../../application/delivery/list-all-deliverys.use-case";
-import { ListAllAvaliableDeliveryUseCase } from "../../../../application/delivery/list-all-delivery-avaliable.use-case";
+import { ListAvailableDeliveryUseCase} from "../../../../application/delivery/list-delivery-avaliable.use-case";
+import { ListDeliverysClientUseCase } from "../../../../application/delivery/list-delivery-client.use-case";
 import { FindOneDeliveryUseCase } from "../../../../application/delivery/find-one-delivery.use-case";
 import { CreateDeliveryUseCase } from "../../../../application/delivery/create-delivery.use-case";
 import { DeleteDeliveryUseCase } from "../../../../application/delivery/delete-delviery.use-case";
 import { UpdateDeliveryUseCase } from "../../../../application/delivery/update-delivery.use-case";
 import { ensureAuthenticateClient } from "../middlewares/ensureAuthenticateClient";
 import { ensureAuthenticateDeliveryman } from "../middlewares/ensureAuthenticateDeliveryman";
+
 
 
 const deliveryRoutes = Router();
@@ -20,9 +22,16 @@ deliveryRoutes.get('/delivery',  async(req: Request, res: Response) =>{
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/avaliable', ensureAuthenticateDeliveryman ,async(req: Request, res: Response) =>{
-    const listAllAvaliableDelivery = new ListAllAvaliableDeliveryUseCase(deliveryRepo);
-    const output = await listAllAvaliableDelivery.execute()
+deliveryRoutes.get('/delivery/client', ensureAuthenticateClient,async(req: Request, res: Response) =>{
+    const { id_client } = req;
+    const listDeliverysClient = new ListDeliverysClientUseCase(deliveryRepo);
+    const output = await listDeliverysClient.execute(id_client)
+    res.status(200).json(output)
+})
+
+deliveryRoutes.get('/delivery/avaliable', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
+    const listDeliverysAvailable = new ListAvailableDeliveryUseCase(deliveryRepo);
+    const output = await listDeliverysAvailable.execute()
     res.status(200).json(output)
 })
 
