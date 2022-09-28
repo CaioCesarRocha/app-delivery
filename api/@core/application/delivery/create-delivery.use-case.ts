@@ -5,7 +5,7 @@ export class CreateDeliveryUseCase{
     constructor(private deliveryRepo:DeliveryRepositoryInterface){}
 
     async execute(input: CreateDeliveryInput): Promise<CreateDeliveryOutput>{
-       const delivery = Delivery.create(input); 
+       const delivery = Delivery.create(input);
        await this.deliveryRepo.insert(delivery)
        return delivery.toJSON();
     }
