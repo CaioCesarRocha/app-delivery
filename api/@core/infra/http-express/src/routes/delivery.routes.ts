@@ -3,13 +3,13 @@ import { DeliveryPrismaRepository } from "../../../db/prisma/repositorys/deliver
 import { ListAllDeliveryUseCase } from "../../../../application/delivery/list-all-deliverys.use-case";
 import { ListAvailableDeliveryUseCase} from "../../../../application/delivery/list-delivery-avaliable.use-case";
 import { ListDeliverysClientUseCase } from "../../../../application/delivery/list-delivery-client.use-case";
+import { ListDeliverysDeliverymanUseCase } from "../../../../application/delivery/list-deliverys-deliveryman.use-case";
 import { FindOneDeliveryUseCase } from "../../../../application/delivery/find-one-delivery.use-case";
 import { CreateDeliveryUseCase } from "../../../../application/delivery/create-delivery.use-case";
 import { DeleteDeliveryUseCase } from "../../../../application/delivery/delete-delviery.use-case";
 import { UpdateDeliveryUseCase } from "../../../../application/delivery/update-delivery.use-case";
 import { ensureAuthenticateClient } from "../middlewares/ensureAuthenticateClient";
 import { ensureAuthenticateDeliveryman } from "../middlewares/ensureAuthenticateDeliveryman";
-
 
 
 const deliveryRoutes = Router();
@@ -26,6 +26,13 @@ deliveryRoutes.get('/delivery/client', ensureAuthenticateClient,async(req: Reque
     const { id_client } = req;
     const listDeliverysClient = new ListDeliverysClientUseCase(deliveryRepo);
     const output = await listDeliverysClient.execute(id_client)
+    res.status(200).json(output)
+})
+
+deliveryRoutes.get('/delivery/deliveryman', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
+    const { id_deliveryman } = req;
+    const listDeliverysClient = new ListDeliverysDeliverymanUseCase(deliveryRepo);
+    const output = await listDeliverysClient.execute(id_deliveryman)
     res.status(200).json(output)
 })
 
@@ -52,6 +59,7 @@ deliveryRoutes.post('/delivery', ensureAuthenticateClient, async(req: Request, r
     res.status(201).json(output) 
 })
 
+//somente o entregador pode alterar(selecionar a entrega) depois de ja criada
 deliveryRoutes.put('/delivery/:id', ensureAuthenticateDeliveryman, async(req: Request, res: Response) =>{ 
     const id_delivery = req.params.id
     const delivery = req.body 
@@ -59,7 +67,7 @@ deliveryRoutes.put('/delivery/:id', ensureAuthenticateDeliveryman, async(req: Re
     const output = await updateUseCase.execute(id_delivery, delivery)
     res.status(200).json(output)
 })
-
+//quando for finalizada pelo entregador, somente o cliente pode confirmar e assim pode ser excluida
 deliveryRoutes.delete('/delivery/:id', ensureAuthenticateClient,  async(req: Request, res: Response) =>{  
     const id_delivery = req.params.id  
     const deleteUseCase = new DeleteDeliveryUseCase(deliveryRepo);

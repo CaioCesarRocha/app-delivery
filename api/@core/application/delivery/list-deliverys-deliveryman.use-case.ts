@@ -1,16 +1,16 @@
 import {LatLng} from '../../domain/delivery/delivery.entity'
 import { DeliveryRepositoryInterface } from '../../domain/delivery/delivery.repository';
 
-export class ListDeliverysClientUseCase{
+export class ListDeliverysDeliverymanUseCase{
     constructor(private deliveryRepo: DeliveryRepositoryInterface){}
 
-    async execute(id_client: string):Promise<ListDeliverysClientOutput>{
-        const deliverysClient = await this.deliveryRepo.listDeliverysClient(id_client); 
-        return deliverysClient.map(delivery => delivery.toJSON())
+    async execute(id_deliveryman: string):Promise<ListDeliverysDeliverymanOutput>{
+        const deliverysDeliveryman = await this.deliveryRepo.listDeliverysDeliveryman(id_deliveryman); 
+        return deliverysDeliveryman.map(delivery => delivery.toJSON())
     }
 }
 
-type ListDeliverysClientOutput={
+type ListDeliverysDeliverymanOutput={
     id: string;
     id_client: string;
     name_item: string;

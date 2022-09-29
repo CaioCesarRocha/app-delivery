@@ -16,10 +16,7 @@ describe('Testing Update Client UseCase', () =>{
         const response = await updateClient.execute(newClient.id, newClient)
     
         expect(repository.clients).toHaveLength(1);
-        expect(response).toStrictEqual({
-            id: repository.clients[0].id,
-            username: 'Golden',
-            password: newClient.password
-        })
+        expect(response.id).toBe(repository.clients[0].id)
+        expect(response.username).toBe('Golden')
     })
 })

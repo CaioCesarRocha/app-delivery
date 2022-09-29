@@ -16,10 +16,7 @@ describe('Testing List All Clients UseCases', () =>{
         const response = await findAllClients.execute()
 
         expect(response).toHaveLength(1);
-        expect(response[0]).toStrictEqual({
-            id: repository.clients[0].id,
-            username: 'Silver',
-            password: 'K1K2K3'
-        })
+        expect(response[0].id).toEqual(repository.clients[0].id),
+        expect(response[0].username).toEqual('Silver')
     })
 })

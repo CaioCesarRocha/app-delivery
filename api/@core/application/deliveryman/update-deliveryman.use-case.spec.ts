@@ -2,8 +2,8 @@ import { DeliverymanInMemoryRepository } from "../../infra/db/in-memory/delivery
 import { UpdateDeliverymanUseCase } from "./update-deliveryman.use-case";
 import { CreateDeliverymanUseCase } from "./create-deliveryman.use-case"
 
-describe('Testing Update Delivery UseCase', ()=>{
-    it('Should Update a delivery', async() =>{
+describe('Testing Update Deliveryman UseCase', ()=>{
+    it('Should Update a deliveryman', async() =>{
         const repository = new DeliverymanInMemoryRepository();
         const createNewDeliveryman = new CreateDeliverymanUseCase(repository)
         const newDeliveryman = await createNewDeliveryman.execute({
@@ -15,10 +15,7 @@ describe('Testing Update Delivery UseCase', ()=>{
         const newDeliverymanupdated = await updatedDeliverymen.execute(newDeliveryman.id , newDeliveryman)
 
         expect(repository.deliverymen).toHaveLength(1);
-        expect(newDeliverymanupdated).toStrictEqual({
-            id: repository.deliverymen[0].id,
-            username: 'Copper',
-            password: newDeliveryman.password            
-        })
+        expect(newDeliverymanupdated.id).toBe(repository.deliverymen[0].id);
+        expect(newDeliverymanupdated.username).toBe('Copper');
     })   
 })

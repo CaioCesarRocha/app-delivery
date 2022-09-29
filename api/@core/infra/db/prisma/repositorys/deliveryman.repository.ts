@@ -15,6 +15,15 @@ export class DeliverymanPrismaRepository implements DeliverymanRepositoryInterfa
             listDeliverymen.push(Deliveryman.create(deliveryman))
         })
         return listDeliverymen;
+    }
+    async findByUsername(username: string): Promise<Deliveryman> {
+        const deliveryman = await prisma.deliveryman.findUnique({where: {username : username}})
+        const normalizedDeliveryman = {
+            id: deliveryman?.id,
+            username: deliveryman?.username,
+            password: deliveryman?.password 
+        }      
+        return Deliveryman.create(normalizedDeliveryman)
     }    
     async findOne(id: string): Promise<Deliveryman> {
         const deliveryman = await prisma.deliveryman.findUnique({where: {id : id}})

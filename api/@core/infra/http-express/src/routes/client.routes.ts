@@ -5,6 +5,7 @@ import { ListAllClientUseCase } from "../../../../application/client/list-all-cl
 import { DeleteClientUseCase } from "../../../../application/client/delete-client.use-case";
 import { UpdateClientUseCase } from "../../../../application/client/update-client.use-case";
 import { CreateClientUseCase } from "../../../../application/client/create-client.use-case";
+import { FindClientByUsernameUseCase } from "../../../../application/client/find-by-username.use-case";
 import { ClientPrismaRepository } from "../../../db/prisma/repositorys/client.prisma.repository";
 
 const clientsRoutes = Router();
@@ -23,9 +24,10 @@ clientsRoutes.get('/clients/:id',  async(req: Request, res: Response) =>{
     res.status(200).json(output)
 })
 
-clientsRoutes.post('/clients',  async(req: Request, res: Response, next: NextFunction) =>{  
-    const clientExist = await prisma.client.findUnique({where: {username: req.body.username}}) 
-    if(clientExist) next(new Error('Client already exist'))
+clientsRoutes.post('/clients',  async(req: Request, res: Response, next: NextFunction) =>{ 
+    const findClientByUsername = new FindClientByUsernameUseCase(clientRepo)
+    const clientExist = await findClientByUsername.execute(req.body.username)
+    if(clientExist) next(new Error('Client already exist'));
     else{
         const createUseCase = new CreateClientUseCase(clientRepo);
         const output = await createUseCase.execute(req.body);

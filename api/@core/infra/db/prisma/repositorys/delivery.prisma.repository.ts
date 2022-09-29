@@ -33,7 +33,7 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
         })     
         return listDeliverys;
     }
-    async listAllClient(id_client: string): Promise<Delivery[]> {
+    async listDeliverysClient(id_client: string): Promise<Delivery[]> {
         const listDeliverysClient: Delivery[] = []
         const deliverys = await prisma.delivery.findMany({where: {id_client: id_client}});     
         deliverys.map( async(delivery) => {
@@ -41,6 +41,15 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
             listDeliverysClient.push(deliveryNormalized)
         })     
         return listDeliverysClient;
+    }
+    async listDeliverysDeliveryman(id_deliveryman: string): Promise<Delivery[]> {
+        const listDeliverysDeliveryman: Delivery[] = []
+        const deliverys = await prisma.delivery.findMany({where: {id_deliveryman: id_deliveryman}});     
+        deliverys.map( async(delivery) => {
+            const deliveryNormalized = await this.normalizeDelivery(delivery)
+            listDeliverysDeliveryman.push(deliveryNormalized)
+        })     
+        return listDeliverysDeliveryman;
     }
     async listAllAvailable(): Promise<Delivery[]> {
         const listDeliverysAvailable: Delivery[] = []

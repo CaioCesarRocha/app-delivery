@@ -3,7 +3,7 @@ import { CreateClientUseCase } from "./create-client.use-case"
 
 
 describe('Testing Create Client UseCases', () =>{
-    it('Should Create a New Route', async() =>{
+    it('Should Create a New Client', async() =>{
         const repository = new ClientInMemoryRepository();
         const createNewClient = new CreateClientUseCase(repository)
 
@@ -13,10 +13,7 @@ describe('Testing Create Client UseCases', () =>{
         });
 
         expect(repository.clients).toHaveLength(1);
-        expect(response).toStrictEqual({
-            id: repository.clients[0].id,
-            username: 'Silver',
-            password: 'K1K2K3'
-        })
+        expect(response).toHaveProperty('id')       
+        expect(response.username).toEqual('Silver')
     })
 })

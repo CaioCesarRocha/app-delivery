@@ -4,14 +4,16 @@ import { ClientPrismaRepository } from "./client.prisma.repository";
 describe('Testing Client Prisma Repository', () =>{
     it('Should Create a User', async() =>{      
         const clientProps:ClientProps = {
-            username: 'Luffy',
-            password: 'mygyara'
+            username: 'Joao Carlos',
+            password: '12345'
         }
         const client = await Client.create(clientProps)
         const repository = new ClientPrismaRepository();
         await repository.insert(client)
-        const clientFound = await repository.findOne(client.id)
+        let response = await repository.findOne(client.id)
+        const clientFound = response.toJSON()
 
-        expect(clientFound.toJSON()).toStrictEqual(client.toJSON())
+        expect(clientFound.id).toEqual(client.id);
+        expect(clientFound.username).toEqual('Joao Carlos')
     })
 })

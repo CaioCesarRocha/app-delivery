@@ -6,6 +6,8 @@ import { FindOneDeliverymanUseCase } from "../../../../application/deliveryman/f
 import { DeleteDeliverymanUseCase } from "../../../../application/deliveryman/delete-deliveryman.use-case";
 import { CreateDeliverymanUseCase } from "../../../../application/deliveryman/create-deliveryman.use-case";
 import { UpdateDeliverymanUseCase } from "../../../../application/deliveryman/update-deliveryman.use-case";
+import { FindDeliverymanByUsernameUseCase } from "../../../../application/deliveryman/find-by-username.use-case";
+
 
 const deliverymanRoutes = Router();
 const deliverymanRepo = new DeliverymanPrismaRepository();
@@ -24,7 +26,9 @@ deliverymanRoutes.get('/deliveryman/:id',  async(req: Request, res: Response) =>
 })
 
 deliverymanRoutes.post('/deliveryman',  async(req: Request, res: Response) =>{  
-    const deliverymanExist = await prisma.deliveryman.findUnique({where: {username: req.body.username}}) 
+    const findDeliverymanByUsername = new FindDeliverymanByUsernameUseCase(deliverymanRepo)
+    const deliverymanExist = await findDeliverymanByUsername.execute(req.body.username)
+    //const deliverymanExist = await prisma.deliveryman.findUnique({where: {username: req.body.username}}) 
     if(deliverymanExist) throw new Error('Deliveryman already exist');
     else{
         const createUseCase = new CreateDeliverymanUseCase(deliverymanRepo);

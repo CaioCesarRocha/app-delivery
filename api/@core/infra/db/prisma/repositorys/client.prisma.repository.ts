@@ -15,7 +15,16 @@ export class ClientPrismaRepository implements ClientRepositoryInterface{
             listClients.push(Client.create(client))
         })
         return listClients;
-    }    
+    } 
+    async findByUsername(username: string): Promise<Client> {
+        const client = await prisma.client.findUnique({where: {username : username}})
+        const normalizedClient = {
+            id: client?.id,
+            username: client?.username,
+            password: client?.password 
+        }      
+        return Client.create(normalizedClient)
+    }   
     async findOne(id: string): Promise<Client> {
         const client = await prisma.client.findUnique({where: {id : id}})
         const normalizedClient = {

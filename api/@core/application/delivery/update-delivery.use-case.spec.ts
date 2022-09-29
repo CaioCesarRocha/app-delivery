@@ -15,6 +15,9 @@ describe('Testing Update Delivery Use Case', () =>{
         })
         const updateDeliverys = new UpdateDeliveryUseCase(repository); 
         delivery.name_item = 'Eletrodomésticos';
+        delivery.id_deliveryman = '2'
+        const timeNow = Date.now()
+        delivery.end_at = new Date(timeNow)
         delivery.size_item = 'large';
         const updatedDelivery = await updateDeliverys.execute(delivery.id, delivery)
 
@@ -23,11 +26,11 @@ describe('Testing Update Delivery Use Case', () =>{
             ...delivery,
             id: repository.deliverys[0].id,
             id_client: delivery.id_client,
-            id_deliveryman: undefined,
+            id_deliveryman: '2',
             status: 'open',
             price: 200,
             created_at: undefined,
-            end_at: undefined
+            end_at: new Date(timeNow)
         })
     })
 })

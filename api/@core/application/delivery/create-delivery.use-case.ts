@@ -13,6 +13,7 @@ export class CreateDeliveryUseCase{
 
 type CreateDeliveryInput={
     id_client: string,
+    id_deliveryman?: string,
     name_item: string,
     size_item: 'small' | 'medium' | 'large'
     startPosition: LatLng,
@@ -29,4 +30,6 @@ type CreateDeliveryOutput={
     endPosition: LatLng;
     status: 'open' | 'inprogress' | 'closed';
     price: number;
+    created_at: Date;
+    end_at: Date;
 }

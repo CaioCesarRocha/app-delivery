@@ -12,12 +12,20 @@ export class DeliveryInMemoryRepository implements DeliveryRepositoryInterface{
         return this.deliverys;
     }
 
-    async listAllClient(id_client: string): Promise<Delivery[]> {
+    async listDeliverysClient(id_client: string): Promise<Delivery[]> {
         const deliverysClient:Delivery[] = []
         this.deliverys.forEach((delivery) =>{
             if(delivery.props.id_client === id_client) deliverysClient.push(delivery);          
         })
         return deliverysClient;
+    }
+
+    async listDeliverysDeliveryman(id_deliveryman: string): Promise<Delivery[]> {
+        const deliverysDeliveryman:Delivery[] = []
+        this.deliverys.forEach((delivery) =>{
+            if(delivery.props.id_deliveryman === id_deliveryman) deliverysDeliveryman.push(delivery);          
+        })
+        return deliverysDeliveryman;
     }
 
     async listAllAvailable(): Promise<Delivery[]> {

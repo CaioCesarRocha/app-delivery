@@ -13,6 +13,14 @@ export class ClientInMemoryRepository implements ClientRepositoryInterface{
         return this.clients;
     }
 
+    async findByUsername(username: string): Promise<Client> {
+        const listClients:Client[] = []
+        this.clients.forEach((client) =>{
+            if(client.username === username) listClients.push(client)          
+        })
+        return listClients[0]
+    }
+
     async findOne(id: string): Promise<Client> {
         const newListClients:Client[] = []
         this.clients.forEach((client) =>{
