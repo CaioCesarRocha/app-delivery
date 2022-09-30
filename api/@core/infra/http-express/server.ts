@@ -7,7 +7,6 @@ import { deliveryRoutes } from "./src/routes/delivery.routes";
 import { authenticateRoutes } from "./src/routes/authenticate.routes";
 import { deliverymanRoutes } from "./src/routes/deliveryman.routes";
 
-
 const app = express();
 
 app.use(cors());
