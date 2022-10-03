@@ -1,0 +1,1 @@
+export * from '../../../@core/infra/db/prisma/repositorys/client.prisma.repository'
