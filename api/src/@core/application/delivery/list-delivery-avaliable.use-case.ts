@@ -5,7 +5,7 @@ export class ListAvailableDeliveryUseCase{
     constructor(private deliveryRepo: DeliveryRepositoryInterface){}
 
     async execute():Promise<ListAllAvailableDeliveryOutput>{
-        const deliverysAvailable = await this.deliveryRepo.listAllAvailable(); 
+        const deliverysAvailable = await this.deliveryRepo.listAllAvailable();
         return deliverysAvailable.map(delivery => delivery.toJSON())
     }
 }

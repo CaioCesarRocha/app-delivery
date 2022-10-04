@@ -20,9 +20,9 @@ export class ClientController {
   ){}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    const clientExist = this.findClientByUsername.execute(createClientDto.username)
-    if(clientExist) throw new ConflictException('Client name already exist');
+  async create(@Body() createClientDto: CreateClientDto) {
+    const clientExist = await this.findClientByUsername.execute(createClientDto.username)
+    if(clientExist) throw new ConflictException('Client already exist');
     return this.createClientUseCase.execute(createClientDto)
   }
 

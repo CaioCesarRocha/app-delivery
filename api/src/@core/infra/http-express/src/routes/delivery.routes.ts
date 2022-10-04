@@ -22,7 +22,7 @@ deliveryRoutes.get('/delivery',  async(req: Request, res: Response) =>{
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/client', ensureAuthenticateClient,async(req: Request, res: Response) =>{
+deliveryRoutes.get('/delivery/client', ensureAuthenticateClient, async(req: Request, res: Response) =>{
     const { id_client } = req;
     const listDeliverysClient = new ListDeliverysClientUseCase(deliveryRepo);
     const output = await listDeliverysClient.execute(id_client)
@@ -36,7 +36,7 @@ deliveryRoutes.get('/delivery/deliveryman', ensureAuthenticateDeliveryman,async(
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/avaliable', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
+deliveryRoutes.get('/delivery/available', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
     const listDeliverysAvailable = new ListAvailableDeliveryUseCase(deliveryRepo);
     const output = await listDeliverysAvailable.execute()
     res.status(200).json(output)

@@ -8,13 +8,13 @@ const authenticateRoutes = Router();
 const clientRepo = new ClientPrismaRepository();
 const deliverymanRepo = new DeliverymanPrismaRepository();
 
-authenticateRoutes.post('/client/authenticate', async(request: Request, response: Response) =>{
+authenticateRoutes.post('/authenticate/client', async(request: Request, response: Response) =>{
     const authenticateClientUseCase = new AuthenticateClientUseCase(clientRepo)
     const resultAuthentication = await authenticateClientUseCase.execute(request.body)
     return response.json(resultAuthentication)
 })
 
-authenticateRoutes.post('/deliveryman/authenticate', async(request: Request, response: Response) =>{
+authenticateRoutes.post('/authenticate/deliveryman', async(request: Request, response: Response) =>{
     const authenticateDeliverymanUseCase = new AuthenticateDeliverymanUseCase(deliverymanRepo);
     const resultAuthentication = await authenticateDeliverymanUseCase.execute(request.body)
     return response.json(resultAuthentication)

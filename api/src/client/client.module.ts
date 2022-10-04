@@ -14,7 +14,7 @@ import { DeleteClientUseCase } from 'src/@core/application/client/delete-client.
   providers: [
     ClientService,
     { 
-      provide: ClientPrismaRepository,//PROVENDO O REPOSITORY utilizando typeorm
+      provide: ClientPrismaRepository,//PROVENDO O REPOSITORY utilizando Prisma
       useFactory: () =>{
         return new ClientPrismaRepository()
       },
