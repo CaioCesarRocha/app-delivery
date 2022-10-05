@@ -47,6 +47,22 @@ import { DeleteDeliveryUseCase } from 'src/@core/application/delivery/delete-del
     },
 
     {
+      provide: ListDeliverysClientUseCase, //PROVENDO OS CASOS DE USO
+      useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
+        return new ListDeliverysClientUseCase(deliveryRepo)
+      },
+      inject: [DeliveryPrismaRepository]
+    },
+
+    {
+      provide: ListDeliverysDeliverymanUseCase, //PROVENDO OS CASOS DE USO
+      useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
+        return new ListDeliverysDeliverymanUseCase(deliveryRepo)
+      },
+      inject: [DeliveryPrismaRepository]
+    },
+
+    {
       provide: ListAvailableDeliveryUseCase, //PROVENDO OS CASOS DE USO
       useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
         return new ListAvailableDeliveryUseCase(deliveryRepo)

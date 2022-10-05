@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, ConflictException} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ConflictException, Req} from '@nestjs/common';
+import { Request } from 'express';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateClientUseCase } from '../@core/application/client/create-client.use-case';
@@ -37,8 +38,13 @@ export class ClientController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.updateClientUseCase.execute(id, updateClientDto)
+  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto, @Req() req:Request) {
+    const newClient = { 
+      id: updateClientDto.id, 
+      username: updateClientDto.username,
+      password: updateClientDto.password 
+    }
+    return this.updateClientUseCase.execute(id, newClient)
   }
 
   @Delete(':id')

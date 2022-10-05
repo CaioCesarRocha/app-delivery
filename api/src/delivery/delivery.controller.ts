@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Req } from '@nestjs/common';
+import {Request} from 'express';
 import { CreateDeliveryDto } from './dto/create-delivery.dto';
 import { UpdateDeliveryDto } from './dto/update-delivery.dto';
 import { CreateDeliveryUseCase } from 'src/@core/application/delivery/create-delivery.use-case';
@@ -15,8 +16,8 @@ export class DeliveryController {
   constructor(
     private createDeliveryUseCase: CreateDeliveryUseCase,
     private listAllDeliveryUseCase: ListAllDeliveryUseCase,
-    //private listDeliverysClientUseCase: ListDeliverysClientUseCase,
-   // private listDeliverysDeliverymanUseCase: ListDeliverysDeliverymanUseCase,
+    private listDeliverysClientUseCase: ListDeliverysClientUseCase,
+    private listDeliverysDeliverymanUseCase: ListDeliverysDeliverymanUseCase,
     private listAvailableDeliverysUseCase: ListAvailableDeliveryUseCase,
     private findOneDeliveryUseCase: FindOneDeliveryUseCase,
     private updateDeliveryUseCase: UpdateDeliveryUseCase,
@@ -24,8 +25,10 @@ export class DeliveryController {
   ) {}
 
   @Post()
-  create(@Body() createDeliveryDto: CreateDeliveryDto) {
-    return this.createDeliveryUseCase.execute(createDeliveryDto)
+  create(@Body() createDeliveryDto: CreateDeliveryDto, @Req() req:Request) {
+    const id_client = req.body['id_client']; //id_client vrm depois de ser válido no middlware
+    const newDelivery = { id_client, ...createDeliveryDto}
+    return this.createDeliveryUseCase.execute(newDelivery)
   }
 
   @Get()
@@ -33,32 +36,34 @@ export class DeliveryController {
     return this.listAllDeliveryUseCase.execute()
   }
 
-  /*
+  
   @Get('/client')
-  listDeliverysClient() {
-    return this.listDeliverysClientUseCase.execute()
+  listDeliverysClient(@Req() req:Request) {
+    const id_client = req.body['id_client'];
+    return this.listDeliverysClientUseCase.execute(id_client)
   }
 
   @Get('/deliveryman')
-  listDeliverysDeliveryman() {
-    return this.listDeliverysDeliverymanUseCase.execute()
-  }*/
+  listDeliverysDeliveryman(@Req() req:Request) {
+    const id_client = req.body['id_deliveryman'];
+    return this.listDeliverysDeliverymanUseCase.execute(id_client)
+  }
 
   @Get('/available')
   listAvailableDeliverys() {
-    console.log('passei aquiii controller')
     return this.listAvailableDeliverysUseCase.execute()
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log('passei aquiii controllerfidnoe')
     return this.findOneDeliveryUseCase.execute(id)
   }
   
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeliveryDto: UpdateDeliveryDto) {
-    return this.updateDeliveryUseCase.execute(id, updateDeliveryDto)
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateDeliveryDto: UpdateDeliveryDto,@Req() req:Request) {
+    const id_deliveryman = req.body['id_deliveryman'];
+    const newDelivery = { id_deliveryman, ...updateDeliveryDto}
+    return this.updateDeliveryUseCase.execute(id, newDelivery)
   }
 
   @Delete(':id')

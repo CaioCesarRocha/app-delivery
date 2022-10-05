@@ -40,7 +40,12 @@ export class DeliverymanController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateDeliverymanDto: UpdateDeliverymanDto) {
-    return this.updateDeliverymanUseCase.execute(id, updateDeliverymanDto)
+    const newDeliveryman = { 
+      id: updateDeliverymanDto.id, 
+      username: updateDeliverymanDto.username,
+      password: updateDeliverymanDto.password 
+    }
+    return this.updateDeliverymanUseCase.execute(id, newDeliveryman)
   }
 
   @Delete(':id')
