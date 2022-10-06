@@ -19,6 +19,6 @@ describe('Testing Client Entity', () =>{
         const newClient = Client.create(clientProps)
         newClient.updateUsername('Scopper')
         expect(newClient.id).toBeDefined()
-        expect(newClient.username).toBe('Scopper')
+        expect(newClient.props.username).toBe('Scopper')
     })
 })

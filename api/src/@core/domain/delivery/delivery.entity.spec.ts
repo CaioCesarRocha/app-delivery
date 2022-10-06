@@ -36,7 +36,7 @@ describe('Testing Delivery Entity', () =>{
         newDelivery.updateNameItem('Bateria, Violão, Baixo e 2 caixas de som')
         newDelivery.updateSizeItem('large')
         expect(newDelivery.id).toBeDefined();
-        expect(newDelivery.name_item).toStrictEqual('Bateria, Violão, Baixo e 2 caixas de som')
-        expect(newDelivery.size_item).toStrictEqual('large')
+        expect(newDelivery.props.name_item).toStrictEqual('Bateria, Violão, Baixo e 2 caixas de som')
+        expect(newDelivery.props.size_item).toStrictEqual('large')
     })
 })

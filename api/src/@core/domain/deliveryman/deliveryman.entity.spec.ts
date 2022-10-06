@@ -19,6 +19,6 @@ describe('Testing Deliveryman Entity', () =>{
         const newDeliveryman = Deliveryman.create(deliverymanProps)
         newDeliveryman.updateUsername('Scopper')
         expect(newDeliveryman.id).toBeDefined()
-        expect(newDeliveryman.username).toBe('Scopper')
+        expect(newDeliveryman.props.username).toBe('Scopper')
     })
 })
