@@ -1,13 +1,13 @@
 import styled, { css } from "styled-components";
 
-export const TransactionContainer = styled.main`
+export const DeliveryContainer = styled.main`
     width: 100%;
     max-width: 1120px;
     margin: 4rem auto 0;
     padding: 0 1.5rem;
 `
 
-export const TransactionTable = styled.table`
+export const DeliveryTable = styled.table`
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 0.5rem;
@@ -38,3 +38,16 @@ export const StatusDelivery = styled.span<StatusDeliveryProps>`
     ${props => props.variant === 'inprogress' && css` color: ${props.theme['gray-300']}; `}
     ${props => props.variant === 'closed' && css` color: ${props.theme['red-300']}; `}
 `
+
+
+export const DeliveryGeralContent = styled.div`
+    .leaflet-container{
+        background-color: orange;
+        width: 50%;
+        max-width: 50%;
+        height: 150px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+    }
+`
+

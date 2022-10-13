@@ -1,17 +1,21 @@
+import { useState } from 'react';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
-import { StatusDelivery, TransactionContainer, TransactionTable } from "./styles";
+import { StatusDelivery, DeliveryContainer, DeliveryTable, DeliveryGeralContent } from "./styles";
+
+
+
 
 export function Delivery(){
     return (
-        <div>
+        <DeliveryGeralContent>
             <Header/>
             <Summary/>
 
-            <TransactionContainer>
+            <DeliveryContainer>
                 <SearchForm/>        
-                <TransactionTable>
+                <DeliveryTable>
                     <tbody>
                         <tr>
                             <td width="50%"> Entrega Documentos</td>
@@ -46,8 +50,8 @@ export function Delivery(){
                             <td> 10/10/2022 </td>
                         </tr>
                     </tbody>
-                </TransactionTable>
-            </TransactionContainer>
-        </div>
+                </DeliveryTable>
+            </DeliveryContainer>
+        </DeliveryGeralContent>
     )
 }

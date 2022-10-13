@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import * as Dialog from '@radix-ui/react-dialog';
+import * as RadioGroup from '@radix-ui/react-radio-group';
 
 export const Overlay = styled(Dialog.Overlay)`
     position: fixed;
@@ -11,20 +12,31 @@ export const Overlay = styled(Dialog.Overlay)`
 
 export const Content  = styled(Dialog.Content)`
     min-width: 32rem;
+    max-height: 80%;
+    overflow: auto;
     border-radius: 6px;
     padding: 2.5rem 3rem;
     background: ${props => props.theme['gray-800']};
-
+  
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    
 
     form{
         margin-top: 2rem;
         display: flex;
+        
         flex-direction: column;
         gap: 1rem;   
+
+        .leaflet-container{
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
     }
 
     input{
@@ -67,3 +79,39 @@ export const CloseButton = styled(Dialog.Close)`
     cursor: pointer;
     color: ${props => props.theme['gray-500']};
 `;
+
+export const DeliveryType = styled(RadioGroup.Root)`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+`
+
+export const DeliveryTypeButton = styled(RadioGroup.Item)`
+    background: ${props => props.theme['gray-700']};
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 0;
+    color: ${props => props.theme['gray-300']};
+
+    svg {
+        color: ${props => props.theme["green-300"]}
+    }
+
+    &[data-state='unchecked']:hover{
+        background-color: ${props => props.theme['gray-600']}; 
+    }
+
+    &[data-state='checked']{
+        color: ${props => props.theme.white};
+        background-color: ${props => props.theme['green-500']};
+        svg {
+            color: ${props => props.theme.white}
+        }
+    }
+`
