@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';  
+import { IDelivery, DeliverysContext } from '../../contexts/DeliveryContext';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
 import { StatusDelivery, DeliveryContainer, DeliveryTable, DeliveryGeralContent } from "./styles";
-
-
+import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 
 
 export function Delivery(){
+   // const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
+
+    const { deliverys} = useContext(DeliverysContext);
+
     return (
         <DeliveryGeralContent>
             <Header/>
@@ -17,38 +21,22 @@ export function Delivery(){
                 <SearchForm/>        
                 <DeliveryTable>
                     <tbody>
-                        <tr>
-                            <td width="50%"> Entrega Documentos</td>
-                            <td> R$ 35,00 </td>
-                            <td>
-                                <StatusDelivery variant="inprogress">
-                                    Em andamento... 
-                                </StatusDelivery>
-                            </td>  
-                            <td> 10/10/2022 </td>
-                        </tr>
-
-                        <tr>
-                            <td width="50%"> Mudança</td>
-                            <td> R$ 250,00 </td>
-                            <td>
-                                <StatusDelivery variant="closed">
-                                    Finalizada
-                                </StatusDelivery> 
-                            </td>                         
-                            <td> 05/10/2022 </td>
-                        </tr>
-
-                        <tr>
-                            <td width="50%"> Entrega lanche</td>
-                            <td> R$ 11,00 </td>
-                            <td>
-                                <StatusDelivery variant="open">
-                                    Aberta
-                                </StatusDelivery>
-                            </td>  
-                            <td> 10/10/2022 </td>
-                        </tr>
+                        { deliverys.map((delivery, index) => {
+                            return(
+                                <tr key={index}>
+                                    <td width="50%"> {delivery.name_item} </td>
+                                    <td> {priceFormatter.format(delivery.price)} </td>
+                                    <td>
+                                        <StatusDelivery variant={delivery.status}>
+                                            {delivery.status === 'open' ? 'Aberta...': null}
+                                            {delivery.status === 'inprogress' ? 'Em andamento...': null}
+                                            {delivery.status === 'closed' ? 'Encerrada...': null}
+                                        </StatusDelivery>
+                                    </td>  
+                                    <td> {dateFormatter.format(new Date(delivery.created_at))} </td>
+                                </tr>
+                            )
+                        })}                 
                     </tbody>
                 </DeliveryTable>
             </DeliveryContainer>

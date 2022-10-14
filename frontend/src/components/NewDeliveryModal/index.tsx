@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import {useForm} from 'react-hook-form';
+import * as z from 'zod';
+import {zodResolver} from '@hookform/resolvers/zod';
 import { TileLayer, Marker, MapContainer, useMapEvents} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -8,20 +11,38 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { X ,Bicycle, Truck, Jeep} from 'phosphor-react';
 import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton } from './styles';
 
+
 let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow
 });
-
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export function NewDeliveryModal(){
-    const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0]);
+const newFormDeliverySchema = z.object({
+    description: z.string(),
+    //size: z.enum(['small', 'medium', 'large']),
+    //startPosition: z.number(),
+    //endPosition: z.number()
+});
 
-    function LocationMarker(){
+type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
+
+export function NewDeliveryModal(){   
+    const [startPosition, setStartPosition] = useState<[number, number]>([0,0]);
+    const [endPosition, setEndPosition] = useState<[number, number]>([0,0]);
+
+    const { 
+        register,
+        handleSubmit,
+        formState: {isSubmitting} //informa estado do form, podendo ser usado pra desabilitar o botao
+    } = useForm<NewDeliveryFormInputs>({
+        resolver: zodResolver(newFormDeliverySchema)
+    });
+
+    function LocationMarkerStart(){
         const map = useMapEvents({
             click: (event) => {
-                setSelectedPosition([
+                setStartPosition([
                     event.latlng.lat,
                     event.latlng.lng
                 ]);
@@ -30,9 +51,23 @@ export function NewDeliveryModal(){
         return null   
     }
 
-    function handleDataForm(){
-        console.log('poiston', selectedPosition)
+    function LocationMarkerEnd(){
+        const map = useMapEvents({
+            click: (event) => {
+                setEndPosition([
+                    event.latlng.lat,
+                    event.latlng.lng
+                ]);
+            },
+          })      
+        return null   
     }
+
+    async function handleSendDeliverys(data: NewDeliveryFormInputs){
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        console.log('data', data)
+    }
+
 
     return(
         <Dialog.Portal>
@@ -44,8 +79,8 @@ export function NewDeliveryModal(){
 
                 <Dialog.Title>Nova Entrega</Dialog.Title>
 
-                <form action=''>
-                    <input type="text" placeholder='descrição' required/>
+                <form onSubmit={handleSubmit(handleSendDeliverys)}>
+                    <input type="text" placeholder='descrição' required {...register('description')}/>
                     <DeliveryType>
                         <DeliveryTypeButton value="small">
                             <Bicycle size={24}/>
@@ -66,8 +101,8 @@ export function NewDeliveryModal(){
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <LocationMarker/> 
-                        <Marker position={selectedPosition}/>
+                        <LocationMarkerStart/> 
+                        <Marker position={startPosition}/>
                     </MapContainer>
                     <Dialog.DialogDescription>Selecione o local da entrega</Dialog.DialogDescription>
                     <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
@@ -75,10 +110,10 @@ export function NewDeliveryModal(){
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <LocationMarker/> 
-                        <Marker position={selectedPosition}/>
+                        <LocationMarkerEnd/> 
+                        <Marker position={endPosition}/>
                     </MapContainer>
-                    <button type='submit' onClick={() => handleDataForm()}>
+                    <button type='submit' disabled={isSubmitting}>
                         Cadastrar
                     </button>
                 </form>                

@@ -1,4 +1,5 @@
 import { ThemeProvider } from "styled-components";
+import { DeliveryProvider } from "./contexts/DeliveryContext";
 import { Delivery } from "./pages/Deliverys";
 import { GlobalStyle } from "./styles/global";
 import {defaultTheme} from './styles/themes/default';
@@ -9,7 +10,9 @@ export function App() {
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
       
-      <Delivery />
+      <DeliveryProvider>
+        <Delivery />
+      </DeliveryProvider>   
     </ThemeProvider>
   )
 }
