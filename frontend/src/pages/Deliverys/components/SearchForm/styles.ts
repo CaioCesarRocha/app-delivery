@@ -46,3 +46,31 @@ export const SearchFormContainer = styled.form`
         }
     }
 `
+
+export const FilterDeliveryButton = styled.button`
+     display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border: 0;
+        padding: 1rem;
+        background: transparent;
+        //border: 1px solid ${props => props.theme['green-300']};
+        color: ${props => props.theme['red-300']};
+        font-weight: bold;
+        //border-radius: 6px;
+        cursor: pointer;
+
+        &:disabled{
+            opacity: 0.7;
+            cursor: not-allowed
+        }
+
+        &:not(:disabled):hover{ //somente qdo nao tiver disabilitado
+            background: ${props => props.theme['green-500']};
+            border-color: 1px solid ${props => props.theme['green-500']};
+            color: ${props => props.theme.white}; 
+            transition: 
+                background-color 0.2s, 
+                color 0,2s, 
+        }
+`

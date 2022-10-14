@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import {useForm} from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import * as z from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
 import { TileLayer, Marker, MapContainer, useMapEvents} from 'react-leaflet';
@@ -20,7 +20,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 const newFormDeliverySchema = z.object({
     description: z.string(),
-    //size: z.enum(['small', 'medium', 'large']),
+    size: z.enum(['small', 'medium', 'large']),
     //startPosition: z.number(),
     //endPosition: z.number()
 });
@@ -30,8 +30,10 @@ type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
 export function NewDeliveryModal(){   
     const [startPosition, setStartPosition] = useState<[number, number]>([0,0]);
     const [endPosition, setEndPosition] = useState<[number, number]>([0,0]);
+    const noOnePosition = 0;
 
     const { 
+        control, // qdo nao for html nativo(ex: input), precisa usar o control pra pegar os valores
         register,
         handleSubmit,
         formState: {isSubmitting} //informa estado do form, podendo ser usado pra desabilitar o botao
@@ -64,10 +66,15 @@ export function NewDeliveryModal(){
     }
 
     async function handleSendDeliverys(data: NewDeliveryFormInputs){
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        console.log('data', data)
+        if(startPosition[0] === noOnePosition || endPosition[0] === noOnePosition){
+            alert('Selectione corretamente as posições')
+            return;
+        }
+        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
+        
+        const dataDelivery = {...data, startPosition: startPosition, endPosition: endPosition }
+        console.log('data', dataDelivery)
     }
-
 
     return(
         <Dialog.Portal>
@@ -81,20 +88,32 @@ export function NewDeliveryModal(){
 
                 <form onSubmit={handleSubmit(handleSendDeliverys)}>
                     <input type="text" placeholder='descrição' required {...register('description')}/>
-                    <DeliveryType>
-                        <DeliveryTypeButton value="small">
-                            <Bicycle size={24}/>
-                            Pequena
-                        </DeliveryTypeButton>
-                        <DeliveryTypeButton value="medium">
-                            <Jeep size={24}/>
-                            Média
-                        </DeliveryTypeButton>
-                        <DeliveryTypeButton value="large">
-                            <Truck size={24}/>
-                            Grande
-                        </DeliveryTypeButton>
-                    </DeliveryType>
+                    <Controller
+                        control={control}
+                        name="size"
+                        render={({field}) =>{
+                            return(
+                                <DeliveryType 
+                                    onValueChange={field.onChange} 
+                                    value={field.value}
+                                >
+                                    <DeliveryTypeButton value="small">
+                                        <Bicycle size={24}/>
+                                        Pequena
+                                    </DeliveryTypeButton>
+                                    <DeliveryTypeButton value="medium">
+                                        <Jeep size={24}/>
+                                        Média
+                                    </DeliveryTypeButton>
+                                    <DeliveryTypeButton value="large">
+                                        <Truck size={24}/>
+                                        Grande
+                                    </DeliveryTypeButton>
+                                </DeliveryType>
+                            )
+                        }}                 
+                    />                    
+                    
                     <Dialog.DialogDescription>Selecione o local da partida</Dialog.DialogDescription>
                     <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
                         <TileLayer
@@ -111,7 +130,7 @@ export function NewDeliveryModal(){
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <LocationMarkerEnd/> 
-                        <Marker position={endPosition}/>
+                        <Marker position={endPosition} />
                     </MapContainer>
                     <button type='submit' disabled={isSubmitting}>
                         Cadastrar
