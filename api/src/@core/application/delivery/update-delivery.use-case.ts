@@ -2,11 +2,11 @@ import {Delivery, LatLng} from '../../domain/delivery/delivery.entity'
 import { DeliveryRepositoryInterface } from '../../domain/delivery/delivery.repository';
 
 export class UpdateDeliveryUseCase{
-    constructor(private updateRepo: DeliveryRepositoryInterface){}
+    constructor(private deliveryRepo: DeliveryRepositoryInterface){}
 
     async execute(id: string, input: UpdateDeliveryInput): Promise<UpdateDeliveryOutput>{
         const delivery = Delivery.create(input, id);
-        await this.updateRepo.update(id, delivery)
+        await this.deliveryRepo.update(id, delivery)
         return delivery.toJSON();
     }
 }

@@ -10,6 +10,8 @@ import { ListDeliverysDeliverymanUseCase } from 'src/@core/application/delivery/
 import { ListAvailableDeliveryUseCase } from 'src/@core/application/delivery/list-delivery-avaliable.use-case';
 import { UpdateDeliveryUseCase } from 'src/@core/application/delivery/update-delivery.use-case';
 import { DeleteDeliveryUseCase } from 'src/@core/application/delivery/delete-delviery.use-case';
+import { SearchDeliveryUseCase } from 'src/@core/application/delivery/search-delivery.use-case';
+import { FilterDeliveryUseCase } from 'src/@core/application/delivery/filter-delivery.use-case';
 
 @Controller('delivery')
 export class DeliveryController {
@@ -19,6 +21,8 @@ export class DeliveryController {
     private listDeliverysClientUseCase: ListDeliverysClientUseCase,
     private listDeliverysDeliverymanUseCase: ListDeliverysDeliverymanUseCase,
     private listAvailableDeliverysUseCase: ListAvailableDeliveryUseCase,
+    private searchDeliveryUseCase: SearchDeliveryUseCase,
+    private filterDeliveryUseCase: FilterDeliveryUseCase,
     private findOneDeliveryUseCase: FindOneDeliveryUseCase,
     private updateDeliveryUseCase: UpdateDeliveryUseCase,
     private deleteDeliveryUseCase: DeleteDeliveryUseCase
@@ -36,7 +40,6 @@ export class DeliveryController {
     return this.listAllDeliveryUseCase.execute()
   }
 
-  
   @Get('/client')
   listDeliverysClient(@Req() req:Request) {
     const id_client = req.body['id_client'];
@@ -52,6 +55,16 @@ export class DeliveryController {
   @Get('/available')
   listAvailableDeliverys() {
     return this.listAvailableDeliverysUseCase.execute()
+  }
+
+  @Get('/search/:search')
+  searchDeliverys(@Param('search') search: string) {
+    return this.searchDeliveryUseCase.execute(search)
+  }
+
+  @Get('/filter/:filter')
+  filterDeliverys(@Param('filter') filter: string) {
+    return this.filterDeliveryUseCase.execute(filter)
   }
 
   @Get(':id')

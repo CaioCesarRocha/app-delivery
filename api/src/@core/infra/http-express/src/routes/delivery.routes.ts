@@ -8,6 +8,8 @@ import { FindOneDeliveryUseCase } from "../../../../application/delivery/find-on
 import { CreateDeliveryUseCase } from "../../../../application/delivery/create-delivery.use-case";
 import { DeleteDeliveryUseCase } from "../../../../application/delivery/delete-delviery.use-case";
 import { UpdateDeliveryUseCase } from "../../../../application/delivery/update-delivery.use-case";
+import { SearchDeliveryUseCase } from "../../../../application/delivery/search-delivery.use-case";
+import { FilterDeliveryUseCase } from "../../../../application/delivery/filter-delivery.use-case";
 import { ensureAuthenticateClient } from "../middlewares/ensureAuthenticateClient";
 import { ensureAuthenticateDeliveryman } from "../middlewares/ensureAuthenticateDeliveryman";
 
@@ -39,6 +41,20 @@ deliveryRoutes.get('/delivery/deliveryman', ensureAuthenticateDeliveryman,async(
 deliveryRoutes.get('/delivery/available', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
     const listDeliverysAvailable = new ListAvailableDeliveryUseCase(deliveryRepo);
     const output = await listDeliverysAvailable.execute()
+    res.status(200).json(output)
+})
+
+deliveryRoutes.get('/delivery/search/:search', async(req: Request, res: Response) =>{
+    const search = req.params.search  
+    const searchDelivery = new SearchDeliveryUseCase(deliveryRepo);
+    const output = await searchDelivery.execute(search)
+    res.status(200).json(output)
+})
+
+deliveryRoutes.get('/delivery/filter/:filter', async(req: Request, res: Response) =>{
+    const filter = req.params.filter  
+    const searchDelivery = new FilterDeliveryUseCase(deliveryRepo);
+    const output = await searchDelivery.execute(filter)
     res.status(200).json(output)
 })
 

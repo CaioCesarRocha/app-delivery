@@ -36,6 +36,22 @@ export class DeliveryInMemoryRepository implements DeliveryRepositoryInterface{
         return deliverysAvaliable;
     }
 
+    async searchDelivery(search: string): Promise<Delivery[]> {
+        const deliverysSearched:Delivery[] = []
+        this.deliverys.forEach((delivery) =>{
+            if(delivery.props.name_item === search) deliverysSearched.push(delivery);          
+        })
+        return deliverysSearched;
+    }
+
+    async filterDelivery(filter: string): Promise<Delivery[]> {
+        const deliverysFiltered:Delivery[] = []
+        this.deliverys.forEach((delivery) =>{
+            if(delivery.props.status === filter || delivery.props.size_item === filter) deliverysFiltered.push(delivery);          
+        })
+        return deliverysFiltered;
+    }
+
     async findOne(id: string): Promise<Delivery> {
         const newListDeliverys:Delivery[] = []
         this.deliverys.forEach((delivery) =>{

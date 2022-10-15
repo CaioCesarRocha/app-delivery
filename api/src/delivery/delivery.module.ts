@@ -7,6 +7,8 @@ import { ListAllDeliveryUseCase } from 'src/@core/application/delivery/list-all-
 import { ListDeliverysClientUseCase } from 'src/@core/application/delivery/list-delivery-client.use-case';
 import { ListDeliverysDeliverymanUseCase } from 'src/@core/application/delivery/list-deliverys-deliveryman.use-case';
 import { ListAvailableDeliveryUseCase } from 'src/@core/application/delivery/list-delivery-avaliable.use-case';
+import { SearchDeliveryUseCase } from 'src/@core/application/delivery/search-delivery.use-case';
+import { FilterDeliveryUseCase } from 'src/@core/application/delivery/filter-delivery.use-case';
 import { FindOneDeliveryUseCase } from 'src/@core/application/delivery/find-one-delivery.use-case';
 import { UpdateDeliveryUseCase } from 'src/@core/application/delivery/update-delivery.use-case';
 import { DeleteDeliveryUseCase } from 'src/@core/application/delivery/delete-delviery.use-case';
@@ -66,6 +68,22 @@ import { DeleteDeliveryUseCase } from 'src/@core/application/delivery/delete-del
       provide: ListAvailableDeliveryUseCase, //PROVENDO OS CASOS DE USO
       useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
         return new ListAvailableDeliveryUseCase(deliveryRepo)
+      },
+      inject: [DeliveryPrismaRepository]
+    },
+
+    {
+      provide: SearchDeliveryUseCase, //PROVENDO OS CASOS DE USO
+      useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
+        return new SearchDeliveryUseCase(deliveryRepo)
+      },
+      inject: [DeliveryPrismaRepository]
+    },
+
+    {
+      provide: FilterDeliveryUseCase, //PROVENDO OS CASOS DE USO
+      useFactory: (deliveryRepo: DeliveryPrismaRepository) =>{ 
+        return new FilterDeliveryUseCase(deliveryRepo)
       },
       inject: [DeliveryPrismaRepository]
     },

@@ -1,3 +1,4 @@
+import { last } from "rxjs";
 import { Delivery, DeliveryProps, LatLng, sizeItem, statusDelivery } from "../../../../domain/delivery/delivery.entity";
 import { DeliveryRepositoryInterface } from "../../../../domain/delivery/delivery.repository";
 import { prisma } from "../prismaClient";
@@ -58,6 +59,46 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
             listDeliverysAvailable.push(deliveryNormalized)
         })     
         return listDeliverysAvailable;
+    }
+    async searchDelivery(search: string): Promise<Delivery[]> {
+        const listDeliverysSearched: Delivery[] = []
+        const deliverys = await prisma.delivery.findMany({
+            where: {
+                name_item: {
+                    contains: search,
+                    mode: 'insensitive'
+                }
+            }
+        });   
+        deliverys.map( async(delivery) => {
+            const deliveryNormalized = await this.normalizeDelivery(delivery)
+            listDeliverysSearched.push(deliveryNormalized)
+        })     
+        return listDeliverysSearched;
+    }
+    async filterDelivery(filter: string): Promise<Delivery[]> {
+        var yesterday = new Date(Date.now() - 86400000);
+        const listDeliverysFilter: Delivery[] = []
+        var deliverys = [];
+
+        if(filter === 'date'){
+            deliverys = await prisma.delivery.findMany({ 
+                where: { created_at: {gte: yesterday, lte: new Date()}}                  
+            });
+        }else{
+            deliverys = await prisma.delivery.findMany({
+                where:{ OR: [
+                    { status: filter },
+                    { size_item: filter}
+                ]},
+            });   
+        }
+        
+        deliverys.map( async(delivery) => {
+            const deliveryNormalized = await this.normalizeDelivery(delivery)
+            listDeliverysFilter.push(deliveryNormalized)
+        })     
+        return listDeliverysFilter;
     }
     async findOne(id: string): Promise<Delivery> {
         const delivery = await prisma.delivery.findFirst({where: { id: id}})
