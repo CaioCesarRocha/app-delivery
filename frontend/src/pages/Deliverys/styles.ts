@@ -40,14 +40,3 @@ export const StatusDelivery = styled.span<StatusDeliveryProps>`
 `
 
 
-export const DeliveryGeralContent = styled.div`
-    .leaflet-container{
-        background-color: orange;
-        width: 50%;
-        max-width: 50%;
-        height: 150px;
-        border-radius: 8px;
-        margin-bottom: 24px;
-    }
-`
-

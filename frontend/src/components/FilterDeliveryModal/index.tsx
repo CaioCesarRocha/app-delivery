@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import {Controller, useForm} from 'react-hook-form';
 import * as z from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
-import { X, Jeep, Bicycle, Truck, DotsThree, XCircle, PlusCircle } from 'phosphor-react';
+import { X, Jeep, Bicycle, Truck, DotsThree, XCircle, PlusCircle, Calendar } from 'phosphor-react';
 import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton } from './styles';
 
 const filterDeliverySchema = z.object({
@@ -45,6 +45,7 @@ export function FilterDeliveryModal(){
                                 <>
                                     <Dialog.DialogDescription>Tipo da entrega</Dialog.DialogDescription>
                                     <DeliveryType 
+                                        numberOptions={3}
                                         onValueChange={field.onChange} 
                                         value={field.value}
                                     >
@@ -60,6 +61,7 @@ export function FilterDeliveryModal(){
                                     </DeliveryType>
                                     <Dialog.DialogDescription>Status da entrega</Dialog.DialogDescription>
                                     <DeliveryType 
+                                        numberOptions={3}
                                         onValueChange={field.onChange} 
                                         value={field.value}
                                     >                      
@@ -73,6 +75,16 @@ export function FilterDeliveryModal(){
                                             <XCircle size={24}/> Fechada
                                         </DeliveryTypeButton>
                                     </DeliveryType>
+                                    <Dialog.DialogDescription>Calendário</Dialog.DialogDescription>
+                                    <DeliveryType 
+                                        numberOptions={1}
+                                        onValueChange={field.onChange} 
+                                        value={field.value}
+                                    >                                   
+                                        <DeliveryTypeButton value="date">
+                                                <Calendar size={26}/> Data atual
+                                        </DeliveryTypeButton> 
+                                    </DeliveryType>                     
                                 </>
                             )
                         }}                 

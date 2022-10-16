@@ -3,7 +3,7 @@ import { IDelivery, DeliverysContext } from '../../contexts/DeliveryContext';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
-import { StatusDelivery, DeliveryContainer, DeliveryTable, DeliveryGeralContent } from "./styles";
+import { StatusDelivery, DeliveryContainer, DeliveryTable} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 
 
@@ -13,7 +13,7 @@ export function Delivery(){
     const { deliverys} = useContext(DeliverysContext);
 
     return (
-        <DeliveryGeralContent>
+        <div>
             <Header/>
             <Summary/>
 
@@ -40,6 +40,6 @@ export function Delivery(){
                     </tbody>
                 </DeliveryTable>
             </DeliveryContainer>
-        </DeliveryGeralContent>
+        </div>
     )
 }

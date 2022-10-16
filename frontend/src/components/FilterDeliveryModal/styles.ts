@@ -63,9 +63,13 @@ export const Content  = styled(Dialog.Content)`
     }
 `;
 
-export const DeliveryType = styled(RadioGroup.Root)`
+interface DeliveryTypeProps{
+    numberOptions: number;
+}
+
+export const DeliveryType = styled(RadioGroup.Root)<DeliveryTypeProps>`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(${props => props.numberOptions}, 1fr);
     gap: 1rem;
     margin-top: 0.5rem;
 `
@@ -92,7 +96,7 @@ export const DeliveryTypeButton = styled(RadioGroup.Item)`
 
     &[data-state='checked']{
         color: ${props => props.theme.white};
-        background-color: ${props => props.theme['green-500']};
+        background-color: ${props => props.theme['green-300']};
         svg {
             color: ${props => props.theme.white}
         }
