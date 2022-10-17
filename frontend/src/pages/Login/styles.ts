@@ -12,7 +12,7 @@ export const DeliveryContent = styled.div`
     max-height: 80%;
     overflow: auto;
     border-radius: 6px;
-    padding: 2.5rem 3rem;
+    padding: 1.6rem 2.2rem;
     background: ${props => props.theme['gray-700']}; 
     position: fixed;
     top: 50%;
@@ -21,14 +21,12 @@ export const DeliveryContent = styled.div`
     text-align: center;
 
     h1{
-        font-size: 25px;
+        font-size: 32px;
     }
 
-    form{
-        
+    form{       
         margin-top: 2rem;
-        display: flex;
-        
+        display: flex;     
         flex-direction: column;
         gap: 1rem;   
     }
@@ -44,6 +42,20 @@ export const DeliveryContent = styled.div`
 
         &::placeholder{
             color: ${props => props.theme['gray-500']};  
+        }
+    }
+
+    p{
+        font-size: 12px;
+        
+        a{
+            color: ${props => props.theme['green-300']};
+            text-decoration: none;
+            cursor: pointer;
+
+            &:hover{
+                color: ${props => props.theme['green-500']};  
+            }
         }
     }
 
@@ -75,7 +87,6 @@ export const ContainerInput = styled.div`
     flex-direction: row;
     width: 100%;
     
-
    i{
         padding-top: 12px;
     }
