@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as RadioGroup from '@radix-ui/react-radio-group';
 
 export const DeliveryContainer = styled.main`
     width: 100%;
@@ -52,6 +53,7 @@ export const DeliveryContent = styled.div`
             color: ${props => props.theme['green-300']};
             text-decoration: none;
             cursor: pointer;
+            padding-left: 4px;
 
             &:hover{
                 color: ${props => props.theme['green-500']};  
@@ -89,5 +91,41 @@ export const ContainerInput = styled.div`
     
    i{
         padding-top: 12px;
+    }
+`
+export const DeliveryType = styled(RadioGroup.Root)`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+`
+
+export const DeliveryTypeButton = styled(RadioGroup.Item)`
+    background: ${props => props.theme['gray-900']};
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 0;
+    color: ${props => props.theme['gray-300']};
+
+    svg {
+        color: ${props => props.theme["gray-300"]}
+    }
+
+    &[data-state='unchecked']:hover{
+        background-color: ${props => props.theme['gray-600']}; 
+    }
+
+    &[data-state='checked']{
+        color: ${props => props.theme.white};
+        background-color: ${props => props.theme['green-300']};
+        svg {
+            color: ${props => props.theme.white}
+        }
     }
 `

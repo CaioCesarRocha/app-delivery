@@ -11,20 +11,20 @@ import { ClientPrismaRepository } from "../../../db/prisma/repositorys/client.pr
 const clientsRoutes = Router();
 const clientRepo = new ClientPrismaRepository();
 
-clientsRoutes.get('/clients',  async(req: Request, res: Response) =>{  
+clientsRoutes.get('/client',  async(req: Request, res: Response) =>{  
     const listallClientUseCase = new ListAllClientUseCase(clientRepo);
     const output = await listallClientUseCase.execute();
     res.status(200).json(output)
 })
 
-clientsRoutes.get('/clients/:id',  async(req: Request, res: Response) =>{ 
+clientsRoutes.get('/client/:id',  async(req: Request, res: Response) =>{ 
     const id_client = req.params.id  
     const findOneClientUseCase = new FindOneClientUseCase(clientRepo);
     const output = await findOneClientUseCase.execute(id_client)
     res.status(200).json(output)
 })
 
-clientsRoutes.post('/clients',  async(req: Request, res: Response, next: NextFunction) =>{ 
+clientsRoutes.post('/client',  async(req: Request, res: Response, next: NextFunction) =>{ 
     const findClientByUsername = new FindClientByUsernameUseCase(clientRepo)
     const clientExist = await findClientByUsername.execute(req.body.username)
     if(clientExist) next(new Error('Client already exist'));
@@ -35,7 +35,7 @@ clientsRoutes.post('/clients',  async(req: Request, res: Response, next: NextFun
     }  
 })
 
-clientsRoutes.put('/clients/:id', ensureAuthenticateClient, async(req: Request, res: Response) =>{ 
+clientsRoutes.put('/client/:id', ensureAuthenticateClient, async(req: Request, res: Response) =>{ 
     const id_client = req.params.id
     const client = req.body 
     const updateUseCase = new UpdateClientUseCase(clientRepo);
@@ -43,7 +43,7 @@ clientsRoutes.put('/clients/:id', ensureAuthenticateClient, async(req: Request, 
     res.status(200).json(output)
 })
 
-clientsRoutes.delete('/clients/:id',  async(req: Request, res: Response) =>{  
+clientsRoutes.delete('/client/:id',  async(req: Request, res: Response) =>{  
     const id_client = req.params.id  
     const deleteClientUseCase = new DeleteClientUseCase(clientRepo);
     const output = await deleteClientUseCase.execute(id_client)

@@ -95,7 +95,7 @@ export function NewDeliveryModal(){
                             return(
                                 <DeliveryType 
                                     onValueChange={field.onChange} 
-                                    value={field.value}
+                                    value={field.value} required
                                 >
                                     <DeliveryTypeButton value="small">
                                         <Bicycle size={24}/>

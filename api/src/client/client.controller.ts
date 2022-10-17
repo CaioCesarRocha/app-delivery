@@ -9,7 +9,7 @@ import { FindOneClientUseCase } from '../@core/application/client/find-one-clien
 import { ListAllClientUseCase} from '../@core/application/client/list-all-client.use-case';
 import { UpdateClientUseCase } from '../@core/application/client/update-client.use-case';
 
-@Controller('clients')
+@Controller('client')
 export class ClientController {
   constructor(
     private createClientUseCase: CreateClientUseCase,
