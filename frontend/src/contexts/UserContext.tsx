@@ -15,6 +15,7 @@ interface UserContextType{
     loading: boolean;
     user: IUser;
     login: (user: IUser) => Promise<void>;
+    logout: () => Promise<void>;
     registerUser: (user: IUser) => Promise<void>;
 }
 
@@ -24,7 +25,7 @@ interface UserProviderProps{
 
 export const UsersContext = createContext({} as UserContextType)
 
-function updatingCookie(logged: boolean, user:IUser){
+function updatingCookie(logged: boolean, user?:IUser){
     if(logged && user?.token && user?.typeUser){
         document.cookie = "myCookie" + JSON.stringify({foo: 'bar', baz: 'poo'});
         Cookies.set('app-delivery-cod3r-auth', user.username, {expires: 7 });
@@ -66,8 +67,17 @@ export function UserProvider({children}: UserProviderProps){
         //setDeliverys(deliverysList);
     }
 
+    async function logout(){
+        setLoading(true)
+        setUser({username: '',password: '', token: ''})
+        updatingCookie(false);
+        setLoading(false);
+    }
+
     async function loadUser(){
     }
+
+   
 
     useEffect(() =>{
         loadUser();
@@ -100,6 +110,7 @@ export function UserProvider({children}: UserProviderProps){
                 loading,
                 user,
                 login,
+                logout,
                 registerUser
             } }>
             {children}

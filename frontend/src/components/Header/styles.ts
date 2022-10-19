@@ -20,6 +20,15 @@ export const HeaderContent = styled.div`
     }
 `;
 
+export const SecundaryHeaderContent = styled.div`
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+`;
+
 export const NewDeliveryButton = styled.button`
     height: 50px;
     border: 0;
@@ -32,5 +41,22 @@ export const NewDeliveryButton = styled.button`
 
     &:hover{
         background: ${props => props.theme['green-700']};  
+    }
+`
+
+export const LogoutButton = styled.button`
+    height: 40px;
+    border: 0;
+    background: ${props => props.theme['red-500']};
+    color: ${props => props.theme.white};
+    font-weight: bold;
+    padding: 0 1rem;
+    border-radius: 6px;
+    align-self: end;
+    
+    cursor: pointer;
+
+    &:hover{
+        background: ${props => props.theme['red-700']};  
     }
 `
