@@ -1,19 +1,27 @@
-import { useState, useEffect, useContext } from 'react';  
-import { IDelivery, DeliverysContext } from '../../contexts/DeliveryContext';
+import { useState, useEffect, } from 'react';  
+import { useNavigate } from 'react-router-dom';
+import useDeliverys from '../../hooks/useDeliverys';
+import useAuth from '../../hooks/useAuth';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
 import { StatusDelivery, DeliveryContainer, DeliveryTable} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
-
+import { ForceAuthentication } from '../../components/ForceAuthentication';
 
 export function Delivery(){
    // const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
+    const { deliverys} = useDeliverys();
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
-    const { deliverys} = useContext(DeliverysContext);
+    useEffect(() =>{
+        //if(user.username === '') navigate('/AuthenticateUser');
+        console.log('user', user)
+    }, [user]);
 
     return (
-        <div>
+        <ForceAuthentication>
             <Header/>
             <Summary/>
 
@@ -40,6 +48,6 @@ export function Delivery(){
                     </tbody>
                 </DeliveryTable>
             </DeliveryContainer>
-        </div>
+        </ForceAuthentication>
     )
 }

@@ -1,11 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useForm, Controller} from 'react-hook-form';
 import { z } from "zod";
 import {zodResolver} from '@hookform/resolvers/zod';
 import { User, LockKey, Truck} from 'phosphor-react';
 import { ContainerInput, DeliveryContainer, DeliveryContent, DeliveryType, DeliveryTypeButton } from "./styles";
-import { UsersContext, IUser} from '../../contexts/UserContext';
+import { IUser} from '../../contexts/UserContext';
+import useAuth from '../../hooks/useAuth';
 
 const newFormDeliverySchema = z.object({
     username: z.string(),
@@ -16,11 +17,16 @@ const newFormDeliverySchema = z.object({
 
 type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
 
+
 export function AuthenticateUser(){
     const [screen, setScreen] = useState<'Login'|'Register'>('Login');
     const [typeUserLogin, setTypeUserLogin] = useState<'client'|'deliveryman'>('client');
-    const {login, registerUser} = useContext(UsersContext);
+    const {login, registerUser, user} = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() =>{
+        if(user.username !== '') navigate('/') 
+    },[user, navigate])
 
     const { 
         control,
