@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Puff } from  'react-loader-spinner';
 

@@ -21,12 +21,16 @@ type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
 export function AuthenticateUser(){
     const [screen, setScreen] = useState<'Login'|'Register'>('Login');
     const [typeUserLogin, setTypeUserLogin] = useState<'client'|'deliveryman'>('client');
-    const {login, registerUser, user} = useAuth();
+    const {login, registerUser, user, error} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() =>{
         if(user.username !== '') navigate('/') 
     },[user, navigate])
+
+    useEffect(() =>{
+        if(error.active) alert(`Error ${error.msg}`)
+    },[error])
 
     const { 
         control,
@@ -38,7 +42,6 @@ export function AuthenticateUser(){
     });
 
     async function handleLogin(data: NewDeliveryFormInputs){
-        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
         if(screen === 'Login'){  
             if(typeUserLogin === 'client'){               
                 const user: IUser = {username: data.username, password: data.password, typeUser: 'client'}        

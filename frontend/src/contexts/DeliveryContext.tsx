@@ -33,6 +33,7 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
     async function loadDeliverys(){
         const list = await api.get('http://localhost:3000/delivery');     
         const deliverysList = list.data 
+        console.log('peguei deliverys')
         setDeliverys(deliverysList);
     }
 

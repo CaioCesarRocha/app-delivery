@@ -2,18 +2,20 @@ import { createContext, ReactNode} from "react";
 import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import api from "../services/connection/api";
+import {IError} from '../services/utils/interfaces/error_interface';
 
 
 export interface IUser{
     username: string;
     password: string;
     token?: string;
-    typeUser?: 'client' | 'deliveryman';
+    typeUser?: 'client' | 'deliveryman';  
 }
 
 interface UserContextType{
     loading: boolean;
     user: IUser;
+    error: IError;
     login: (user: IUser) => Promise<void>;
     logout: () => Promise<void>;
     registerUser: (user: IUser) => Promise<void>;
@@ -41,30 +43,45 @@ function updatingCookie(logged: boolean, user?:IUser){
 
 export function UserProvider({children}: UserProviderProps){
     const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<IError>({msg: '', active: false});
     const [user, setUser] = useState<IUser>({username: '', password: ''});
 
     async function login(user: IUser){
         setLoading(true)
-        const res_api = await api.post(`/authenticate/${user.typeUser}`, user)
-        const token = res_api.data.token;
-        const userLogged = {username: user.username, password: '', token: token, typeUser: user.typeUser}
-        if(token){      
-            setUser(userLogged)
-            updatingCookie(true, userLogged);
-            setLoading(false);
+        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
+        try{
+            const res_api = await api.post(`/authenticate/${user.typeUser}`, user)
+            const token = res_api.data.token;
+            const userLogged = {username: user.username, password: '', token: token, typeUser: user.typeUser}
+            if(token){      
+                setUser(userLogged)
+                updatingCookie(true, userLogged);
+            }   
         }
-        else { 
-            setLoading(false);
-            console.log(userLogged) 
-        }       
+        catch(err){
+            if (err instanceof Error) setError({ msg: err.message, active: true});
+        }
+        finally{ setLoading(false) } ;      
     }
 
     async function registerUser(user: IUser){
-        const newUser = {username: user.username, password: user.password}
-        const userCreated = await api.post(`/${user.typeUser}`, newUser);  
-        console.log('token', userCreated);
-        //const deliverysList = list.data 
-        //setDeliverys(deliverysList);
+        setLoading(true)
+        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
+        try{
+            const newUser = {username: user.username, password: user.password}
+            await api.post(`/${user.typeUser}`, newUser);  
+            const res_api = await api.post(`/authenticate/${user.typeUser}`, user);
+            const token = res_api.data.token;
+            const userLogged = {username: user.username, password: '', token: token, typeUser: user.typeUser}
+            if(token){      
+                setUser(userLogged)
+                updatingCookie(true, userLogged);
+            }
+        }
+        catch(err){
+            if (err instanceof Error) setError({ msg: err.message, active: true});
+        }
+        finally{ setLoading(false) };  
     }
 
     async function logout(){
@@ -73,15 +90,6 @@ export function UserProvider({children}: UserProviderProps){
         updatingCookie(false);
         setLoading(false);
     }
-
-    async function loadUser(){
-    }
-
-   
-
-    useEffect(() =>{
-        loadUser();
-    }, [])
 
     useEffect(() =>{
         //esse metodo vai checar se ja existe um usuário mudou, em relaçaõ ao q estava logado antes
@@ -98,9 +106,6 @@ export function UserProvider({children}: UserProviderProps){
             })
             setLoading(false)
         }
-        
-            //const cancel = onIdTokenChanged(auth, configSession)
-            //return () => cancel() //quando componente for desmontado ele para de observar se mudou id /\      
         else setLoading(false)    
     }, [])
 
@@ -109,6 +114,7 @@ export function UserProvider({children}: UserProviderProps){
             value={{
                 loading,
                 user,
+                error,
                 login,
                 logout,
                 registerUser

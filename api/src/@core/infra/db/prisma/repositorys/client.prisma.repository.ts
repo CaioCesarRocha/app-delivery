@@ -2,6 +2,7 @@ import { Client } from "../../../../domain/client/client.entity";
 import { ClientRepositoryInterface } from "../../../../domain/client/client.repository";
 import { prisma } from "../prismaClient";
 
+
 export class ClientPrismaRepository implements ClientRepositoryInterface{ 
     constructor(){}
 
