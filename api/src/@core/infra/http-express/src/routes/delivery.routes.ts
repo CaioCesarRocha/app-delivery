@@ -44,14 +44,14 @@ deliveryRoutes.get('/delivery/available', ensureAuthenticateDeliveryman,async(re
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/search/:search', async(req: Request, res: Response) =>{
+deliveryRoutes.get('/delivery/search/:search', ensureAuthenticateClient, async(req: Request, res: Response) =>{
     const search = req.params.search  
     const searchDelivery = new SearchDeliveryUseCase(deliveryRepo);
     const output = await searchDelivery.execute(search)
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/filter/:filter', async(req: Request, res: Response) =>{
+deliveryRoutes.get('/delivery/filter/:filter', ensureAuthenticateDeliveryman, async(req: Request, res: Response) =>{
     const filter = req.params.filter  
     const searchDelivery = new FilterDeliveryUseCase(deliveryRepo);
     const output = await searchDelivery.execute(filter)

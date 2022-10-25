@@ -4,21 +4,16 @@ import useDeliverys from '../../hooks/useDeliverys';
 import useAuth from '../../hooks/useAuth';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
-import { SearchForm } from "./components/SearchForm";
+import { SearchForm } from "../../components/SearchForm";
 import { StatusDelivery, DeliveryContainer, DeliveryTable} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 import { ForceAuthentication } from '../../components/ForceAuthentication';
 
 export function Delivery(){
    // const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
-    const { deliverys} = useDeliverys();
+    const { deliverys, } = useDeliverys();
     const { user } = useAuth();
     const navigate = useNavigate();
-
-    useEffect(() =>{
-        //if(user.username === '') navigate('/AuthenticateUser');
-        console.log('user', user)
-    }, [user]);
 
     return (
         <ForceAuthentication>

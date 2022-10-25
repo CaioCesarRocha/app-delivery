@@ -17,7 +17,6 @@ const newFormDeliverySchema = z.object({
 
 type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
 
-
 export function AuthenticateUser(){
     const [screen, setScreen] = useState<'Login'|'Register'>('Login');
     const [typeUserLogin, setTypeUserLogin] = useState<'client'|'deliveryman'>('client');

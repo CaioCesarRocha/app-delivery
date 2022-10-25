@@ -4,17 +4,20 @@ import logo from '../../assets/logo_appdelivery.png';
 import { NewDeliveryModal } from '../NewDeliveryModal';
 import { } from 'phosphor-react';
 import useAuth from '../../hooks/useAuth';
+import useDeliverys from '../../hooks/useDeliverys';
 
 
 //o modal teria um botao proprio, usando asChild tem apenas o botao passado evitando conflito entre os 2.
 export function Header(){
     const { user, logout} = useAuth();
+    const { cleanDeliverys, getDeliverymanDeliverys } = useDeliverys();
 
     async function handleListMyDeliverys(){
-
+        await getDeliverymanDeliverys();
     }
 
     async function handleLogout(){
+        await cleanDeliverys();
         await logout();
     }
 
