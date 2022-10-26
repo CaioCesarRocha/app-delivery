@@ -120,3 +120,21 @@ export const DeliveryTypeButton = styled(RadioGroup.Item)`
         }
     }
 `
+
+export const ContentSearchingDelivery = styled.div`
+    display: flex;
+    
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    padding-left: 5px;
+
+    i{  
+        color: ${props => props.theme['green-300']}
+    }
+
+    p{  
+        padding-top: 5px;
+        padding-right: 5px;
+    }
+`

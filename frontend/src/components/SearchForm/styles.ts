@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
-export const SearchFormContainer = styled.form`
-    display: flex;
+export const SearchFormContainer = styled.main`
+    display: flex;   
     gap: 1rem;
+    width: 100%;
 
     input {
         flex: 1;
@@ -16,7 +17,12 @@ export const SearchFormContainer = styled.form`
             color: ${props => props.theme['gray-500']};
         }
     }
+`
 
+export const SearchFormContent = styled.form`  
+    display: flex;
+    gap: 1rem;
+  
     button{
         display: flex;
         align-items: center;

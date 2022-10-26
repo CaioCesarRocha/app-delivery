@@ -70,7 +70,6 @@ deliveryRoutes.post('/delivery', ensureAuthenticateClient, async(req: Request, r
     const { id_client } = req; //id_client vira depois de ser válido no middlware
     const delivery = req.body;  
     const newDelivery = { id_client, ...delivery}
-    //console.log('newD', newDelivery)
     const createUseCase = new CreateDeliveryUseCase(deliveryRepo) 
     const output = await createUseCase.execute(newDelivery);
     res.status(201).json(output) 
@@ -84,6 +83,7 @@ deliveryRoutes.put('/delivery/:id', ensureAuthenticateDeliveryman, async(req: Re
     const output = await updateUseCase.execute(id_delivery, delivery)
     res.status(200).json(output)
 })
+
 //quando for finalizada pelo entregador, somente o cliente pode confirmar e assim pode ser excluida
 deliveryRoutes.delete('/delivery/:id', ensureAuthenticateClient,  async(req: Request, res: Response) =>{  
     const id_delivery = req.params.id  

@@ -21,8 +21,8 @@ export type DeliveryProps={
 export class Delivery{
     public readonly id: string;
     public readonly feeDistance = 5;
-    public readonly feeSmall = 20;
-    public readonly feeMedium = 50;
+    public readonly feeSmall = 10;
+    public readonly feeMedium = 30;
     public readonly feeLarge = 100;
     public props: Required<DeliveryProps>
 

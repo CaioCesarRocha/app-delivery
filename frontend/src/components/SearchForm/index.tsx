@@ -1,4 +1,4 @@
-import { SearchFormContainer, FilterDeliveryButton } from "./styles";
+import { SearchFormContent, FilterDeliveryButton, SearchFormContainer } from "./styles";
 import * as Dialog from '@radix-ui/react-dialog';
 import {MagnifyingGlass, FadersHorizontal} from "phosphor-react";
 import {useForm} from 'react-hook-form';
@@ -13,7 +13,6 @@ const searchFormSchema = z.object({
 
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
-
 export function SearchForm(){
     const { searchDeliverys} = useDeliverys();
     const { 
@@ -27,30 +26,35 @@ export function SearchForm(){
 
     async function handleSearchDeliverys(data: SearchFormInputs){
         await new Promise(resolve => setTimeout(resolve, 2000))
+        console.log('passei no search')
         await searchDeliverys(data.query)
     }
 
     return(
-        <SearchFormContainer onSubmit={handleSubmit(handleSearchDeliverys)}>
+        <SearchFormContainer>
             <input 
-                type="text" 
-                placeholder= "Pesquisar Entregas"
-                {...register('query')}
-            />
-            <button type="submit" disabled={isSubmitting}>
-                <MagnifyingGlass size={20}/>
-                Buscar
-            </button>
-
-            <Dialog.Root>
-                <Dialog.Trigger asChild> 
-                    <FilterDeliveryButton>
-                        <FadersHorizontal size={20}/>
-                        Filtrar
-                    </FilterDeliveryButton>
-                </Dialog.Trigger> 
-                <FilterDeliveryModal/>
-            </Dialog.Root> 
+                    type="text" 
+                    placeholder= "Pesquisar Entregas"
+                    {...register('query')}
+                />
+            <SearchFormContent onSubmit={handleSubmit(handleSearchDeliverys)}>
+                
+                <button type="submit" disabled={isSubmitting}>
+                    <MagnifyingGlass size={20}/>
+                    Buscar
+                </button>
+            </SearchFormContent>
+            <SearchFormContent>
+                <Dialog.Root>
+                    <Dialog.Trigger asChild> 
+                        <FilterDeliveryButton>
+                            <FadersHorizontal size={20}/>
+                            Filtrar                         
+                        </FilterDeliveryButton>
+                    </Dialog.Trigger> 
+                    <FilterDeliveryModal/>
+                </Dialog.Root> 
+            </SearchFormContent>
         </SearchFormContainer>
     )
 }

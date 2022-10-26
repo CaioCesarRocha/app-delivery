@@ -8,8 +8,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { X ,Bicycle, Truck, Jeep} from 'phosphor-react';
-import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton } from './styles';
+import { X ,Bicycle, Truck, Jeep, CheckCircle} from 'phosphor-react';
+import * as load from  'react-loader-spinner';
+import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton, ContentSearchingDelivery } 
+    from './styles';
+import useDelivery from '../../hooks/useDeliverys';
 
 
 let DefaultIcon = L.icon({
@@ -19,8 +22,8 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const newFormDeliverySchema = z.object({
-    description: z.string(),
-    size: z.enum(['small', 'medium', 'large']),
+    name_item: z.string(),
+    size_item: z.enum(['small', 'medium', 'large']),
     //startPosition: z.number(),
     //endPosition: z.number()
 });
@@ -31,6 +34,9 @@ export function NewDeliveryModal(){
     const [startPosition, setStartPosition] = useState<[number, number]>([0,0]);
     const [endPosition, setEndPosition] = useState<[number, number]>([0,0]);
     const noOnePosition = 0;
+    const [renderCreating, setRenderCreating] = useState<boolean>(false);
+    const [finished, setFinished] = useState<boolean>(false);
+    const { createDelivery } = useDelivery();
 
     const { 
         control, // qdo nao for html nativo(ex: input), precisa usar o control pra pegar os valores
@@ -70,10 +76,50 @@ export function NewDeliveryModal(){
             alert('Selectione corretamente as posições')
             return;
         }
-        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
-        
+        setRenderCreating(true)           
         const dataDelivery = {...data, startPosition: startPosition, endPosition: endPosition }
-        console.log('data', dataDelivery)
+        const createdDelivery = await createDelivery(dataDelivery);
+        if(createdDelivery) {setFinished(true);} 
+    }
+
+    function renderSizeOptions(){
+        return(<>                    
+            <DeliveryTypeButton value="small">
+                <Bicycle size={24}/>
+                Pequena
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="medium">
+                <Jeep size={24}/>
+                Média
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="large">
+                <Truck size={24}/>
+                Grande
+            </DeliveryTypeButton>                              
+        </>)
+    }
+
+    function renderMapOptions(){
+        return(<>     
+            <Dialog.DialogDescription>Selecione o local da partida</Dialog.DialogDescription>
+            <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationMarkerStart/> 
+                <Marker position={startPosition}/>
+            </MapContainer>
+            <Dialog.DialogDescription>Selecione o local da entrega</Dialog.DialogDescription>
+            <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationMarkerEnd/> 
+                <Marker position={endPosition} />
+            </MapContainer>
+        </>)
     }
 
     return(
@@ -83,55 +129,36 @@ export function NewDeliveryModal(){
                 <CloseButton>
                     <X size={24}/>
                 </CloseButton>
-
                 <Dialog.Title>Nova Entrega</Dialog.Title>
-
                 <form onSubmit={handleSubmit(handleSendDeliverys)}>
-                    <input type="text" placeholder='descrição' required {...register('description')}/>
+                    <input type="text" placeholder='Descrição' required {...register('name_item')}/>
                     <Controller
                         control={control}
-                        name="size"
+                        name="size_item"
                         render={({field}) =>{
                             return(
                                 <DeliveryType 
                                     onValueChange={field.onChange} 
                                     value={field.value} required
                                 >
-                                    <DeliveryTypeButton value="small">
-                                        <Bicycle size={24}/>
-                                        Pequena
-                                    </DeliveryTypeButton>
-                                    <DeliveryTypeButton value="medium">
-                                        <Jeep size={24}/>
-                                        Média
-                                    </DeliveryTypeButton>
-                                    <DeliveryTypeButton value="large">
-                                        <Truck size={24}/>
-                                        Grande
-                                    </DeliveryTypeButton>
+                                    {renderSizeOptions()}
                                 </DeliveryType>
                             )
                         }}                 
-                    />                    
-                    
-                    <Dialog.DialogDescription>Selecione o local da partida</Dialog.DialogDescription>
-                    <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <LocationMarkerStart/> 
-                        <Marker position={startPosition}/>
-                    </MapContainer>
-                    <Dialog.DialogDescription>Selecione o local da entrega</Dialog.DialogDescription>
-                    <MapContainer center={[-18.5913406,-46.5258909]} zoom={15}>
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <LocationMarkerEnd/> 
-                        <Marker position={endPosition} />
-                    </MapContainer>
+                    /> 
+                    {renderMapOptions()}  
+                    {renderCreating ? 
+                        <ContentSearchingDelivery>                       
+                            {finished ? 
+                                <>
+                                    <p> Entrega criada com sucesso!</p> <i><CheckCircle size={30}/></i>
+                                </>                            
+                            :
+                                <> <p> Criando Entrega... </p> <load.RotatingLines width = "30"/> </>
+                            } 
+                        </ContentSearchingDelivery>
+                    :null
+                    }                   
                     <button type='submit' disabled={isSubmitting}>
                         Cadastrar
                     </button>

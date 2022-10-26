@@ -37,7 +37,7 @@ export const Content  = styled(Dialog.Content)`
         margin-top: 2rem;
         display: flex;       
         flex-direction: column;
-        gap: 1rem;   
+        gap: 1rem;        
     }
 
     button[type="submit"]{
@@ -48,7 +48,7 @@ export const Content  = styled(Dialog.Content)`
         font-weight: bold;
         padding: 0 1.25rem;
         border-radius: 6px;
-        margin-top: 1.5rem;
+        margin-top: 0.8rem;
         cursor: pointer;
 
         &:disabled{
@@ -63,16 +63,15 @@ export const Content  = styled(Dialog.Content)`
     }
 `;
 
-interface DeliveryTypeProps{
-    numberOptions: number;
-}
 
-export const DeliveryType = styled(RadioGroup.Root)<DeliveryTypeProps>`
+export const DeliveryType = styled(RadioGroup.Root)`
     display: grid;
-    grid-template-columns: repeat(${props => props.numberOptions}, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin-top: 0.5rem;
 `
+
+
 
 export const DeliveryTypeButton = styled(RadioGroup.Item)`
     background: ${props => props.theme['gray-700']};
@@ -100,5 +99,23 @@ export const DeliveryTypeButton = styled(RadioGroup.Item)`
         svg {
             color: ${props => props.theme.white}
         }
+    }
+`
+
+export const ContentSearchingDelivery = styled.div`
+    display: flex;
+    padding-top: 5px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    padding-left: 5px;
+
+    i{  
+        color: ${props => props.theme['green-300']}
+    }
+
+    p{  
+        padding-top: 3px;
+        padding-right: 5px;
     }
 `

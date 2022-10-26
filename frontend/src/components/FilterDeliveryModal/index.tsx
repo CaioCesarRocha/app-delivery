@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import {Controller, useForm} from 'react-hook-form';
 import * as z from 'zod';
+import {RotatingLines} from  'react-loader-spinner';
 import {zodResolver} from '@hookform/resolvers/zod';
-import { X, Jeep, Bicycle, Truck, DotsThree, XCircle, PlusCircle, Calendar } from 'phosphor-react';
-import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton } from './styles';
+import { X, Jeep, Bicycle, Truck, DotsThree, XCircle, PlusCircle, Calendar, CheckCircle} from 'phosphor-react';
+import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton, ContentSearchingDelivery } from './styles';
+import useDeliverys from '../../hooks/useDeliverys';
+
 
 const filterDeliverySchema = z.object({
     filter: z.string(),
@@ -12,6 +16,9 @@ const filterDeliverySchema = z.object({
 type filterDeliveryFormInputs = z.infer<typeof filterDeliverySchema>
 
 export function FilterDeliveryModal(){
+    const [renderSearching, setRenderSearching] = useState<boolean>(false);
+    const [finished, setFinished] = useState<boolean>(false);
+    const { filterDeliverys} = useDeliverys();
     const { 
         control, // qdo nao for html nativo(ex: input), precisa usar o control pra pegar os valores
         register,
@@ -21,10 +28,76 @@ export function FilterDeliveryModal(){
         resolver: zodResolver(filterDeliverySchema)
     });
 
-    async function handleFilterDeliverys(data: filterDeliveryFormInputs){
-        await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
-        
-        console.log('data', data)
+    async function handleFilterDeliverys(data: filterDeliveryFormInputs){  
+        setRenderSearching(true)
+        const finished = await filterDeliverys(data.filter); 
+        if(finished) {setFinished(true);} 
+    }
+
+    function renderOptionsSize(){
+        return(<>
+            <DeliveryTypeButton value="small">
+                <Bicycle size={24}/> Pequena
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="medium">
+                <Jeep size={24}/> Média
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="large">
+                <Truck size={24}/> Grande
+            </DeliveryTypeButton>
+        </>)
+    }
+
+    function renderOptionStatus(){
+        return(<>
+            <DeliveryTypeButton value="open">
+                <PlusCircle size={24}/> Disponíveis
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="inprogress">
+                <DotsThree size={24}/> Em andamento
+            </DeliveryTypeButton>
+            <DeliveryTypeButton value="closed">
+                <XCircle size={24}/> Encerradas
+            </DeliveryTypeButton>       
+        </>)
+    }
+
+    function renderContentForm(){
+        return(<>
+            <Controller
+                control={control}
+                name="filter"
+                render={({field}) =>{
+                    return(                           
+                        <>
+                            <Dialog.DialogDescription>Tipo da entrega</Dialog.DialogDescription>
+                            <DeliveryType 
+                                onValueChange={field.onChange} 
+                                value={field.value}
+                            >
+                                {renderOptionsSize()}
+                            </DeliveryType>
+                            <Dialog.DialogDescription>Status da entrega</Dialog.DialogDescription>
+                            <DeliveryType             
+                                onValueChange={field.onChange} 
+                                value={field.value}
+                            >                      
+                                {renderOptionStatus()}
+                            </DeliveryType>
+                            <Dialog.DialogDescription>Calendário</Dialog.DialogDescription>
+                            <DeliveryType 
+                                onValueChange={field.onChange} 
+                                value={field.value}
+                            >                                   
+                                <DeliveryTypeButton value="date">
+                                    <Calendar size={26}/> Data atual
+                                </DeliveryTypeButton> 
+                            </DeliveryType>                     
+                        </>
+                    )
+                }}                 
+            /> 
+        </>)
     }
 
     return(
@@ -37,58 +110,18 @@ export function FilterDeliveryModal(){
 
                 <Dialog.Title>Selecione um dos campos abaixo para filtro</Dialog.Title>
                 <form onSubmit={handleSubmit(handleFilterDeliverys)}>
-                    <Controller
-                        control={control}
-                        name="filter"
-                        render={({field}) =>{
-                            return(
-                                <>
-                                    <Dialog.DialogDescription>Tipo da entrega</Dialog.DialogDescription>
-                                    <DeliveryType 
-                                        numberOptions={3}
-                                        onValueChange={field.onChange} 
-                                        value={field.value}
-                                    >
-                                        <DeliveryTypeButton value="small">
-                                            <Bicycle size={24}/> Pequena
-                                        </DeliveryTypeButton>
-                                        <DeliveryTypeButton value="medium">
-                                            <Jeep size={24}/> Média
-                                        </DeliveryTypeButton>
-                                        <DeliveryTypeButton value="large">
-                                            <Truck size={24}/> Grande
-                                        </DeliveryTypeButton>
-                                    </DeliveryType>
-                                    <Dialog.DialogDescription>Status da entrega</Dialog.DialogDescription>
-                                    <DeliveryType 
-                                        numberOptions={3}
-                                        onValueChange={field.onChange} 
-                                        value={field.value}
-                                    >                      
-                                        <DeliveryTypeButton value="open">
-                                            <PlusCircle size={24}/> Disponível
-                                        </DeliveryTypeButton>
-                                        <DeliveryTypeButton value="inprogress">
-                                            <DotsThree size={24}/> Em andamento
-                                        </DeliveryTypeButton>
-                                        <DeliveryTypeButton value="closed">
-                                            <XCircle size={24}/> Fechada
-                                        </DeliveryTypeButton>
-                                    </DeliveryType>
-                                    <Dialog.DialogDescription>Calendário</Dialog.DialogDescription>
-                                    <DeliveryType 
-                                        numberOptions={1}
-                                        onValueChange={field.onChange} 
-                                        value={field.value}
-                                    >                                   
-                                        <DeliveryTypeButton value="date">
-                                                <Calendar size={26}/> Data atual
-                                        </DeliveryTypeButton> 
-                                    </DeliveryType>                     
-                                </>
-                            )
-                        }}                 
-                    /> 
+                    {renderContentForm()}
+                    {renderSearching ? 
+                        <ContentSearchingDelivery>
+                            <p> Buscando Entregas </p>
+                            {finished ? 
+                                <i> <CheckCircle size={30}/></i>
+                            :
+                                <RotatingLines width = "30"/>
+                            } 
+                        </ContentSearchingDelivery>
+                    :null
+                    }
                     <button type='submit' disabled={isSubmitting}>
                         Buscar
                     </button>     
