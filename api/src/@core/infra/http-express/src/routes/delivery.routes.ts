@@ -13,7 +13,6 @@ import { FilterDeliveryUseCase } from "../../../../application/delivery/filter-d
 import { ensureAuthenticateClient } from "../middlewares/ensureAuthenticateClient";
 import { ensureAuthenticateDeliveryman } from "../middlewares/ensureAuthenticateDeliveryman";
 
-
 const deliveryRoutes = Router();
 const deliveryRepo = new DeliveryPrismaRepository();
 //const clientInMemoryRepo = new ClientInMemoryRepository();

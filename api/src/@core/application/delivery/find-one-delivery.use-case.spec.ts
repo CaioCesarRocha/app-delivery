@@ -21,7 +21,7 @@ describe('Testing FindOne Delivery Use Case', () =>{
             id: repository.deliverys[0].id,
             id_deliveryman: undefined,
             status: 'open',
-            price: 200,
+            price: 30,
             created_at: undefined,
             end_at: undefined
         })

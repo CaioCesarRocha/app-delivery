@@ -6,6 +6,7 @@ import {IError} from '../services/utils/interfaces/error_interface';
 
 
 export interface IUser{
+    id?: string;
     username: string;
     password: string;
     token?: string;
@@ -28,31 +29,37 @@ interface UserProviderProps{
 export const UsersContext = createContext({} as UserContextType)
 
 function updatingCookie(logged: boolean, user?:IUser){
-    if(logged && user?.token && user?.typeUser){
+    if(logged && user?.token && user?.typeUser && user?.id){
         document.cookie = "myCookie" + JSON.stringify({foo: 'bar', baz: 'poo'});
         Cookies.set('app-delivery-cod3r-auth', user.username, {expires: 7 });
         Cookies.set('token', user?.token, {expires: 7 });
         Cookies.set('typeUser', user?.typeUser, { expires: 7});
+        Cookies.set('id', user?.id, { expires: 7})
     }
     else { 
         Cookies.remove('app-delivery-cod3r-auth') // se tiver deslogado, exclui os dados 
         Cookies.remove('token')
         Cookies.remove('typeUser')
+        Cookies.remove('id')
     } 
 }
 
 export function UserProvider({children}: UserProviderProps){
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<IError>({msg: '', active: false});
-    const [user, setUser] = useState<IUser>({username: '', password: ''});
+    const [user, setUser] = useState<IUser>({ username: '', password: ''});
 
     async function login(user: IUser){
         setLoading(true)
         await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
         try{
             const res_api = await api.post(`/authenticate/${user.typeUser}`, user)
+            console.log('res', res_api)
             const token = res_api.data.token;
-            const userLogged = {username: user.username, password: '', token: token, typeUser: user.typeUser}
+            const id = res_api.data.id
+            const userLogged = {
+                id: id, username: user.username, password: '', token: token, typeUser: user.typeUser
+            }
             if(token){      
                 setUser(userLogged)
                 updatingCookie(true, userLogged);
@@ -72,7 +79,10 @@ export function UserProvider({children}: UserProviderProps){
             await api.post(`/${user.typeUser}`, newUser);  
             const res_api = await api.post(`/authenticate/${user.typeUser}`, user);
             const token = res_api.data.token;
-            const userLogged = {username: user.username, password: '', token: token, typeUser: user.typeUser}
+            const id = res_api.data.id
+            const userLogged = {
+                id: id, username: user.username, password: '', token: token, typeUser: user.typeUser
+            }
             if(token){      
                 setUser(userLogged)
                 updatingCookie(true, userLogged);
@@ -86,7 +96,7 @@ export function UserProvider({children}: UserProviderProps){
 
     async function logout(){
         setLoading(true)
-        setUser({username: '',password: '', token: ''})
+        setUser({ username: '',password: '', token: ''})
         updatingCookie(false);
         setLoading(false);
     }
@@ -99,6 +109,7 @@ export function UserProvider({children}: UserProviderProps){
         const userTypeCookie = Cookies.get('typeUser');   
         if(username && (userTypeCookie === 'client' || userTypeCookie === 'deliveryman')) {
             setUser({
+                id: Cookies.get('id') || '',
                 username: username,
                 password: '',
                 token: Cookies.get('token'),

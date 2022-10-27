@@ -28,7 +28,7 @@ describe('Testing List Deliverys Client UseCase', ()=>{
             startPosition: [-23.522400, -46.736600],
             endPosition: [ -23.522600,  -46.736800],            
             status: 'open',
-            price: 200,
+            price: 30,
             created_at: undefined,
             end_at: undefined
         })

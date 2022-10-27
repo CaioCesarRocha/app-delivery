@@ -14,7 +14,7 @@ describe('Testing Delivery Entity', () =>{
         expect(newDelivery.props.price).toBeDefined();
         expect(newDelivery.props).toStrictEqual(
             {...deliveryProps, 
-                price: 170,
+                price: 10,
                 id_deliveryman: undefined, 
                 status: 'open',
                 created_at: undefined,

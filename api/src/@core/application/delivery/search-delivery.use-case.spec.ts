@@ -26,7 +26,7 @@ describe('Testing Search Deliverys UseCase', ()=>{
             endPosition: [ -23.522600,  -46.736800],
             id_deliveryman: undefined,
             status: 'open',
-            price: 200,
+            price: 30,
             created_at: undefined,
             end_at: undefined
         })

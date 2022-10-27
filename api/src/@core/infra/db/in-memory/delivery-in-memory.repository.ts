@@ -4,8 +4,9 @@ import { DeliveryRepositoryInterface } from "../../../domain/delivery/delivery.r
 export class DeliveryInMemoryRepository implements DeliveryRepositoryInterface{
     deliverys: Delivery[] = [];
 
-    async insert(client: Delivery): Promise<void> {
-        this.deliverys.push(client);
+    async insert(delivery: Delivery): Promise<Delivery> {
+        this.deliverys.push(delivery);
+        return delivery;
     }
 
     async listAll(): Promise<Delivery[]> {
@@ -60,13 +61,14 @@ export class DeliveryInMemoryRepository implements DeliveryRepositoryInterface{
         return newListDeliverys[0]
     }
 
-    async update(id: string, delivery: Delivery): Promise<void> {
+    async update(id: string, delivery: Delivery): Promise<Delivery> {
         const newListDeliverys:Delivery[] = []
         this.deliverys.forEach((delivery) =>{
             if(delivery.id !== id) newListDeliverys.push(delivery)          
         })
         newListDeliverys.push(delivery)
         this.deliverys = newListDeliverys;
+        return delivery;
     }
     
     async delete(id: string): Promise<void> {

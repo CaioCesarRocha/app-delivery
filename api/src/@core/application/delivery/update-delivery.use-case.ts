@@ -6,8 +6,8 @@ export class UpdateDeliveryUseCase{
 
     async execute(id: string, input: UpdateDeliveryInput): Promise<UpdateDeliveryOutput>{
         const delivery = Delivery.create(input, id);
-        await this.deliveryRepo.update(id, delivery)
-        return delivery.toJSON();
+        const deliveryUpdated = await this.deliveryRepo.update(id, delivery)
+        return deliveryUpdated.toJSON();
     }
 }
 

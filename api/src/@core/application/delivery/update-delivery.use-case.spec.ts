@@ -28,7 +28,7 @@ describe('Testing Update Delivery Use Case', () =>{
             id_client: delivery.id_client,
             id_deliveryman: '2',
             status: 'open',
-            price: 200,
+            price: 30,
             created_at: undefined,
             end_at: new Date(timeNow)
         })

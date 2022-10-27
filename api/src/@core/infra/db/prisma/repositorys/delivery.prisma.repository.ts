@@ -21,8 +21,10 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
         return deliveryNormalized
     }
 
-    async insert(delivery: Delivery): Promise<void> {   
-        await prisma.delivery.create({data: delivery.toJSON()})
+    async insert(delivery: Delivery): Promise<Delivery> {   
+        const newDelivery = await prisma.delivery.create({data: delivery.toJSON()})
+        const deliveryCreated = await this.normalizeDelivery(newDelivery)
+        return deliveryCreated;
     }
     async listAll(): Promise<Delivery[]> {
         const listDeliverys: Delivery[] = []
@@ -67,7 +69,7 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
                 name_item: {
                     contains: search,
                     mode: 'insensitive'
-                }
+                },
             }
         });   
         deliverys.map( async(delivery) => {
@@ -105,11 +107,13 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
         const deliveryNormalized = await this.normalizeDelivery(delivery)
         return deliveryNormalized;
     }
-    async update(id: string, delivery: Delivery): Promise<void> {
-        await prisma.delivery.update({
+    async update(id: string, delivery: Delivery): Promise<Delivery> {
+        const deliveryUpdated = await prisma.delivery.update({
             data: delivery.toJSON(), 
             where: {id : id}
         })
+        const normalizedDelivery = await this.normalizeDelivery(deliveryUpdated);
+        return normalizedDelivery;
     }
     async delete(id: string): Promise<void> {
         await prisma.delivery.delete({where:{ id: id}})

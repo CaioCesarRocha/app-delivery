@@ -18,7 +18,8 @@ export class AuthenticateClientUseCase{
             subject: client.id,
             expiresIn: "7d",
         }) 
-        return{token: token};             
+        const user = {id: client.id, token: token}
+        return user;             
     }
 }
 

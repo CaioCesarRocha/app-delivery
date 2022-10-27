@@ -2,7 +2,7 @@ import { Delivery } from "./delivery.entity";
 
 
 export interface DeliveryRepositoryInterface{
-    insert(delivery: Delivery): Promise<void>;
+    insert(delivery: Delivery): Promise<Delivery>;
     listAll(): Promise<Delivery[]>;
     listDeliverysClient(id_client: string): Promise<Delivery[]>;
     listDeliverysDeliveryman(id_deliveryman: string): Promise<Delivery[]>;
@@ -10,6 +10,6 @@ export interface DeliveryRepositoryInterface{
     searchDelivery(search: string): Promise<Delivery[]>;
     filterDelivery(filter:string): Promise<Delivery[]>;
     findOne(id: string): Promise<Delivery>;
-    update(id: string, delivery: Delivery): Promise<void>;
+    update(id: string, delivery: Delivery): Promise<Delivery>;
     delete(id: string): Promise<void>
 }
