@@ -26,7 +26,6 @@ export function SearchForm(){
 
     async function handleSearchDeliverys(data: SearchFormInputs){
         await new Promise(resolve => setTimeout(resolve, 2000))
-        console.log('passei no search')
         await searchDeliverys(data.query)
     }
 

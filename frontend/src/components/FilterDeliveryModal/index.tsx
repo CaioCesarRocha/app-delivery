@@ -29,6 +29,7 @@ export function FilterDeliveryModal(){
     });
 
     async function handleFilterDeliverys(data: filterDeliveryFormInputs){  
+        setFinished(false);
         setRenderSearching(true)
         const finished = await filterDeliverys(data.filter); 
         if(finished) {setFinished(true);} 

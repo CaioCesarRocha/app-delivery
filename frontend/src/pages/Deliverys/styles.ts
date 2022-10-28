@@ -15,7 +15,7 @@ export const DeliveryTable = styled.table`
 
     td{
         padding: 1.25rem 2rem;
-        background: ${props => props.theme['gray-700']};
+  
 
         &:first-child{
             border-top-left-radius: 6px;
@@ -30,13 +30,22 @@ export const DeliveryTable = styled.table`
 `
 
 interface StatusDeliveryProps{
-    variant: 'open' | 'inprogress' | 'closed'
+    variant?: 'open' | 'inprogress' | 'closed'
 }
 
 export const StatusDelivery = styled.span<StatusDeliveryProps>`
     ${props => props.variant === 'open' && css` color: ${props.theme['green-300']}; `}
     ${props => props.variant === 'inprogress' && css` color: ${props.theme['gray-300']}; `}
     ${props => props.variant === 'closed' && css` color: ${props.theme['red-300']}; `}
+`
+
+export const TrSelectable = styled.tr`
+    cursor: pointer;
+    background-color: ${props => props.theme['gray-700']};
+   
+    &:hover{
+            background: ${props => props.theme['gray-600']};
+        }
 `
 
 

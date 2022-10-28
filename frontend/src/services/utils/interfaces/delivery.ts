@@ -17,5 +17,5 @@ export interface IDelivery {
     status: 'open' | 'inprogress' | 'closed';
     price: number;
     created_at: Date;
-    end_at: String;
+    end_at: Date;
 }

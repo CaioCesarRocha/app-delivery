@@ -1,32 +1,35 @@
-import { useState, useEffect, } from 'react';  
 import { useNavigate } from 'react-router-dom';
 import useDeliverys from '../../hooks/useDeliverys';
-import useAuth from '../../hooks/useAuth';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "../../components/SearchForm";
-import { StatusDelivery, DeliveryContainer, DeliveryTable} from "./styles";
+import { StatusDelivery, DeliveryContainer, DeliveryTable, TrSelectable} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 import { ForceAuthentication } from '../../components/ForceAuthentication';
 
+
 export function Delivery(){
-   // const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
     const { deliverys, } = useDeliverys();
-    const { user } = useAuth();
     const navigate = useNavigate();
+
+    async function handleSelectedDelivery(id: string){
+        navigate(`/UpdateDelivery/${id}`)
+    }
 
     return (
         <ForceAuthentication>
             <Header/>
             <Summary/>
-
             <DeliveryContainer>
                 <SearchForm/>        
                 <DeliveryTable>
                     <tbody>
                         { deliverys.map((delivery, index) => {
                             return(
-                                <tr key={index}>
+                                <TrSelectable 
+                                    key={index} 
+                                    onClick={() => handleSelectedDelivery(delivery.id)}
+                                >
                                     <td width="50%"> {delivery.name_item} </td>
                                     <td> {priceFormatter.format(delivery.price)} </td>
                                     <td>
@@ -37,9 +40,15 @@ export function Delivery(){
                                         </StatusDelivery>
                                     </td>  
                                     <td> {dateFormatter.format(new Date(delivery.created_at))} </td>
-                                </tr>
+                                </TrSelectable>
                             )
-                        })}                 
+                        })}
+                        { deliverys.length === 0 ?
+                            <tr> 
+                                <td>Nenhuma entrega encontrada.</td> 
+                            </tr>
+                        : null
+                        }                 
                     </tbody>
                 </DeliveryTable>
             </DeliveryContainer>

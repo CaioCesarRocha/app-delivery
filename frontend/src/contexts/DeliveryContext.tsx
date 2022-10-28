@@ -4,16 +4,21 @@ import useAuth from "../hooks/useAuth";
 import {IError} from '../services/utils/interfaces/error_interface';
 import api from "../services/connection/api";
 import { IInputCreateDelivery, IDelivery } from "../services/utils/interfaces/delivery";
+import { getEmitHelpers } from "typescript";
+import { getEmptyDelivery } from "../services/utils/getEmptyDelivery";
 
 
 interface DeliveryContextType{
     cleanDeliverys: () => Promise<void>;
     createDelivery: (data: IInputCreateDelivery) => Promise<boolean>;
+    deleteDelivery: (id: string) => Promise<boolean>
     deliverys: IDelivery[];
     error: IError;
     filterDeliverys: (filter: string) => Promise<boolean>;
     getDeliverymanDeliverys: () => Promise<void>;
+    getOneDelivery: (id: string) => Promise<IDelivery> 
     searchDeliverys:(search: string) => Promise<void>;
+    updateDelivery: (id: string, delivery: IDelivery) => Promise<boolean>
 }
 
 interface DeliveryProviderProps{
@@ -27,12 +32,22 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
     const [error, setError] = useState<IError>({msg: '', active: false});
     const { user } = useAuth();
 
-
     function setBearerToken(){
         let config = {
             headers: {'Authorization': 'Bearer ' + user?.token}
         }
         return config;
+    }
+
+    async function getOneDelivery(id: string): Promise<IDelivery> {
+        try{
+            const delivery = await api.get(`http://localhost:3000/delivery/${id}`);
+            return delivery.data;
+        }catch(err){
+            if(err instanceof Error) setError({ msg: err.message, active: true}); 
+            const delivery: IDelivery = await getEmptyDelivery();
+            return delivery;
+        }   
     }
   
     async function getDeliverymanDeliverys(){
@@ -94,6 +109,26 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
         }
     }
 
+    async function deleteDelivery(id: string): Promise<boolean>{
+        const config = setBearerToken();   
+        await api.delete('');
+        return true;
+    }
+
+    async function updateDelivery(id: string, delivery: IDelivery): Promise<boolean>{
+        const config = setBearerToken();   
+        delivery.status = 'inprogress';
+        delivery.id_deliveryman = user?.id || '';
+        try{
+            const updatedDelivery = await api.put(`http://localhost:3000/delivery/${id}`, delivery, config)
+            if(updatedDelivery) return true;
+            return false;
+        }catch(err){
+            if(err instanceof Error) setError({ msg: err.message, active: true});
+            return false;
+        }      
+    }
+
     async function cleanDeliverys() {
         setDeliverys([]);
     }
@@ -120,17 +155,19 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
         }
         getDefaultDeliverys();
     }, [user.typeUser]);
-
     
     return (
         <DeliverysContext.Provider value={{
             cleanDeliverys,
             createDelivery,
+            deleteDelivery,
             deliverys,
             error,
             filterDeliverys,
             getDeliverymanDeliverys,
-            searchDeliverys
+            getOneDelivery,
+            searchDeliverys,
+            updateDelivery
         }}>
             {children}
         </DeliverysContext.Provider>
