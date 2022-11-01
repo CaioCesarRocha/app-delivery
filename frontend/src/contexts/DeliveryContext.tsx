@@ -4,8 +4,6 @@ import useAuth from "../hooks/useAuth";
 import {IError} from '../services/utils/interfaces/error_interface';
 import api from "../services/connection/api";
 import { IInputCreateDelivery, IDelivery } from "../services/utils/interfaces/delivery";
-import { getEmitHelpers } from "typescript";
-import { getEmptyDelivery } from "../services/utils/getEmptyDelivery";
 
 
 interface DeliveryContextType{
@@ -29,6 +27,12 @@ export const DeliverysContext = createContext({} as DeliveryContextType)
 
 export function DeliveryProvider({children}: DeliveryProviderProps){ 
     const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
+    const [emptyDelivery, setEmpetyDelivery] = useState<IDelivery>({   
+        id: "", id_client: "", id_deliveryman: "", name_item: "",
+        size_item: "small", status: 'open', price: 0,
+        startPosition: [0, 0], endPosition: [0, 0],
+        created_at: new Date(), end_at: new Date()
+    })
     const [error, setError] = useState<IError>({msg: '', active: false});
     const { user } = useAuth();
 
@@ -45,8 +49,7 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             return delivery.data;
         }catch(err){
             if(err instanceof Error) setError({ msg: err.message, active: true}); 
-            const delivery: IDelivery = await getEmptyDelivery();
-            return delivery;
+            return emptyDelivery;
         }   
     }
   
@@ -108,26 +111,46 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             return false;
         }
     }
-
-    async function deleteDelivery(id: string): Promise<boolean>{
-        const config = setBearerToken();   
-        await api.delete('');
-        return true;
-    }
-
+   
     async function updateDelivery(id: string, delivery: IDelivery): Promise<boolean>{
         const config = setBearerToken();   
-        delivery.status = 'inprogress';
+        if(delivery.status === 'inprogress') delivery.status = 'closed';
+        if(delivery.status === 'open') delivery.status = 'inprogress';       
         delivery.id_deliveryman = user?.id || '';
+        const newListDeliverys: IDelivery[] = [];
         try{
             const updatedDelivery = await api.put(`http://localhost:3000/delivery/${id}`, delivery, config)
-            if(updatedDelivery) return true;
+            if(updatedDelivery) {         
+                deliverys.forEach(delivery =>{
+                    if(delivery.id !== id) newListDeliverys.push(delivery);                                
+                })
+                newListDeliverys.push(delivery)
+                setDeliverys(newListDeliverys);
+                return true;
+            }
             return false;
         }catch(err){
             if(err instanceof Error) setError({ msg: err.message, active: true});
             return false;
         }      
     }
+
+    async function deleteDelivery(id: string): Promise<boolean>{
+        const config = setBearerToken();   
+        try{
+            await api.delete(`http://localhost:3000/delivery/${id}`,config);
+            const newListDeliverys: IDelivery[] = [];
+            deliverys.forEach(delivery =>{
+                if(delivery.id !== id) newListDeliverys.push(delivery)
+            })
+            setDeliverys(newListDeliverys);
+            return true;
+        }catch(err){
+            if(err instanceof Error) setError({ msg: err.message, active: true});
+            return false;
+        }       
+    }
+
 
     async function cleanDeliverys() {
         setDeliverys([]);
@@ -141,7 +164,8 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             try{                            
                 if(user.typeUser === 'client') {
                     console.log('entrei no true')            
-                    const deliverys = await api.get('http://localhost:3000/delivery/client', config);          
+                    const deliverys = await api.get('http://localhost:3000/delivery/client', config);
+                    console.log('')          
                     setDeliverys(deliverys.data);
                 }         
                 else if(user.typeUser === 'deliveryman'){

@@ -5,7 +5,17 @@ export const DeliveryContainer = styled.main`
     max-width: 1120px;
     margin: 4rem auto 0;
     padding: 0 1.5rem;
+
+    i{
+        font-size: 45px;
+        cursor: pointer;
+        float: right;
+        &:hover{
+            color: ${props => props.theme['gray-500']};
+        }      
+    }
 `;
+
 
 export const DeliveryContent = styled.div`
     min-width: 20rem;

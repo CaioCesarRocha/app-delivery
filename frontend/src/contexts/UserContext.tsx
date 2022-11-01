@@ -107,7 +107,9 @@ export function UserProvider({children}: UserProviderProps){
         setLoading(true)
         const username = Cookies.get('app-delivery-cod3r-auth');
         const userTypeCookie = Cookies.get('typeUser');   
+        console.log('entrei pelo menos no effect', userTypeCookie);
         if(username && (userTypeCookie === 'client' || userTypeCookie === 'deliveryman')) {
+            console.log('passei na setagem', userTypeCookie)
             setUser({
                 id: Cookies.get('id') || '',
                 username: username,
