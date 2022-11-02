@@ -39,9 +39,10 @@ export function UpdateDelivery(){
         async function getDelivery(){
             const dataDelivery = await getOneDelivery(id);
             if(dataDelivery.name_item.length === 0) { 
-                alert('Produto não encontrado.');
+                toast.info('Produto não encontrado');
+                await new Promise(resolve => setTimeout(resolve, 4000))// importante usar pra simular delay          
                 navigate(-1);
-            }
+            }          
             else setDelivery(dataDelivery);
         }
         getDelivery();
@@ -58,9 +59,9 @@ export function UpdateDelivery(){
             toast.success(`Produto excluído com sucesso!`);       
         }else{
             await updateDelivery(delivery.id, delivery); 
-            alert('Status da entrega alterado com sucesso!');       
+            toast.success(`Status da entrega alterado com sucesso!`);
         } 
-       
+        await new Promise(resolve => setTimeout(resolve, 4000))// importante usar pra simular delay
         navigate(-1);    
     }
  
@@ -72,11 +73,13 @@ export function UpdateDelivery(){
         resolver: zodResolver(UpdateFormDeliverySchema)
     });
 
+
     return(
         <DeliveryContainer>
             <Alert theme='colored'/>         
-            <i onClick={() => navigate(-1)}> <ArrowLeft/> </i>           
-            <DeliveryContent>
+            <i onClick={() => navigate(-1)}> <ArrowLeft/> </i> 
+
+            <DeliveryContent>          
                 <h1> Entrega </h1>
                 <form onSubmit={handleSubmit(handleUpdateDelivery)}>
                     <ContainerInput> 

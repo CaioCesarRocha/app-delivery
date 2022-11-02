@@ -5,7 +5,6 @@ export const DeliveryContainer = styled.main`
     max-width: 1120px;
     margin: 4rem auto 0;
     padding: 0 1.5rem;
-
     i{
         font-size: 45px;
         cursor: pointer;
@@ -29,18 +28,15 @@ export const DeliveryContent = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-
     h1{
         font-size: 32px;
     }
-
     form{       
         margin-top: 2rem;
         display: flex;     
         flex-direction: column;
         gap: 1rem;   
     }
-
     input{
         width: 80%;
         border-radius: 6px;
@@ -53,7 +49,6 @@ export const DeliveryContent = styled.div`
             color: ${props => props.theme['gray-500']};  
         }
     }
-
     p{
         font-size: 12px;
         
@@ -62,7 +57,6 @@ export const DeliveryContent = styled.div`
             text-decoration: none;
             cursor: pointer;
             padding-left: 4px;
-
             &:hover{
                 color: ${props => props.theme['green-500']};  
             }
@@ -96,16 +90,13 @@ export const ButtonForm = styled.button<ButtonFormProps>`
     color: ${props => props.theme.white};
     border-radius: 6px;
     cursor: pointer;
-
     ${props => props.variant === 'green' && css`
         background: ${props.theme['green-500']};
     `}
-
     &:hover{
         background: ${props => props.theme['red-700']};
         ${props => props.variant === 'green' && css`
             background: ${props.theme['green-700']};
         `}
     }
-`
-
+`;

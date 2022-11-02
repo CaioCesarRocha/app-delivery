@@ -6,10 +6,12 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import { TileLayer, Marker, MapContainer, useMapEvents} from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { toast} from 'react-toastify';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { X ,Bicycle, Truck, Jeep, CheckCircle} from 'phosphor-react';
 import * as load from  'react-loader-spinner';
+import Alert from '../Alert';
 import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton, ContentSearchingDelivery } 
     from './styles';
 import useDelivery from '../../hooks/useDeliverys';
@@ -24,8 +26,6 @@ L.Marker.prototype.options.icon = DefaultIcon;
 const newFormDeliverySchema = z.object({
     name_item: z.string(),
     size_item: z.enum(['small', 'medium', 'large']),
-    //startPosition: z.number(),
-    //endPosition: z.number()
 });
 
 type NewDeliveryFormInputs = z.infer<typeof newFormDeliverySchema>
@@ -73,7 +73,7 @@ export function NewDeliveryModal(){
 
     async function handleSendDeliverys(data: NewDeliveryFormInputs){
         if(startPosition[0] === noOnePosition || endPosition[0] === noOnePosition){
-            alert('Selectione corretamente as posições')
+            toast.warning('Selecione corretamente posições.');
             return;
         }
         setRenderCreating(true)           
@@ -124,6 +124,8 @@ export function NewDeliveryModal(){
 
     return(
         <Dialog.Portal>
+            <Alert theme='colored'/>
+            
             <Overlay/>
             <Content>
                 <CloseButton>

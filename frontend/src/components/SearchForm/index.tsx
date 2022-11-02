@@ -23,7 +23,6 @@ export function SearchForm(){
         resolver: zodResolver(searchFormSchema)
     });
     
-
     async function handleSearchDeliverys(data: SearchFormInputs){
         await new Promise(resolve => setTimeout(resolve, 2000))
         await searchDeliverys(data.query)
