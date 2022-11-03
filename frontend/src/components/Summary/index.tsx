@@ -10,22 +10,22 @@ export function Summary(){
         <SummaryContainer>
             <SummaryCard>
                 <header>
-                    <span> Entregas em andamento </span>
-                    <ArrowCircleUp size={32} color='#00b37e'/>
+                    <span> Em andamento </span>
+                    <i> <ArrowCircleUp size={32} color='#00b37e'/> </i>
                 </header>
                 <strong> {summary.inprogress} </strong>
             </SummaryCard>
             <SummaryCard>
                 <header>
                     <span> Finalizadas </span>
-                    <ArrowCircleDown size={32} color='#f75a68'/>
+                    <i> <ArrowCircleDown size={32} color='#f75a68'/> </i>
                 </header>
                 <strong> {summary.closed} </strong>
             </SummaryCard>
             <SummaryCard variant="green">
                 <header>
                     <span> Total </span>
-                    <CurrencyDollar size={32} color='#fff'/>
+                    <i> <CurrencyDollar size={32} color='#fff'/> </i>
                 </header>
                 <strong> {priceFormatter.format(summary.total)}</strong>
             </SummaryCard>

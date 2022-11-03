@@ -4,6 +4,16 @@ export const SearchFormContainer = styled.main`
     display: flex;   
     gap: 1rem;
     width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 0 1.5rem;
+  
+
+    @media(max-width: 481px) {
+       flex-direction: column;
+       justify-content: space-around;
+    }
 
     input {
         flex: 1;
@@ -79,4 +89,13 @@ export const FilterDeliveryButton = styled.button`
                 background-color 0.2s, 
                 color 0,2s, 
         }
+`
+
+export const ResponsiveSearchDiv = styled.div`
+    display: flex;
+    flex-direction: row; 
+
+    @media(max-width: 481px) {
+       justify-content: space-around;
+    }
 `

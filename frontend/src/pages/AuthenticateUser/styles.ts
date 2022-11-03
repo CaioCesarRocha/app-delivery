@@ -21,6 +21,7 @@ export const DeliveryContent = styled.div`
     transform: translate(-50%, -50%);
     text-align: center;
 
+  
     h1{
         font-size: 32px;
     }

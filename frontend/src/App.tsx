@@ -4,6 +4,7 @@ import { UserProvider } from "./contexts/UserContext";
 import AppRoutes from "./app.routes";
 import { GlobalStyle } from "./styles/global";
 import {defaultTheme} from './styles/themes/default';
+import { ResetCSS } from "./services/resetCSS";
 
 export function App() {
 
@@ -12,6 +13,7 @@ export function App() {
       <GlobalStyle />
       <UserProvider>
         <DeliveryProvider>
+          <ResetCSS/>
           <AppRoutes />
         </DeliveryProvider>
       </UserProvider>   

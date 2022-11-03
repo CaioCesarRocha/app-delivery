@@ -3,19 +3,20 @@ import styled, { css } from "styled-components";
 export const DeliveryContainer = styled.main`
     width: 100%;
     max-width: 1120px;
-    margin: 4rem auto 0;
+    margin: 1rem auto 0;
     padding: 0 1.5rem;
+    overflow-x: auto;   
 `
 
 export const DeliveryTable = styled.table`
     width: 100%;
+    //width: 50px;
     border-collapse: separate;
     border-spacing: 0 0.5rem;
-    margin-top: 1.5rem;
-
+   
     td{
         padding: 1.25rem 2rem;
-  
+        min-width: 10px;
 
         &:first-child{
             border-top-left-radius: 6px;
@@ -33,19 +34,41 @@ interface StatusDeliveryProps{
     variant?: 'open' | 'inprogress' | 'closed'
 }
 
-export const StatusDelivery = styled.span<StatusDeliveryProps>`
+export const StatusDelivery: any = styled.span<StatusDeliveryProps>`
     ${props => props.variant === 'open' && css` color: ${props.theme['green-300']}; `}
     ${props => props.variant === 'inprogress' && css` color: ${props.theme['gray-300']}; `}
     ${props => props.variant === 'closed' && css` color: ${props.theme['red-300']}; `}
 `
 
-export const TrSelectable = styled.tr`
+export const TrSelectable = styled.tr`  
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     cursor: pointer;
+    border-radius: 6px;
+    
+    
     background-color: ${props => props.theme['gray-700']};
    
     &:hover{
-            background: ${props => props.theme['gray-600']};
-        }
+        background: ${props => props.theme['gray-600']};
+    }
+`
+
+
+export const DivResponsive = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-around;
+
+
+    @media(max-width: 481px) {
+        flex-direction: column;
+        width: 100%;
+    }
+
 `
 
 
