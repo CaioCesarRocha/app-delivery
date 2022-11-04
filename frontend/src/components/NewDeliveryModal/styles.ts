@@ -22,12 +22,17 @@ export const Content  = styled(Dialog.Content)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+ 
+    @media(max-width: 481px) {
+        min-width: 15rem;
+        padding: 2rem 1.5rem;
+        justify-content: center;
+        align-items: center;
+    }
 
     form{
         margin-top: 2rem;
-        display: flex;
-        
+        display: flex;     
         flex-direction: column;
         gap: 1rem;   
 
@@ -36,6 +41,10 @@ export const Content  = styled(Dialog.Content)`
             height: 250px;
             border-radius: 8px;
             margin-bottom: 24px;
+        }
+
+        button{
+            text-align: center;
         }
     }
 
@@ -104,6 +113,12 @@ export const DeliveryTypeButton = styled(RadioGroup.Item)`
     border: 0;
     color: ${props => props.theme['gray-300']};
 
+    @media(max-width: 481px) {
+        padding: 0.7rem;
+        gap: 0.2rem;
+        font-size: 14px;
+    }
+
     svg {
         color: ${props => props.theme["green-300"]}
     }
@@ -138,3 +153,5 @@ export const ContentSearchingDelivery = styled.div`
         padding-right: 5px;
     }
 `
+
+

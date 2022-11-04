@@ -38,13 +38,13 @@ export function FilterDeliveryModal(){
     function renderOptionsSize(){
         return(<>
             <DeliveryTypeButton value="small">
-                <Bicycle size={24}/> Pequena
+                <Bicycle size={22}/> Pequena
             </DeliveryTypeButton>
             <DeliveryTypeButton value="medium">
-                <Jeep size={24}/> Média
+                <Jeep size={22}/> Média
             </DeliveryTypeButton>
             <DeliveryTypeButton value="large">
-                <Truck size={24}/> Grande
+                <Truck size={22}/> Grande
             </DeliveryTypeButton>
         </>)
     }
@@ -52,13 +52,13 @@ export function FilterDeliveryModal(){
     function renderOptionStatus(){
         return(<>
             <DeliveryTypeButton value="open">
-                <PlusCircle size={24}/> Disponíveis
+                <PlusCircle size={22}/> Disponíveis
             </DeliveryTypeButton>
             <DeliveryTypeButton value="inprogress">
-                <DotsThree size={24}/> Em andamento
+                <DotsThree size={22}/> Em andamento
             </DeliveryTypeButton>
             <DeliveryTypeButton value="closed">
-                <XCircle size={24}/> Encerradas
+                <XCircle size={22}/> Encerradas
             </DeliveryTypeButton>       
         </>)
     }
@@ -91,7 +91,7 @@ export function FilterDeliveryModal(){
                                 value={field.value}
                             >                                   
                                 <DeliveryTypeButton value="date">
-                                    <Calendar size={26}/> Data atual
+                                    <Calendar size={23}/> Data atual
                                 </DeliveryTypeButton> 
                             </DeliveryType>                     
                         </>

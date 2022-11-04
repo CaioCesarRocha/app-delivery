@@ -32,6 +32,7 @@ export const SearchFormContainer = styled.main`
 export const SearchFormContent = styled.form`  
     display: flex;
     gap: 1rem;
+    padding-left: 5px;
   
     button{
         display: flex;
@@ -99,3 +100,13 @@ export const ResponsiveSearchDiv = styled.div`
        justify-content: space-around;
     }
 `
+
+export const MsgLoading = styled.p`
+    max-width: 1120px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;

@@ -15,7 +15,7 @@ interface DeliveryContextType{
     filterDeliverys: (filter: string) => Promise<boolean>;
     getDeliverymanDeliverys: () => Promise<void>;
     getOneDelivery: (id: string) => Promise<IDelivery> 
-    searchDeliverys:(search: string) => Promise<void>;
+    searchDeliverys:(search: string) => Promise<boolean>;
     updateDelivery: (id: string, delivery: IDelivery) => Promise<boolean>
 }
 
@@ -64,7 +64,7 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
         }       
     }
 
-    async function searchDeliverys(search: string): Promise<void>{
+    async function searchDeliverys(search: string): Promise<boolean>{
         await new Promise(resolve => setTimeout(resolve, 2000))         
         try{
             const config = setBearerToken();
@@ -75,8 +75,10 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
                 userDeliverys.push(delivery)
             });  
             setDeliverys(userDeliverys);
+            return true;
         }catch(err){
             if(err instanceof Error) setError({ msg: err.message, active: true});
+            return false;
         }    
     }
 

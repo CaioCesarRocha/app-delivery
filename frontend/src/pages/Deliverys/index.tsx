@@ -3,7 +3,7 @@ import useDeliverys from '../../hooks/useDeliverys';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "../../components/SearchForm";
-import { StatusDelivery, DeliveryContainer, DeliveryTable, TrSelectable, DivResponsive} from "./styles";
+import { StatusDelivery, DeliveryContainer, DeliveryTable, TrSelectable} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 import { ForceAuthentication } from '../../components/ForceAuthentication';
 
@@ -31,8 +31,7 @@ export function Delivery(){
                                     onClick={() => handleSelectedDelivery(delivery.id)}
                                 >                                
                                     <td width="50%"> {delivery.name_item} </td>
-                                    <td> {priceFormatter.format(delivery.price)} </td>                                
-                                                                    
+                                    <td> {priceFormatter.format(delivery.price)} </td>                                                                                                    
                                     <td>
                                         <StatusDelivery variant={delivery.status}>
                                             {delivery.status === 'open' ? 'Aberta...': null}

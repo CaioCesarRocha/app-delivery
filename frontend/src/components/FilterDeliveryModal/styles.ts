@@ -22,7 +22,7 @@ export const CloseButton = styled(Dialog.Close)`
 `;
 
 export const Content  = styled(Dialog.Content)`
-    min-width: 32rem;
+    min-width: 35rem;
     max-height: 80%;
     overflow: auto;
     border-radius: 6px;
@@ -32,6 +32,13 @@ export const Content  = styled(Dialog.Content)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media(max-width: 481px) {
+        min-width: 20rem;
+        padding: 2rem 1.1rem;
+        justify-content: center;
+        align-items: center;
+    }
     
     form{
         margin-top: 2rem;
@@ -50,6 +57,7 @@ export const Content  = styled(Dialog.Content)`
         border-radius: 6px;
         margin-top: 0.8rem;
         cursor: pointer;
+        text-align: center;
 
         &:disabled{
             opacity: 0.7;
@@ -63,15 +71,16 @@ export const Content  = styled(Dialog.Content)`
     }
 `;
 
-
 export const DeliveryType = styled(RadioGroup.Root)`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin-top: 0.5rem;
+
+    @media(max-width: 481px) {
+        //grid-template-columns: repeat(2, 1fr);
+    }
 `
-
-
 
 export const DeliveryTypeButton = styled(RadioGroup.Item)`
     background: ${props => props.theme['gray-700']};
@@ -84,6 +93,17 @@ export const DeliveryTypeButton = styled(RadioGroup.Item)`
     border-radius: 6px;
     border: 0;
     color: ${props => props.theme['gray-300']};
+
+    @media(max-width: 769px) {
+        padding: 0.8rem;
+        gap: 0.2rem;
+        font-size: 14px;
+    }
+
+    @media(max-width: 481px) {
+        padding: 0.6rem;
+        font-size: 12px;
+    }
 
     svg {
         color: ${props => props.theme["gray-300"]}

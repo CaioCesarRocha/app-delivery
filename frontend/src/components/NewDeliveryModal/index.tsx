@@ -10,7 +10,7 @@ import { toast} from 'react-toastify';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { X ,Bicycle, Truck, Jeep, CheckCircle} from 'phosphor-react';
-import * as load from  'react-loader-spinner';
+import {RotatingLines} from  'react-loader-spinner';
 import Alert from '../Alert';
 import { Overlay, Content, CloseButton, DeliveryType, DeliveryTypeButton, ContentSearchingDelivery } 
     from './styles';
@@ -156,7 +156,7 @@ export function NewDeliveryModal(){
                                     <p> Entrega criada com sucesso!</p> <i><CheckCircle size={30}/></i>
                                 </>                            
                             :
-                                <> <p> Criando Entrega... </p> <load.RotatingLines width = "30"/> </>
+                                <> <p> Criando Entrega... </p> <RotatingLines width = "30"/> </>
                             } 
                         </ContentSearchingDelivery>
                     :null
