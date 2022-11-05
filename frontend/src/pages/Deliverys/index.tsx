@@ -1,19 +1,25 @@
 import { useNavigate } from 'react-router-dom';
+import {CaretDoubleRight, CaretDoubleLeft} from "phosphor-react";
 import useDeliverys from '../../hooks/useDeliverys';
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "../../components/SearchForm";
-import { StatusDelivery, DeliveryContainer, DeliveryTable, TrSelectable} from "./styles";
+import { StatusDelivery, DeliveryContainer, DeliveryTable, TrSelectable, ButtonPage} from "./styles";
 import { dateFormatter, priceFormatter } from '../../services/utils/formatter';
 import { ForceAuthentication } from '../../components/ForceAuthentication';
 
 
 export function Delivery(){
-    const { deliverys, } = useDeliverys();
+    const { deliverys, page, updatePage } = useDeliverys();
     const navigate = useNavigate();
+    const numberMaxDelivery = 5;
 
-    async function handleSelectedDelivery(id: string){
+    async function handleSelectedDelivery(id: string): Promise<void>{
         navigate(`/UpdateDelivery/${id}`)
+    }
+
+    async function handleLoadDeliverys(page: number):Promise<void> {
+        await updatePage(page);
     }
 
     return (
@@ -48,9 +54,24 @@ export function Delivery(){
                                 <td>Nenhuma entrega encontrada.</td> 
                             </tr>
                         : null
-                        }                 
-                    </tbody>
+                        }
+                                     
+                    </tbody>                 
                 </DeliveryTable>
+                { deliverys.length === numberMaxDelivery ?
+                    <ButtonPage onClick={() => handleLoadDeliverys(5)} variant='right'>
+                        <CaretDoubleRight size={35}/>
+                    </ButtonPage>
+                : 
+                    null
+                } 
+                { page > 0 ?
+                    <ButtonPage onClick={() => handleLoadDeliverys(-5)} variant='left'>
+                        <CaretDoubleLeft size={35}/>
+                    </ButtonPage>
+                : 
+                    null
+                }   
             </DeliveryContainer>
         </ForceAuthentication>
     )

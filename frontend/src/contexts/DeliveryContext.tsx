@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import {IError} from '../services/utils/interfaces/error_interface';
 import api from "../services/connection/api";
 import { IInputCreateDelivery, IDelivery } from "../services/utils/interfaces/delivery";
+import { updatePropertyAssignment } from "typescript";
 
 
 interface DeliveryContextType{
@@ -11,12 +12,14 @@ interface DeliveryContextType{
     createDelivery: (data: IInputCreateDelivery) => Promise<boolean>;
     deleteDelivery: (id: string) => Promise<boolean>
     deliverys: IDelivery[];
-    error: IError;
+    error: IError;   
     filterDeliverys: (filter: string) => Promise<boolean>;
     getDeliverymanDeliverys: () => Promise<void>;
     getOneDelivery: (id: string) => Promise<IDelivery> 
+    page: number;
     searchDeliverys:(search: string) => Promise<boolean>;
-    updateDelivery: (id: string, delivery: IDelivery) => Promise<boolean>
+    updateDelivery: (id: string, delivery: IDelivery) => Promise<boolean>;
+    updatePage: (page: number) => Promise<void>;
 }
 
 interface DeliveryProviderProps{
@@ -27,14 +30,16 @@ export const DeliverysContext = createContext({} as DeliveryContextType)
 
 export function DeliveryProvider({children}: DeliveryProviderProps){ 
     const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
-    const [emptyDelivery, setEmpetyDelivery] = useState<IDelivery>({   
+    const [emptyDelivery, setEmptyDelivery] = useState<IDelivery>({   
         id: "", id_client: "", id_deliveryman: "", name_item: "",
         size_item: "small", status: 'open', price: 0,
         startPosition: [0, 0], endPosition: [0, 0],
         created_at: new Date(), end_at: new Date()
     })
     const [error, setError] = useState<IError>({msg: '', active: false});
+    const [page, setPage] = useState<number>(0)
     const { user } = useAuth();
+    const localhost = "http://localhost:3000/delivery";
 
     function setBearerToken(){
         let config = {
@@ -57,7 +62,7 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
         await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
         try{
             const config = setBearerToken(); 
-            const deliverys = await api.get('http://localhost:3000/delivery/deliveryman', config);               
+            const deliverys = await api.get(`${localhost}/deliveryman/${page}`, config);               
             setDeliverys(deliverys.data);
         }catch(err){
             if(err instanceof Error) setError({ msg: err.message, active: true});
@@ -153,26 +158,26 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
         }       
     }
 
-
     async function cleanDeliverys() {
         setDeliverys([]);
     }
 
+    async function updatePage(numberPage: number): Promise<void>{
+        const newPage = page + numberPage;
+        setPage(newPage)
+    }
  
     useEffect(() =>{
         console.log('passei useEffect get Delivery Default' ,user)
         async function getDefaultDeliverys(): Promise<void>{
             const config = setBearerToken();           
             try{                            
-                if(user.typeUser === 'client') {
-                    console.log('entrei no true')            
-                    const deliverys = await api.get('http://localhost:3000/delivery/client', config);
-                    console.log('')          
+                if(user.typeUser === 'client') {           
+                    const deliverys = await api.get(`${localhost}/client/${page}`, config);      
                     setDeliverys(deliverys.data);
                 }         
-                else if(user.typeUser === 'deliveryman'){
-                    console.log('entrei no false')            
-                    const deliverys = await api.get('http://localhost:3000/delivery/available', config);             
+                else if(user.typeUser === 'deliveryman'){            
+                    const deliverys = await api.get(`${localhost}/available/${page}`, config);             
                     setDeliverys(deliverys.data);
                 }
             }catch(err){
@@ -180,7 +185,11 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             } 
         }
         getDefaultDeliverys();
-    }, [user.typeUser]);
+    }, [user.typeUser, page]);
+
+    useEffect(() =>{
+        setPage(0);
+    },[]);
     
     return (
         <DeliverysContext.Provider value={{
@@ -188,12 +197,14 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             createDelivery,
             deleteDelivery,
             deliverys,
-            error,
+            error,          
             filterDeliverys,
             getDeliverymanDeliverys,
             getOneDelivery,
+            page,
             searchDeliverys,
-            updateDelivery
+            updateDelivery,
+            updatePage,
         }}>
             {children}
         </DeliverysContext.Provider>

@@ -1,5 +1,4 @@
-import { last } from "rxjs";
-import { Delivery, DeliveryProps, LatLng, sizeItem, statusDelivery } from "../../../../domain/delivery/delivery.entity";
+import { Delivery, LatLng, sizeItem, statusDelivery } from "../../../../domain/delivery/delivery.entity";
 import { DeliveryRepositoryInterface } from "../../../../domain/delivery/delivery.repository";
 import { prisma } from "../prismaClient";
 
@@ -53,13 +52,17 @@ export class DeliveryPrismaRepository implements DeliveryRepositoryInterface{
         })     
         return listDeliverysDeliveryman;
     }
-    async listAllAvailable(): Promise<Delivery[]> {
+    async listAllAvailable(page: number): Promise<Delivery[]> {
         const listDeliverysAvailable: Delivery[] = []
-        const deliverys = await prisma.delivery.findMany({where: {id_deliveryman: null}});   
+        const deliverys = await prisma.delivery.findMany({
+            skip: page,
+            take: 5,
+            where: {id_deliveryman: null}
+        });   
         deliverys.map( async(delivery) => {
             const deliveryNormalized = await this.normalizeDelivery(delivery)
             listDeliverysAvailable.push(deliveryNormalized)
-        })     
+        })    
         return listDeliverysAvailable;
     }
     async searchDelivery(search: string): Promise<Delivery[]> {

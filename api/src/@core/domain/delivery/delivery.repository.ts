@@ -6,7 +6,7 @@ export interface DeliveryRepositoryInterface{
     listAll(): Promise<Delivery[]>;
     listDeliverysClient(id_client: string): Promise<Delivery[]>;
     listDeliverysDeliveryman(id_deliveryman: string): Promise<Delivery[]>;
-    listAllAvailable(): Promise<Delivery[]>;
+    listAllAvailable(page: number): Promise<Delivery[]>;
     searchDelivery(search: string): Promise<Delivery[]>;
     filterDelivery(filter:string): Promise<Delivery[]>;
     findOne(id: string): Promise<Delivery>;

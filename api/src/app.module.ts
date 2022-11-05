@@ -38,7 +38,8 @@ export class AppModule implements NestModule{
         { path: 'delivery/:id', method: RequestMethod.PUT },
         { path: 'delivery/search/:search', method: RequestMethod.GET},
         { path: 'delivery/filter/:filter', method: RequestMethod.GET},
-        { path: 'deliveryman/:id', method: RequestMethod.PUT}
+        { path: 'deliveryman/:id', method: RequestMethod.PUT},
+        { path: 'delivery/available/:page', method: RequestMethod.GET}
     );
   }
 }

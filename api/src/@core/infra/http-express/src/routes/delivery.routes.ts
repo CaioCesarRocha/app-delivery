@@ -37,9 +37,10 @@ deliveryRoutes.get('/delivery/deliveryman', ensureAuthenticateDeliveryman,async(
     res.status(200).json(output)
 })
 
-deliveryRoutes.get('/delivery/available', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
+deliveryRoutes.get('/delivery/available/:page', ensureAuthenticateDeliveryman,async(req: Request, res: Response) =>{
+    const page = parseInt(req.params.page);
     const listDeliverysAvailable = new ListAvailableDeliveryUseCase(deliveryRepo);
-    const output = await listDeliverysAvailable.execute()
+    const output = await listDeliverysAvailable.execute(page);
     res.status(200).json(output)
 })
 

@@ -46,15 +46,16 @@ export class DeliveryController {
     return this.listDeliverysClientUseCase.execute(id_client)
   }
 
-  @Get('/deliveryman')
+  @Get('/deliveryman/:page')
   listDeliverysDeliveryman(@Req() req:Request) {
-    const id_client = req.body['id_deliveryman'];
+    const id_client = req.body['id_deliveryman'];  
     return this.listDeliverysDeliverymanUseCase.execute(id_client)
   }
 
-  @Get('/available')
-  listAvailableDeliverys() {
-    return this.listAvailableDeliverysUseCase.execute()
+  @Get('/available/:page')
+  listAvailableDeliverys(@Param('page') page: string) {
+    const intPage = parseInt(page)
+    return this.listAvailableDeliverysUseCase.execute(intPage)
   }
 
   @Get('/search/:search')

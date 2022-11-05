@@ -4,8 +4,8 @@ import { DeliveryRepositoryInterface } from '../../domain/delivery/delivery.repo
 export class ListAvailableDeliveryUseCase{
     constructor(private deliveryRepo: DeliveryRepositoryInterface){}
 
-    async execute():Promise<ListAllAvailableDeliveryOutput>{
-        const deliverysAvailable = await this.deliveryRepo.listAllAvailable();
+    async execute(page: number):Promise<ListAllAvailableDeliveryOutput>{
+        const deliverysAvailable = await this.deliveryRepo.listAllAvailable(page);
         return deliverysAvailable.map(delivery => delivery.toJSON())
     }
 }

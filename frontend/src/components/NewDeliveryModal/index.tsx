@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import {Controller, useForm} from 'react-hook-form';
 import * as z from 'zod';
@@ -46,6 +46,10 @@ export function NewDeliveryModal(){
     } = useForm<NewDeliveryFormInputs>({
         resolver: zodResolver(newFormDeliverySchema)
     });
+
+    useEffect(() =>{
+        setRenderCreating(false);
+    },[])
 
     function LocationMarkerStart(){
         const map = useMapEvents({

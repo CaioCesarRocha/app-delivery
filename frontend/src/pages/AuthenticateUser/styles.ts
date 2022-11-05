@@ -21,7 +21,6 @@ export const DeliveryContent = styled.div`
     transform: translate(-50%, -50%);
     text-align: center;
 
-  
     h1{
         font-size: 32px;
     }
@@ -34,12 +33,13 @@ export const DeliveryContent = styled.div`
     }
 
     input{
-        width: 80%;
+        width: 100%;
         border-radius: 6px;
         border: 0;
         background: ${props => props.theme['gray-900']};
         color: ${props => props.theme['gray-300']};
         padding: 1rem;
+        text-align: start;
         
 
         &::placeholder{
