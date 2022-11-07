@@ -25,6 +25,7 @@ deliveryRoutes.get('/delivery',  async(req: Request, res: Response) =>{
 
 deliveryRoutes.get('/delivery/client', ensureAuthenticateClient, async(req: Request, res: Response) =>{
     const { id_client } = req;
+    //const page = parseInt(req.params.page);
     const listDeliverysClient = new ListDeliverysClientUseCase(deliveryRepo);
     const output = await listDeliverysClient.execute(id_client)
     res.status(200).json(output)

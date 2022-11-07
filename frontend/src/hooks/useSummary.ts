@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { DeliverysContext } from "../contexts/DeliveryContext";
 
 export function useSummary(){
-    const { deliverys} = useContext(DeliverysContext);
-    const summary = deliverys.reduce(
+    const { allDeliverys} = useContext(DeliverysContext);
+    const summary = allDeliverys.reduce(
         (acc, delivery ) => { 
             if(delivery.status === 'inprogress') { acc.inprogress++}
             if(delivery.status === 'closed') { 

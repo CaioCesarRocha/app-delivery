@@ -4,22 +4,22 @@ import useAuth from "../hooks/useAuth";
 import {IError} from '../services/utils/interfaces/error_interface';
 import api from "../services/connection/api";
 import { IInputCreateDelivery, IDelivery } from "../services/utils/interfaces/delivery";
-import { updatePropertyAssignment } from "typescript";
 
 
 interface DeliveryContextType{
+    allDeliverys: IDelivery[];
     cleanDeliverys: () => Promise<void>;
     createDelivery: (data: IInputCreateDelivery) => Promise<boolean>;
     deleteDelivery: (id: string) => Promise<boolean>
     deliverys: IDelivery[];
     error: IError;   
     filterDeliverys: (filter: string) => Promise<boolean>;
+    handlePagination: (numberPage: number, type: 'client' | 'deliveryman') => Promise<void>;
     getDeliverymanDeliverys: () => Promise<void>;
     getOneDelivery: (id: string) => Promise<IDelivery> 
     page: number;
     searchDeliverys:(search: string) => Promise<boolean>;
     updateDelivery: (id: string, delivery: IDelivery) => Promise<boolean>;
-    updatePage: (page: number) => Promise<void>;
 }
 
 interface DeliveryProviderProps{
@@ -30,16 +30,20 @@ export const DeliverysContext = createContext({} as DeliveryContextType)
 
 export function DeliveryProvider({children}: DeliveryProviderProps){ 
     const [deliverys, setDeliverys] = useState<IDelivery[]>([]);
+    const [allDeliverys, setAllDeliverys] = useState<IDelivery[]>([]);
+    const [availableDeliverys, setAvailableDeliverys] = useState<IDelivery[]>([]);
     const [emptyDelivery, setEmptyDelivery] = useState<IDelivery>({   
         id: "", id_client: "", id_deliveryman: "", name_item: "",
         size_item: "small", status: 'open', price: 0,
         startPosition: [0, 0], endPosition: [0, 0],
         created_at: new Date(), end_at: new Date()
     })
+    const [deliverymanDeliverys, setDeliverymanDeliverys] = useState<boolean>(false);
     const [error, setError] = useState<IError>({msg: '', active: false});
     const [page, setPage] = useState<number>(0)
     const { user } = useAuth();
     const localhost = "http://localhost:3000/delivery";
+    const maxNumberPerPage = 5;
 
     function setBearerToken(){
         let config = {
@@ -59,11 +63,14 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
     }
   
     async function getDeliverymanDeliverys(){
+        setDeliverymanDeliverys(true)
         await new Promise(resolve => setTimeout(resolve, 2000))// importante usar pra simular delay
         try{
             const config = setBearerToken(); 
-            const deliverys = await api.get(`${localhost}/deliveryman/${page}`, config);               
-            setDeliverys(deliverys.data);
+            const deliverys = await api.get(`${localhost}/deliveryman`, config);
+            setAllDeliverys(deliverys.data);
+            const showDeliverys: IDelivery[] = deliverys.data.slice(0, maxNumberPerPage)
+            setDeliverys(showDeliverys);                          
         }catch(err){
             if(err instanceof Error) setError({ msg: err.message, active: true});
         }       
@@ -159,12 +166,27 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
     }
 
     async function cleanDeliverys() {
+        setAllDeliverys([]);
+        setAvailableDeliverys([]);
         setDeliverys([]);
     }
 
-    async function updatePage(numberPage: number): Promise<void>{
+    async function handlePagination(numberPage: number, type: "client" | "deliveryman"): Promise<void>{     
+        const config = setBearerToken();  
         const newPage = page + numberPage;
-        setPage(newPage)
+        console.log('newPage', page)
+        setPage(newPage);
+        if(type === 'deliveryman' && !deliverymanDeliverys){
+            const deliverys = await api.get(`${localhost}/available/${newPage}`, config);             
+            setDeliverys(deliverys.data);  
+            const showDeliverys: IDelivery[] = [...availableDeliverys, ...deliverys.data] 
+            setAvailableDeliverys(showDeliverys)
+            console.log('lurei', deliverys.data)  
+        } else{
+            const showDeliverys: IDelivery[] = allDeliverys.slice(newPage, newPage + maxNumberPerPage)       
+            setDeliverys(showDeliverys);        
+        }
+        return;
     }
  
     useEffect(() =>{
@@ -173,26 +195,34 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             const config = setBearerToken();           
             try{                            
                 if(user.typeUser === 'client') {           
-                    const deliverys = await api.get(`${localhost}/client/${page}`, config);      
-                    setDeliverys(deliverys.data);
+                    const deliverys = await api.get(`${localhost}/client`, config);
+                    await setAllDeliverys(deliverys.data)
+                    const showDeliverys: IDelivery[] = deliverys.data.slice(0, maxNumberPerPage)
+                    setDeliverys(showDeliverys);                
                 }         
-                else if(user.typeUser === 'deliveryman'){            
-                    const deliverys = await api.get(`${localhost}/available/${page}`, config);             
-                    setDeliverys(deliverys.data);
+                if(user.typeUser === 'deliveryman') {
+                    setDeliverymanDeliverys(false);
+                    await handlePagination(0, "deliveryman")
                 }
+                
             }catch(err){
                 if(err instanceof Error) setError({ msg: err.message, active: true});                     
             } 
         }
         getDefaultDeliverys();
-    }, [user.typeUser, page]);
+    }, [user.typeUser]);
 
     useEffect(() =>{
         setPage(0);
+    },[allDeliverys.length]);
+
+    useEffect(() =>{
+        setDeliverymanDeliverys(false)
     },[]);
     
     return (
         <DeliverysContext.Provider value={{
+            allDeliverys,
             cleanDeliverys,
             createDelivery,
             deleteDelivery,
@@ -201,10 +231,10 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
             filterDeliverys,
             getDeliverymanDeliverys,
             getOneDelivery,
+            handlePagination,
             page,
             searchDeliverys,
             updateDelivery,
-            updatePage,
         }}>
             {children}
         </DeliverysContext.Provider>
