@@ -15,7 +15,7 @@ describe('Testing List Deliverys Available UseCase', ()=>{
         })
 
         const listDeliverysAvaliable = new ListAvailableDeliveryUseCase(repository)
-        const response = await listDeliverysAvaliable.execute();
+        const response = await listDeliverysAvaliable.execute(0);
 
         expect(response).toHaveLength(1);
         expect(response[0]).toStrictEqual({

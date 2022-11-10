@@ -128,8 +128,7 @@ export function NewDeliveryModal(){
 
     return(
         <Dialog.Portal>
-            <Alert theme='colored'/>
-            
+            <Alert theme='colored'/>            
             <Overlay/>
             <Content>
                 <CloseButton>

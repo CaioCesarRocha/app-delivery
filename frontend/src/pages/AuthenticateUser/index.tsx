@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import {useForm, Controller} from 'react-hook-form';
 import { z } from "zod";
 import {zodResolver} from '@hookform/resolvers/zod';
+import { toast} from 'react-toastify';
 import { User, LockKey, Truck} from 'phosphor-react';
 import { ContainerInput, DeliveryContainer, DeliveryContent, DeliveryType, DeliveryTypeButton } from "./styles";
+import Alert from '../../components/Alert';
 import { IUser} from '../../contexts/UserContext';
 import useAuth from '../../hooks/useAuth';
 
@@ -28,7 +30,7 @@ export function AuthenticateUser(){
     },[user, navigate])
 
     useEffect(() =>{
-        if(error.active) alert(`Error ${error.msg}`)
+        if(error.active) toast.error('Usuário ou Senha incorretos!');
     },[error])
 
     const { 
@@ -50,8 +52,8 @@ export function AuthenticateUser(){
                 await login(user)
             }
         } else{         
-            if(data.typeUser === undefined) {alert('Selecione um tipo do usuário'); return;}
-            if(data.password !== data.confirmPassword) {alert('Senhas diferentes!'); return;}
+            if(data.typeUser === undefined) {toast.info('Selecione o tipo de usuário'); return;}
+            if(data.password !== data.confirmPassword) {toast.error('Senhas diferentes!'); return;}
             const user: IUser = {username: data.username, password: data.password, typeUser: data.typeUser}
             await registerUser(user)
         }
@@ -119,6 +121,7 @@ export function AuthenticateUser(){
 
     return(
         <DeliveryContainer>
+            <Alert theme='colored'/>  
             <DeliveryContent>
                 <h1> {screen === 'Login' ? 'Login' : 'Cadastrar Usuário'}</h1>
                 <form onSubmit={handleSubmit(handleLogin)}>

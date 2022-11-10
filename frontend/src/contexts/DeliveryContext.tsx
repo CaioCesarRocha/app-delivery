@@ -202,9 +202,8 @@ export function DeliveryProvider({children}: DeliveryProviderProps){
                 }         
                 if(user.typeUser === 'deliveryman') {
                     setDeliverymanDeliverys(false);
-                    await handlePagination(0, "deliveryman")
-                }
-                
+                    await handlePagination(0, "deliveryman");
+                }               
             }catch(err){
                 if(err instanceof Error) setError({ msg: err.message, active: true});                     
             } 
