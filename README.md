@@ -13,8 +13,17 @@
 
 ## Projeto App Delivery
 
-### Descrição
-- Foi utilizado os conceitos do Clean Architeture separando as regras de negócio da aplicação dentro do @Core
+### Cursos utilizados para desenolvimento da Aplicação
+
+- Clean Architecture disponibilizado pela <img align="center" alt="Caio-Js" height="20" width="80" src="https://fullcycle.com.br/wp-content/themes/fullcycle/assets/images/site/logo-fullcycle.png">
+
+- Curso Backend de entregas disponilibizado pela <img align="center" alt="Caio-Js" height="25" width="80" src="https://embed.filekitcdn.com/e/tBsgk1B9duMKbVtFjcLnK8/6kwAbrCXdvYVzhXpMy5CCY/email">
+
+- Curso de consumos de API e Perfomance React JS disponilibizado pela <img align="center" alt="Caio-Js" height="25" width="80" src="https://embed.filekitcdn.com/e/tBsgk1B9duMKbVtFjcLnK8/6kwAbrCXdvYVzhXpMy5CCY/email">
+
+
+### Descrição API
+- Foi utilizado os conceitos do Clean Architecture separando as regras de negócio da aplicação dentro do @Core 
 
 - Foram criado duas api's utilizando as tecnologias NestJS e Express;
 
@@ -42,6 +51,27 @@
   
 </div><br>
 
+### Descrição Frontend
+- Foi desenvolvido uma plataforma web com base no curso Consumo de API e Performance com React JS disponibilizado pela Rocketseat;
+
+- Permite usuário cliente cadastrar as suas entregas e monitorar seu status, bem como o entregador selecionar as entregas disponíveis;
+
+- Utilização do UseContext para lidar com o estados das entregas bem como o Usuário logado.
+
+<div style="display: inline_block">
+  <img align="center" alt="Caio-Js" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
+  <img align="center" alt="Caio-Ts" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
+  <img align="center" alt="Caio-HTML" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
+  <img align="center" alt="Caio-React" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
+  
+  <img align="center" alt="Caio-React-Hooks" height="28" width="40" src="https://miro.medium.com/max/581/1*IUqLu4fox1-zw_kfxfgxOw.png">
+  <img align="center" alt="Caio-React-Leaflet" height="40" width="60" src="https://rosolutions.com.mx/blog/wp-content/uploads/2018/11/leafletjs-card.png">
+  <img align="center" alt="Caio-Axios" height="28" width="80" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png">
+  
+  <img align="center" alt="Caio-docker" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain-wordmark.svg" />
+
+</div><br>
+
 ### Outras tecnologias
 
 - Prisma para manipular as tabelas/migrations do banco
@@ -49,6 +79,14 @@
 - Insominia para testar as rotas da aplicação
 
 - DBeaver para visualizar/manipular os dados gerado nas tabelas do banco
+
+- Styled Components && RadixUI && PhosphorIcons para estilização do frontend e promover melhor interação para o usuário.
+
+- React Load Spinner para tela de carregamento e React Toastify para exibir alerts personalizados.
+
+- JS-Cookie para salvar os dados do usuário logado;
+
+- React-Hook-Form && Zod para criação e validação de formulários
 
 
 ## Como rodar a aplicação
