@@ -1,6 +1,5 @@
-
 export interface IError {
-    status?: number,
-    msg: String, 
-    active: boolean
+  status?: number
+  msg: String
+  active: boolean
 }

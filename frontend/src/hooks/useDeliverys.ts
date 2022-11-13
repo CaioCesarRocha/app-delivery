@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { DeliverysContext } from "../contexts/DeliveryContext";
+import { useContext } from 'react'
+import { DeliverysContext } from '../contexts/DeliveryContext'
 
-const useDeliverys= () => useContext(DeliverysContext)
+const useDeliverys = () => useContext(DeliverysContext)
 
-export default useDeliverys;
+export default useDeliverys

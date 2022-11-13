@@ -1,20 +1,21 @@
-import React from 'react';
-import { useRef } from 'react';
-import { ToastContainer,} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useRef } from 'react'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-
-interface propsSuccesAlert{
-    theme: 'light' | 'dark' | 'colored';
+interface propsSuccesAlert {
+  theme: 'light' | 'dark' | 'colored'
 }
 
-const Alert = React.forwardRef((props: propsSuccesAlert, ref) =>{
+const Alert = React.forwardRef((props: propsSuccesAlert, ref) => {
+  return (
+    <div>
+      <ToastContainer
+        autoClose={3000}
+        theme={props.theme}
+        position={'top-center'}
+      />
+    </div>
+  )
+})
 
-    return(
-        <div >    
-            <ToastContainer autoClose={3000}  theme={props.theme} position={'top-center'}/>
-        </div>      
-    )
-});
-
-export default Alert;
+export default Alert
