@@ -1,10 +1,10 @@
-import { CaretDoubleRight, CaretDoubleLeft } from 'phosphor-react'
-import useDeliverys from '../../../hooks/useDeliverys'
-import useAuth from '../../../hooks/useAuth'
-import { ButtonPage } from './styles'
+import { CaretDoubleRight, CaretDoubleLeft } from 'phosphor-react';
+import  useDeliverys from '../../../hooks/useDeliverys';
+import useAuth from '../../../hooks/useAuth';
+import { ButtonPage } from './styles';
 
 export function ButtonPagination() {
-  const { deliverys, page, handlePagination } = useDeliverys()
+  const {deliverys, page, handlePagination} = useDeliverys();
   const { user } = useAuth()
   const numberMaxDelivery = 5
 

@@ -21,6 +21,8 @@ import {
   ContentSearchingDelivery,
 } from './styles'
 import useDelivery from '../../hooks/useDeliverys'
+import { useContextSelector } from 'use-context-selector'
+import { DeliverysContext } from '../../contexts/DeliveryContext'
 
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -41,7 +43,9 @@ export function NewDeliveryModal() {
   const noOnePosition = 0
   const [renderCreating, setRenderCreating] = useState<boolean>(false)
   const [finished, setFinished] = useState<boolean>(false)
-  const { createDelivery } = useDelivery()
+  const createDelivery = useContextSelector(DeliverysContext, (context) =>{
+    return context.createDelivery
+  })
 
   const {
     control, // qdo nao for html nativo(ex: input), precisa usar o control pra pegar os valores

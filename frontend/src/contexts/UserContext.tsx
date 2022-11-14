@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState, useEffect } from 'react'
+import { createContext, ReactNode, useState, useEffect } from 'react';
 import Cookies from 'js-cookie'
 import api from '../services/connection/api'
 import { IError } from '../services/utils/interfaces/error_interface'

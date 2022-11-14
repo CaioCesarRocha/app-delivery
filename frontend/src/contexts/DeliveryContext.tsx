@@ -1,11 +1,9 @@
-import { createContext, ReactNode, useState, useEffect } from 'react'
+import {  ReactNode, useState, useEffect, useCallback} from 'react';
+import { createContext } from 'use-context-selector';
 import useAuth from '../hooks/useAuth'
 import { IError } from '../services/utils/interfaces/error_interface'
 import api from '../services/connection/api'
-import {
-  IInputCreateDelivery,
-  IDelivery,
-} from '../services/utils/interfaces/delivery'
+import {IInputCreateDelivery, IDelivery } from '../services/utils/interfaces/delivery'
 
 interface DeliveryContextType {
   allDeliverys: IDelivery[]
@@ -139,29 +137,31 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     }
   }
 
-  async function createDelivery(data: IInputCreateDelivery): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // importante usar pra simular delay
-    const { name_item, size_item, startPosition, endPosition } = data
-    const config = setBearerToken()
-    try {
-      const createdDelivery = await api.post(
-        url_localhost,
-        {
-          // CLEAN CODE \/
-          name_item,
-          size_item,
-          endPosition,
-          startPosition,
-        },
-        config,
-      )
-      setDeliverys((state) => [createdDelivery.data, ...state])
-      return true
-    } catch (err) {
-      if (err instanceof Error) setError({ msg: err.message, active: true })
-      return false
-    }
-  }
+  const createDelivery = useCallback(
+    async(data: IInputCreateDelivery): Promise<boolean> =>{
+      await new Promise((resolve) => setTimeout(resolve, 2000)) // importante usar pra simular delay
+      const { name_item, size_item, startPosition, endPosition } = data
+      const config = setBearerToken()
+      try {
+        const createdDelivery = await api.post(
+          url_localhost,
+          {  //CLEAN CODE \/
+            name_item,
+            size_item,
+            endPosition,
+            startPosition,
+          },
+          config,
+        )
+        setDeliverys((state) => [createdDelivery.data, ...state])
+        return true
+      } catch (err) {
+        if (err instanceof Error) setError({ msg: err.message, active: true })
+        return false
+      }
+    }, 
+    [],
+  )
 
   async function updateDelivery(
     id: string,
