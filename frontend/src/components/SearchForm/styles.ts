@@ -61,7 +61,7 @@ export const SearchFormContent = styled.form`
   }
 `
 
-export const FilterDeliveryButton = styled.button`
+export const OptionsButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.75rem;

@@ -1,18 +1,19 @@
 import { RotatingLines } from 'react-loader-spinner'
 import * as Dialog from '@radix-ui/react-dialog'
-import { MagnifyingGlass, FadersHorizontal } from 'phosphor-react'
+import { MagnifyingGlass, FadersHorizontal, ChartPieSlice } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   SearchFormContent,
-  FilterDeliveryButton,
+  OptionsButton,
   SearchFormContainer,
   ResponsiveSearchDiv,
   MsgLoading,
 } from './styles'
 import useDeliverys from '../../hooks/useDeliverys'
-import { FilterDeliveryModal } from '../FilterDeliveryModal'
+import { FilterDeliveryModal } from '../FilterDeliveryModal';
+import ChartDeliveryModal from '../ChartDeliveryModal';
 import { useState } from 'react'
 
 const searchFormSchema = z.object({
@@ -57,12 +58,23 @@ export function SearchForm() {
           <SearchFormContent>
             <Dialog.Root>
               <Dialog.Trigger asChild>
-                <FilterDeliveryButton>
+                <OptionsButton>
                   <FadersHorizontal size={20} />
                   Filtrar
-                </FilterDeliveryButton>
+                </OptionsButton>
               </Dialog.Trigger>
               <FilterDeliveryModal />
+            </Dialog.Root>
+          </SearchFormContent>
+          <SearchFormContent>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <OptionsButton>
+                  <ChartPieSlice size={20} />
+                  Status
+                </OptionsButton>
+              </Dialog.Trigger>
+              <ChartDeliveryModal />
             </Dialog.Root>
           </SearchFormContent>
         </ResponsiveSearchDiv>

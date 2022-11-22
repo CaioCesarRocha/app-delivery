@@ -18,4 +18,4 @@ const Alert = React.forwardRef((props: propsSuccesAlert, ref) => {
   )
 })
 
-export default Alert
+export default Alert;

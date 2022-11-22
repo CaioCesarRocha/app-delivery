@@ -50,5 +50,5 @@ clientsRoutes.delete('/client/:id',  async(req: Request, res: Response) =>{
     res.status(200).json(output)
 })
 
-export { clientsRoutes}
+export { clientsRoutes};
 

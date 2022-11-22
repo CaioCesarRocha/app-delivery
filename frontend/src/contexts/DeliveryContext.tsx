@@ -47,8 +47,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     created_at: new Date(),
     end_at: new Date(),
   })
-  const [deliverymanDeliverys, setDeliverymanDeliverys] =
-    useState<boolean>(false)
+  const [deliverymanDeliverys, setDeliverymanDeliverys] = useState<boolean>(false)
   const [error, setError] = useState<IError>({ msg: '', active: false })
   const [page, setPage] = useState<number>(0)
   const { user } = useAuth()

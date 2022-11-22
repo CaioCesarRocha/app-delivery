@@ -20,7 +20,6 @@ import {
   DeliveryTypeButton,
   ContentSearchingDelivery,
 } from './styles'
-import useDelivery from '../../hooks/useDeliverys'
 import { useContextSelector } from 'use-context-selector'
 import { DeliverysContext } from '../../contexts/DeliveryContext'
 
