@@ -1,21 +1,15 @@
-import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { useCharts } from "../../hooks/useCharts";
 import * as Dialog from '@radix-ui/react-dialog'
-import { Overlay, Content, CloseButton, Title, ContentChart , OptionChart, BallChart, CollumnChart} 
-  from './styles';
+import { Overlay, Content, CloseButton, Title, ContentChart , OptionChart, BallChart, CollumnChart, 
+  TitleInfo, ContentAverage} from './styles';
 import { X } from 'phosphor-react';
+import { priceFormatter } from "../../services/utils/formatter";
 
-const data = [
-  { name: "Group A", value: 400 },
-  { name: "Group B", value: 300 },
-  { name: "Group C", value: 300 },
-  { name: "Group D", value: 200 }
-];
 
-const COLORS = ["#08f7cb", "#0088FE", "#1d0366"];
-
+const COLORS = ["#55c7e0", "#0088FE", "#1d0366"];
 const RADIAN = Math.PI / 180;
+
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -42,49 +36,68 @@ const renderCustomizedLabel = ({
   );
 };
 export default function ChartDeliveryModal() {
-    const infoCharts = useCharts();
-    return (
-        <Dialog.Portal>
-            <Overlay />
-            <Content>
-                <CloseButton>
-                    <X size={24} />
-                </CloseButton>        
-                <Title>Status das Entregas</Title>
-                <ContentChart>
-                  <CollumnChart>
-                    <OptionChart>
-                      <BallChart variant="small"/>
-                      Entregas pequenas
-                    </OptionChart>
-                    <OptionChart>
-                      <BallChart variant="medium"/>
-                      Entregas médias
-                    </OptionChart>
-                    <OptionChart>
-                      <BallChart variant="large">aaaaaaaa</BallChart>
-                      Entregas grandes
-                    </OptionChart>
-                  </CollumnChart>
-                  <PieChart width={500} height={500}>
-                      <Pie
-                          data={infoCharts}
-                          cx={200}
-                          cy={200}
-                          labelLine={false}
-                          label={renderCustomizedLabel}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                      >
-                          {infoCharts.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                      </Pie>
-                  </PieChart>
-                </ContentChart>
-                </Content>
-        </Dialog.Portal>
-        
-    );
+  const infoCharts = useCharts();
+  return (
+    <Dialog.Portal>
+      <Overlay />
+      <Content>
+        <CloseButton>
+          <X size={24} />
+        </CloseButton>        
+        <Title>Status das Entregas</Title>
+        <ContentChart>
+          <CollumnChart>
+            <TitleInfo>Tipo</TitleInfo>
+            <OptionChart>
+              <BallChart variant="small"/>
+              Pequenas
+            </OptionChart>
+            <OptionChart>
+              <BallChart variant="medium"/>
+              Médias
+            </OptionChart>
+            <OptionChart>
+              <BallChart variant="large"/>
+              Grandes
+            </OptionChart>
+          </CollumnChart>
+          <CollumnChart>
+            <TitleInfo>Quantidade</TitleInfo>
+            <OptionChart>
+              <BallChart variant="small"/>
+              {infoCharts.data[0].value} entregas
+            </OptionChart>
+            <OptionChart>
+              <BallChart variant="medium"/>
+              {infoCharts.data[1].value} entregas
+            </OptionChart>
+            <OptionChart>
+              <BallChart variant="large"/>
+              {infoCharts.data[2].value} entregas
+            </OptionChart>
+          </CollumnChart>
+          <PieChart width={200} height={200}>
+            <Pie
+              data={infoCharts.data}
+              cx={100}
+              cy={100}
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={90}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {infoCharts.data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ContentChart>
+        <ContentAverage>
+          <p> Média de Preços </p>
+          {priceFormatter.format(infoCharts.average)}
+        </ContentAverage>  
+      </Content>
+    </Dialog.Portal>      
+  );
 }

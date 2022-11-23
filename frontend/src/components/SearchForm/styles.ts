@@ -9,7 +9,7 @@ export const SearchFormContainer = styled.main`
   margin-top: 20px;
   padding: 0 1.5rem;
 
-  @media (max-width: 481px) {
+  @media (max-width: 610px) {
     flex-direction: column;
     justify-content: space-around;
   }
@@ -92,7 +92,7 @@ export const ResponsiveSearchDiv = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: 481px) {
+  @media (max-width: 610px) {
     justify-content: space-around;
   }
 `

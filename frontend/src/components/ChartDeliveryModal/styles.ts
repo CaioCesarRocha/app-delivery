@@ -21,7 +21,11 @@ export const CloseButton = styled(Dialog.Close)`
 `
 
 export const Title = styled(Dialog.Title)`
-  font-size: 25px;
+  font-size: 35px;
+
+  @media (max-width: 481px) {
+    font-size: 20px;
+  }
 `
 export const Content = styled(Dialog.Content)`
   min-width: 35rem;
@@ -48,17 +52,37 @@ export const ContentChart = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  
 `
 export const OptionChart = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  margin-top: 5px;
+  font-size: 16px;
+
+  @media (max-width: 1200px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 481px) {
+    font-size: 10px;
+    flex-direction: column;
+  }
 `
 
 export const CollumnChart = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 18px;
+  font-size: 15px;
+`
 
+export const TitleInfo = styled.h2`
+  font-size: 20px;
+  text-align: center;
+  @media (max-width: 481px) {
+    font-size: 14px;
+  }
 `
 
 interface ballChartProps {
@@ -66,12 +90,40 @@ interface ballChartProps {
 }
 
 export const BallChart = styled.div<ballChartProps>`
-  width: 10px;
+  width: 30px;
   height: 10px;
-  border-radius: 50%;
+  border-radius: 5px;
   margin-right: 5px;
+  margin-top: 5px;
 
-  ${(props) => props.variant === 'small' && css` background: "#08f7cb"`}
-  ${(props) => props.variant === 'medium' && css` background: "#0088FE"`}
-  ${(props) => props.variant === 'large' && css` background: "#1d0366"`}
-`
+  @media (max-width: 481px) {
+    width: 45px;
+    height: 9px;
+  }
+
+  ${(props) => props.variant === 'small' && css` background-color: #08f7cb`};
+  ${(props) => props.variant === 'medium' && css` background-color: #0088FE`};
+  ${(props) => props.variant === 'large' && css` background-color: #1d0366`};
+`;
+
+export const ContentAverage = styled.div`
+  display: flex;
+  background-color: ${(props) => props.theme['gray-900']};
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: 50%;
+  @media (max-width: 481px) {
+    font-size: 12px;
+  }
+
+  p{
+    color: ${(props) => props.theme['gray-400']};
+    margin-right: 20px;
+    font-weight: bold;
+    @media (max-width: 481px) {
+      font-size: 12px;
+    }
+  } 
+`;
+
+
