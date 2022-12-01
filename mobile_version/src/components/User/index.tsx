@@ -7,9 +7,6 @@ interface propsUser{
 }
 
 export function User(props: propsUser) {
-
-    
-
     return (
         <View style={styles.container}>
             <Text style={styles.name}> 

@@ -3,6 +3,7 @@ import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { CaretLeft } from "phosphor-react-native";
 import { DataListProps } from ".";
+import { DeliveryCardProps } from "../../components/DeliveryCard";
 
 
 export const Container = styled.View`
@@ -82,16 +83,3 @@ export const Title = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
     margin-bottom: 16px;
 `;
-
-export const DeliverysList = styled(
-    FlatList as new() => FlatList<DataListProps>
-    ).attrs({
-        showsVerticalScrollIndicator: false,
-        contentContainerStyle: {
-            paddingBottom: 10
-        }
-    })`
-`
-
-
-  

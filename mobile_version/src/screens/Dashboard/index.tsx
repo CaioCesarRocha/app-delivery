@@ -1,4 +1,5 @@
 
+import { FlatList } from "react-native";
 import { HighLightCard } from "../../components/HighlightCard";
 import { DeliveryCard, DeliveryCardProps } from "../../components/DeliveryCard";
 import { 
@@ -12,7 +13,6 @@ import {
     UserName,
     Icon,
     HighLightCards,
-    DeliverysList,
     Deliverys,
     Title
  } from "./styles"
@@ -93,13 +93,18 @@ export function Dashboard(){
             
             <Deliverys>
                 <Title>Listagem</Title>
-                <DeliverysList
-                    data={ data}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => <DeliveryCard data={item} /> }                  
+                <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <DeliveryCard data={item} />
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{
+                        paddingBottom: 10,
+                    }}
                 />
-            </Deliverys>
-            
+            </Deliverys>    
         </Container>
     )
 }
