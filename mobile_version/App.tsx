@@ -7,10 +7,9 @@ import {
   Roboto_500Medium, 
   Roboto_700Bold
 } from '@expo-google-fonts/roboto';
-import { Home } from "./src/screens/Home";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppRoutes } from "./src/routes/app.routes";
 import { Loading } from "./src/components/Loading";
-import { Dashboard } from "./src/screens/Dashboard";
-import { Register } from "./src/screens/Register";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ 
@@ -28,7 +27,9 @@ export default function App() {
             backgroundColor="transparent"
             translucent
           />
-          <Dashboard/>
+          <NavigationContainer>
+            <AppRoutes/>
+          </NavigationContainer>        
         </>
       :       
         <Loading/>

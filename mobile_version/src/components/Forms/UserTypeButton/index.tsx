@@ -1,13 +1,15 @@
-import {TouchableOpacityProps} from 'react-native'
+import { RectButtonProps} from 'react-native-gesture-handler'
 import { 
     Container,
+    Button,
     UserIcon,
     DeliveryIcon,
-    Title
+    Title,
+    
  } from "./styles";
 
 
-interface Props extends TouchableOpacityProps{
+interface Props extends RectButtonProps{
     title: string,
     type: 'client' | 'deliveryman';
     isActive: boolean
@@ -20,15 +22,18 @@ export function UserTypeButton({
     ...rest
 }: Props){
     return(
-        <Container 
-            {...rest} 
+        <Container   
             isActive={isActive}
             type={type}
         >
-            {type === 'client' ? <UserIcon/> : <DeliveryIcon/>}
-            <Title>
-                {title}
-            </Title>
+            <Button  
+                {...rest} 
+            >
+                {type === 'client' ? <UserIcon/> : <DeliveryIcon/>}
+                <Title>
+                    {title}
+                </Title>
+            </Button>
         </Container>
     )
 }
