@@ -1,4 +1,9 @@
 import { FlatList } from "react-native";
+import { 
+    ArrowCircleUp, 
+    ArrowCircleDown,
+    CurrencyDollar, 
+} from 'phosphor-react-native'
 import { HighLightCard } from "../../components/HighlightCard";
 import { DeliveryCard, DeliveryCardProps } from "../../components/DeliveryCard";
 import { 
@@ -17,17 +22,15 @@ import {
     Title
  } from "./styles"
 import logo_appdelivery from '../../../assets/logo_appdelivery.png';
-import { 
-    ArrowCircleUp, 
-    ArrowCircleDown,
-    CurrencyDollar, 
-} from 'phosphor-react-native'
+import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends DeliveryCardProps{
     id: string;
 }
 
 export function Dashboard(){
+    const {Logout, user } = useAuth();
+    
     const data: DataListProps[] = [
         {   
             id: '1',
@@ -71,11 +74,11 @@ export function Dashboard(){
                         <Logo source={logo_appdelivery}/>
                         <User>
                             <UserGreeting> Olá, </UserGreeting>
-                            <UserName> Caioba</UserName>
+                            <UserName>{user.username} </UserName>
                         </User>
                     </UserInfo>
                 </UserWrapper>
-                <LogoutButton onPress={() => {console.log('DESLOGOU')}}>
+                <LogoutButton onPress={Logout}>
                     <LogoutIcon />
                 </LogoutButton>
             </Header>

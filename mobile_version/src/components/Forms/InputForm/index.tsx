@@ -6,7 +6,7 @@ import { Container, Error } from "./styles";
 
 interface Props extends TextInputProps{
     control: Control<any, object>;
-    name: "username" | "password";
+    name: "username" | "password" | "confirmPassword";
     error?: any;
     typePassword?: boolean;
 }

@@ -2,7 +2,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlatList } from "react-native";
 import { BorderlessButton} from 'react-native-gesture-handler';
 import styled from "styled-components/native";
-import { SignOut} from "phosphor-react-native";
+import { Power} from "phosphor-react-native";
 import { DataListProps } from ".";
 import { DeliveryCardProps } from "../../components/DeliveryCard";
 
@@ -53,7 +53,7 @@ export const UserName = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.BOLD};
 `;
 
-export const LogoutIcon = styled(SignOut).attrs(({theme}) => ({
+export const LogoutIcon = styled(Power).attrs(({theme}) => ({
     size: 36,
     color: theme.COLORS.RED
 }))`
@@ -75,8 +75,8 @@ export const HighLightCards = styled.ScrollView.attrs({
 export const Deliverys = styled.View`
     flex: 1%;
     padding: 0 24px;
-    margin-top: ${RFPercentage(12)}px;
-    margin-bottom: ${RFPercentage(4)}px;
+    margin-top: ${RFPercentage(10)}px;
+    margin-bottom: ${RFPercentage(3.3)}px;
 `;
 
 export const Title = styled.Text`

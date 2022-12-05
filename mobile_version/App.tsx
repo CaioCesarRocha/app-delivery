@@ -9,7 +9,10 @@ import {
 } from '@expo-google-fonts/roboto';
 import { NavigationContainer } from "@react-navigation/native";
 import { AppRoutes } from "./src/routes/app.routes";
+import { Routes } from "./src/routes";
+import { AuthProvider } from "./src/hooks/auth";
 import { Loading } from "./src/components/Loading";
+import { Authentication } from "./src/screens/Authentication";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ 
@@ -27,9 +30,9 @@ export default function App() {
             backgroundColor="transparent"
             translucent
           />
-          <NavigationContainer>
-            <AppRoutes/>
-          </NavigationContainer>        
+          <AuthProvider>
+            <Routes/>
+          </AuthProvider>     
         </>
       :       
         <Loading/>

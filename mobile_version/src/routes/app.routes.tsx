@@ -6,7 +6,7 @@ import {
     UserFocus
 } from 'phosphor-react-native'
 import { Dashboard } from '../screens/Dashboard';
-import { Register } from '../screens/Register';
+import { Authentication} from '../screens/Authentication';
 
 const { Navigator, Screen} = createBottomTabNavigator();
 
@@ -36,7 +36,7 @@ export function AppRoutes(){
             />
             <Screen
                 name="Resumo"
-                component={Register}
+                component={Authentication}
                 options={{
                     tabBarIcon: (({size, color}) =>
                         <UserFocus size={size} color={color}/>
