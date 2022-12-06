@@ -8,11 +8,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from '../services/Connection/api'
 
-interface AuthProviderProps{
-    children: ReactNode
-}
 
-interface User{
+interface IUser{
     id?: string,
     username: string;
     password: string;
@@ -20,7 +17,7 @@ interface User{
     token?: string;
 }
 
-interface AuthorizationReponse{
+interface IAuthorizationReponse{
     data: {
         token: string;
         id: string;
@@ -28,15 +25,19 @@ interface AuthorizationReponse{
 }
 
 interface AuthContextData{
-    Login: (user: User) => Promise<void>
+    Login: (user: IUser) => Promise<void>
     Logout: () => Promise<void>
-    user: User;
+    user: IUser;
+}
+
+interface AuthProviderProps{
+    children: ReactNode
 }
 
 export const AuthContext = createContext({} as AuthContextData)
 
 function AuthProvider({children}: AuthProviderProps){
-    const [user, setUser] = useState<User>({} as User);
+    const [user, setUser] = useState<IUser>({} as IUser);
     const [userStorageLoading, setUserStorageLoading] = useState<boolean>(true)
 
     const userStorageKey = '@app-delivery:user';
@@ -45,7 +46,7 @@ function AuthProvider({children}: AuthProviderProps){
         async function loadUserStorageData(){
             const userStoraged = await AsyncStorage.getItem(userStorageKey);
             if(userStoraged){
-                const userLogged = JSON.parse(userStoraged) as User;
+                const userLogged = JSON.parse(userStoraged) as IUser;
                 console.log('user', userLogged)
                 setUser(userLogged)
             }
@@ -54,11 +55,11 @@ function AuthProvider({children}: AuthProviderProps){
         loadUserStorageData();
     }, [])
 
-    async function Login(user: User){
+    async function Login(user: IUser){
         await new Promise((resolve) => setTimeout(resolve, 2000))
         try{
             const {data: {token, id}} = await api
-            .post(`/authenticate/${user.typeUser}`, user) as AuthorizationReponse            
+            .post(`/authenticate/${user.typeUser}`, user) as IAuthorizationReponse            
             if(token) {
                 const userLogged = {
                     id,
@@ -72,13 +73,13 @@ function AuthProvider({children}: AuthProviderProps){
                 await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
             }
         }catch(err){     
-           if(err instanceof Error)
+            if(err instanceof Error)
                 throw new Error(err.message)
         }
     }
 
     async function Logout(){
-        setUser({} as User);
+        setUser({} as IUser);
         await AsyncStorage.removeItem(userStorageKey)
     }
 

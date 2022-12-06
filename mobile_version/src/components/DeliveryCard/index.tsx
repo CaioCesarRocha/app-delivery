@@ -1,3 +1,10 @@
+import { IDelivery } from "../../services/interfaces/deliveryInterfaces";
+import { 
+    dateFormatter, 
+    statusFormatter, 
+    priceFormatter 
+} from "../../services/utils/formatter";
+
 import { 
     Container,
     Header,
@@ -12,16 +19,8 @@ import {
     DateDelivery
  } from "./styles";
 
-export interface DeliveryCardProps{   
-    status: 'open'| 'closed'| 'inprogress'
-    type: 'small' | 'medium' | 'large'
-    title: string,
-    amount: number,
-    dateDelivery: string  
-}
-
 export interface Props{
-    data: DeliveryCardProps
+    data: IDelivery
 }
 
 export function DeliveryCard({ data} : Props ){
@@ -30,22 +29,22 @@ export function DeliveryCard({ data} : Props ){
             <Header>
                 <HeaderPrimary>
                     <Title>
-                        {data.title}
+                        {data.name_item}
                     </Title>
                     <Amount> 
-                        {data.amount}
+                        {priceFormatter.format(data.price)}
                     </Amount>
                 </HeaderPrimary>
-                {data.type === 'small' && <SmallIcon/>}
-                {data.type === 'medium' && <MediumIcon/>}
-                {data.type === 'large' && <LargeIcon/>}
+                {data.size_item === 'small' && <SmallIcon/>}
+                {data.size_item === 'medium' && <MediumIcon/>}
+                {data.size_item === 'large' && <LargeIcon/>}
             </Header>
             <Footer>
                 <Status variant={data.status}>
-                    {data.status}
+                    {statusFormatter(data.status)}
                 </Status>
                 <DateDelivery>
-                    {data.dateDelivery}
+                    {dateFormatter.format(new Date(data.created_at))}
                 </DateDelivery>
             </Footer>        
         </Container>

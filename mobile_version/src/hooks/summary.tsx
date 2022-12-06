@@ -1,14 +1,18 @@
 import { useContextSelector } from 'use-context-selector';
-import { useMemo } from 'react'
-import { DeliverysContext } from '../contexts/DeliveryContext'
+import { useMemo } from 'react';
+import { useDelivery, DeliveryContext } from './delivery'
+
 
 export function useSummary() {
-  const  allDeliverys  = useContextSelector(DeliverysContext, (context) => {
-    return context.allDeliverys
-  })
+  /*const  deliverys  = useContextSelector(DeliveryContext, (context) => {
+    return context.deliverys
+  })*/
+
+  const { deliverys } = useDelivery();
+  
   //utilizando useMemo para evitar q essa variável seja recriada na memoria sem ter mudado
-  const summary = useMemo(() =>{ 
-    return allDeliverys.reduce(
+  const summary = useMemo(() =>{  
+    return deliverys.reduce(
       (acc, delivery) => {
         if (delivery.status === 'inprogress') {
           acc.inprogress++
@@ -21,7 +25,7 @@ export function useSummary() {
       },
       { inprogress: 0, closed: 0, total: 0 },
     )
-  }, [allDeliverys])
+  }, [deliverys])
 
   return summary
 }

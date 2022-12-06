@@ -3,9 +3,6 @@ import { FlatList } from "react-native";
 import { BorderlessButton} from 'react-native-gesture-handler';
 import styled from "styled-components/native";
 import { Power} from "phosphor-react-native";
-import { DataListProps } from ".";
-import { DeliveryCardProps } from "../../components/DeliveryCard";
-
 
 export const Container = styled.View`
     flex: 1;
@@ -84,3 +81,9 @@ export const Title = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
     margin-bottom: 16px;
 `;
+
+export const LoadContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`

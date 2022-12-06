@@ -30,6 +30,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
+    "use-context-selector": "^1.4.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

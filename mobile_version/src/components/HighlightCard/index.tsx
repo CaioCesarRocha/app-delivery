@@ -13,22 +13,23 @@ import {
 interface propsHighLightCard{
     title: string,
     icon: any,
-    type: 'inprogress' | 'closed' | 'total'
+    status: 'inprogress' | 'closed' | 'total',
+    amount: number,
 }
 
 export function HighLightCard(props: propsHighLightCard){
     return(
-        <Container variant={props.type}>
+        <Container status={props.status}>
             <Header>
-                <Title variant={props.type}>
+                <Title status={props.status}>
                     {props.title}
                 </Title>
-                {props.type === 'inprogress' && <InprogressIcon/>}
-                {props.type === 'closed' && <ClosedIcon/>}
-                {props.type === 'total' && <TotalIcon/>}
+                {props.status === 'inprogress' && <InprogressIcon/>}
+                {props.status === 'closed' && <ClosedIcon/>}
+                {props.status === 'total' && <TotalIcon/>}
             </Header>
             <Footer>
-                <Amount> 1.500,00</Amount>
+                <Amount> {props.amount} </Amount>
                 <LastDelivery>Última entrega dia 16 de novembro</LastDelivery>
             </Footer>
         </Container>

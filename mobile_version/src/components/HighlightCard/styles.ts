@@ -3,7 +3,7 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { ArrowCircleUp, ArrowCircleDown, CurrencyDollar} from 'phosphor-react-native';
 
 interface ContainerProps{
-    variant: 'inprogress' | 'closed' | 'total'
+    status: 'inprogress' | 'closed' | 'total'
 }
 
 export const Container = styled.View<ContainerProps>`
@@ -15,7 +15,7 @@ export const Container = styled.View<ContainerProps>`
     margin-right: 16px;
 
     ${(props) =>
-    props.variant === 'total' &&
+    props.status === 'total' &&
     css`
       background-color: ${({theme}) => theme.COLORS.GREEN_700};
     `}
@@ -27,7 +27,7 @@ export const Header = styled.View`
 `;
 
 interface TitleProps{
-    variant: 'inprogress' | 'closed' | 'total'
+    status: 'inprogress' | 'closed' | 'total'
 }
 
 export const Title = styled.Text<TitleProps>`
@@ -36,13 +36,13 @@ export const Title = styled.Text<TitleProps>`
     color: ${({theme}) => theme.COLORS.GRAY_200};
 
     ${(props) =>
-    props.variant === 'inprogress' &&
+    props.status === 'inprogress' &&
     css`
       color: ${({theme}) => theme.COLORS.GREEN_500};
     `}
 
     ${(props) =>
-    props.variant === 'closed' &&
+    props.status === 'closed' &&
     css`
       color: ${({theme}) => theme.COLORS.RED};
     `}

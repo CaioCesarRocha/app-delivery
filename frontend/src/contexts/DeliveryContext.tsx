@@ -219,8 +219,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     type: 'client' | 'deliveryman',
   ): Promise<void> {
     const config = setBearerToken()
-    const newPage = page + numberPage
-    console.log('newPage', page)
+    const newPage = page + numberPage;
     setPage(newPage)
     if (type === 'deliveryman' && !deliverymanDeliverys) {
       const deliverys = await api.get(

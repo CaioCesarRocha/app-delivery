@@ -7,12 +7,10 @@ import {
   Roboto_500Medium, 
   Roboto_700Bold
 } from '@expo-google-fonts/roboto';
-import { NavigationContainer } from "@react-navigation/native";
-import { AppRoutes } from "./src/routes/app.routes";
 import { Routes } from "./src/routes";
 import { AuthProvider } from "./src/hooks/auth";
+import { DeliveryProvider } from "./src/hooks/delivery";
 import { Loading } from "./src/components/Loading";
-import { Authentication } from "./src/screens/Authentication";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ 
@@ -31,7 +29,9 @@ export default function App() {
             translucent
           />
           <AuthProvider>
-            <Routes/>
+            <DeliveryProvider>
+              <Routes/>
+            </DeliveryProvider>
           </AuthProvider>     
         </>
       :       

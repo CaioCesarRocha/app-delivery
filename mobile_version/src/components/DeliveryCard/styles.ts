@@ -3,7 +3,7 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { X, Bicycle, Truck, Jeep, CheckCircle } from 'phosphor-react-native'
 
 export const Container = styled.View`
-    background-color: ${({theme}) => theme.COLORS.GRAY_500};
+    background-color: ${({theme}) => theme.COLORS.GRAY_600};
     border-radius: 5px;
     padding: 17px 24px; 
     margin-bottom: ${RFPercentage(1)}px;
@@ -34,14 +34,15 @@ export const LargeIcon = styled(Truck).attrs(({theme}) => ({
 }))``;
 
 export const Title = styled.Text`
-    font-size: ${RFValue(14)}px;
-    color: ${({theme}) => theme.COLORS.GRAY_200};
+    font-size: ${RFValue(16)}px;
+    font-family: ${({theme}) => theme.FONT_FAMILY.REGULAR};
+    color: ${({theme}) => theme.COLORS.GRAY_300};
 `;
 
 export const Amount = styled.Text`
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(16)}px;
     font-family: ${({theme}) => theme.FONT_FAMILY.REGULAR};
-    color: ${({theme}) => theme.COLORS.GRAY_200};
+    color: ${({theme}) => theme.COLORS.GRAY_100};
     margin-top: 2px;
 `;
 
@@ -57,9 +58,9 @@ interface StatusProps{
 }
 
 export const Status = styled.Text<StatusProps>`
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(18)}px;
     margin-left: 17px;
-    color: ${({theme}) => theme.COLORS.GRAY_200};
+    color: ${({theme}) => theme.COLORS.GRAY_100};
 
     ${(props) =>
     props.variant === 'closed' &&
