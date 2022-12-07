@@ -7,23 +7,13 @@ export const Container = styled.View`
     background-color: ${({theme}) => theme.COLORS.GRAY_500};
 `;
 
-interface propsHeader{
-    screen: 'login' | 'register'
-}
-
-export const Header = styled.View<propsHeader>`
+export const Header = styled.View`
     background-color: ${({theme}) => theme.COLORS.GRAY_700};
     width: 100%;
     height: 55%;
     align-items: center;
     justify-content: flex-end;
     padding-bottom: 40px;
-
-    ${(props) =>
-    props.screen === 'login' &&
-    css`
-      height: 55%;
-    `}
 `
 
 export const TitleWrapper = styled.View`

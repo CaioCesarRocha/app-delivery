@@ -1,3 +1,5 @@
+import { priceFormatter,dateMonthExtense } from "../../services/utils/formatter";
+import { useSummary } from "../../hooks/summary";
 import { 
     Container,
     Header,
@@ -8,7 +10,8 @@ import {
     Footer,
     Amount,
     LastDelivery
- } from "./styles";
+} from "./styles";
+
 
 interface propsHighLightCard{
     title: string,
@@ -18,6 +21,8 @@ interface propsHighLightCard{
 }
 
 export function HighLightCard(props: propsHighLightCard){
+    const summary = useSummary();
+
     return(
         <Container status={props.status}>
             <Header>
@@ -28,9 +33,40 @@ export function HighLightCard(props: propsHighLightCard){
                 {props.status === 'closed' && <ClosedIcon/>}
                 {props.status === 'total' && <TotalIcon/>}
             </Header>
-            <Footer>
-                <Amount> {props.amount} </Amount>
-                <LastDelivery>Última entrega dia 16 de novembro</LastDelivery>
+            <Footer>         
+                { props.status === 'inprogress' && 
+                     <>
+                        <Amount> {props.amount} </Amount>  
+                        <LastDelivery>
+                            Última entrega {''}
+                            {new Date(summary.lastDelivery).getDate()} {''}
+                            de {''}
+                            {dateMonthExtense(summary.lastDelivery)}
+                        </LastDelivery> 
+                    </>   
+                }
+                { props.status === 'closed' &&
+                    <>
+                        <Amount> {props.amount} </Amount>  
+                        <LastDelivery>
+                            Última entrega {''}
+                            {new Date(summary.lastDelivery).getDate()} {''}
+                            de {''}
+                            {dateMonthExtense(summary.lastDelivery)}
+                        </LastDelivery> 
+                    </>    
+                }
+                { props.status === 'total' &&
+                    <>
+                        <Amount> {priceFormatter.format(props.amount)} </Amount> 
+                        <LastDelivery>
+                            Do dia 1 a {''}
+                            {new Date(summary.lastDelivery).getDate()}  {''} 
+                            de {''}
+                            {dateMonthExtense(summary.lastDelivery)}
+                        </LastDelivery> 
+                    </>
+                }                                                                          
             </Footer>
         </Container>
     )

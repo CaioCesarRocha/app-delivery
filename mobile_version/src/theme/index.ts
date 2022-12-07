@@ -14,7 +14,11 @@ export default {
       GRAY_400: '#323238',
       GRAY_300: '#7C7C8A',
       GRAY_200: '#C4C4CC',
-      GRAY_100: '#E1E1E6'
+      GRAY_100: '#E1E1E6',
+
+      GRAPH_SMALL: '#e89258',
+      GRAPH_MEDIUM: '#3784a6',
+      GRAPH_LARGE: '#94131e',
     },
     FONT_FAMILY: {
       REGULAR: 'Roboto_400Regular',

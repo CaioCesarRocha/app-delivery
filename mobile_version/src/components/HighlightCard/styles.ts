@@ -11,7 +11,7 @@ export const Container = styled.View<ContainerProps>`
     width: ${RFValue(260)}px;
     border-radius: 5px;
     padding: 19px 23px;
-    padding-bottom: ${RFValue(42)}px;
+    padding-bottom: ${RFValue(20)}px;
     margin-right: 16px;
 
     ${(props) =>
@@ -32,7 +32,7 @@ interface TitleProps{
 
 export const Title = styled.Text<TitleProps>`
     font-family: ${({theme}) => theme.FONT_FAMILY.REGULAR};
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(18)}px;
     color: ${({theme}) => theme.COLORS.GRAY_200};
 
     ${(props) =>
@@ -64,7 +64,8 @@ export const TotalIcon = styled(CurrencyDollar).attrs(({theme}) => ({
 }))``;
 
 export const Footer = styled.View`
-
+    height: 140px;
+    justify-content: space-between;
 `;
 
 export const Amount = styled.Text`
@@ -72,10 +73,12 @@ export const Amount = styled.Text`
     font-size: ${RFValue(32)}px;
     color: ${({theme}) => theme.COLORS.GRAY_200};
     margin-top: 38px;
+    text-align: center;
 `;
 
 export const LastDelivery = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.REGULAR};
-    font-size: ${RFValue(12)}px;
+    font-size: ${RFValue(14)}px;
     color: ${({theme}) => theme.COLORS.GRAY_100};
+    text-align: center;
 `;

@@ -64,6 +64,10 @@ export class Delivery{
         this.props.status = status;
     }
 
+    updateEndAt(newEndDate: Date){
+        this.props.end_at = newEndDate;
+    }
+
     private set name_item(name_item: string){
         this.props.name_item = name_item;
     }
@@ -102,6 +106,14 @@ export class Delivery{
 
     get status(){ 
         return this.props.status;
+    }
+
+    private set end_at (value: Date){ 
+        this.props.end_at= value;  
+    }
+
+    get end_at(){ 
+        return this.props.end_at;
     }
 
     toJSON(){

@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTheme } from 'styled-components/native';
 import { 
     ListChecks, 
-    UserFocus
+    ChartPieSlice
 } from 'phosphor-react-native'
 import { Dashboard } from '../screens/Dashboard';
-import { Authentication} from '../screens/Authentication';
+import { Resume } from '../screens/Resume';
 
 const { Navigator, Screen} = createBottomTabNavigator();
 
@@ -22,6 +22,7 @@ export function AppRoutes(){
                 tabBarStyle:{
                     height: 88,
                     paddingVertical: Platform.OS === 'ios' ? 20 : 0,
+                    backgroundColor: theme.COLORS.GRAY_700
                 }
             }}
         >
@@ -36,10 +37,10 @@ export function AppRoutes(){
             />
             <Screen
                 name="Resumo"
-                component={Authentication}
+                component={Resume}
                 options={{
                     tabBarIcon: (({size, color}) =>
-                        <UserFocus size={size} color={color}/>
+                        <ChartPieSlice size={size} color={color}/>
                     )
                 }}
             />

@@ -85,9 +85,7 @@ export function Authentication(){
     return(
        // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <Container>
-                <Header 
-                    screen={screen}
-                >
+                <Header>
                     <TitleWrapper>
                         <Logo source={logo_appdelivery}/>
                         <Title>

@@ -6,7 +6,8 @@ export class UpdateDeliveryUseCase{
 
     async execute(id: string, input: UpdateDeliveryInput): Promise<UpdateDeliveryOutput>{
         const delivery = Delivery.create(input, id);
-        const deliveryUpdated = await this.deliveryRepo.update(id, delivery)
+        if(delivery.status === 'closed') delivery.updateEndAt(new Date())
+        const deliveryUpdated = await this.deliveryRepo.update(id, delivery)    
         return deliveryUpdated.toJSON();
     }
 }
