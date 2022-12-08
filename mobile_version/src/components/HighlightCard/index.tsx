@@ -15,7 +15,6 @@ import {
 
 interface propsHighLightCard{
     title: string,
-    icon: any,
     status: 'inprogress' | 'closed' | 'total',
     amount: number,
 }

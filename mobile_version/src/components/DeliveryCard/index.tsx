@@ -19,13 +19,16 @@ import {
     DateDelivery
  } from "./styles";
 
+
+ 
 export interface Props{
     data: IDelivery
+    onPress: () => void;
 }
 
-export function DeliveryCard({ data} : Props ){
+export function DeliveryCard({ data, onPress} : Props ){
     return(
-        <Container>
+        <Container onPress={onPress}>
             <Header>
                 <HeaderPrimary>
                     <Title>

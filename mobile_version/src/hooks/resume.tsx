@@ -4,11 +4,17 @@ import { useDelivery } from './delivery'
 
 export function useResume() {
   const { COLORS } = useTheme();
-  const { deliverys} = useDelivery();
+  const { deliverys, dateFilter } = useDelivery();
   //utilizando useMemo para evitar q essa variável seja recriada na memoria sem ter mudado
   const resume = useMemo(() =>{ 
     return deliverys.reduce(
       (acc, delivery) => {
+        if(
+          new Date(delivery.created_at).getMonth() !== dateFilter.getMonth() ||
+          new Date(delivery.created_at).getFullYear() !== dateFilter.getFullYear()
+        )
+          return acc;
+
         if(delivery.size_item === 'small') acc.small++;
         if(delivery.size_item === 'medium') acc.medium++;
         if(delivery.size_item === 'large') acc.large++;
@@ -23,7 +29,7 @@ export function useResume() {
       },
       { small: 0, medium: 0, large: 0, totalPrices: 0, average: 0},
     )
-  }, [deliverys])
+  }, [deliverys, dateFilter])
 
   return { 
     data : [
@@ -44,7 +50,7 @@ export function useResume() {
       },   
     ],
     average: resume.average,
-
+    totalPrices: resume.totalPrices
   } 
 }
 

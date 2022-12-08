@@ -1,4 +1,4 @@
-import { FlatList, ActivityIndicator } from "react-native";
+import { FlatList, ActivityIndicator, Modal } from "react-native";
 import { useEffect, useState, useCallback } from "react";
 import { useTheme } from "styled-components/native";
 import { useFocusEffect } from "@react-navigation/native";
@@ -9,6 +9,7 @@ import {
 } from 'phosphor-react-native'
 import { HighLightCard } from "../../components/HighlightCard";
 import { DeliveryCard } from "../../components/DeliveryCard";
+import { ShowDelivery } from "../ShowDelivery";
 import logo_appdelivery from '../../../assets/logo_appdelivery.png';
 import { IDelivery } from "../../services/interfaces/deliveryInterfaces";
 import { 
@@ -35,6 +36,8 @@ import { useSummary } from "../../hooks/summary";
 export function Dashboard(){
     const [ dataDeliverys, setDataDeliverys] = useState<IDelivery[]>([])
     const [isLoading, setIsLoading] = useState(true);
+    const [showDeliveryModalOpen, setShowDeliveryModalOpen] = useState(false);
+    const [selectedDelivery, setSelectedDelivery] = useState({} as IDelivery)
     const {COLORS} = useTheme();
     const {Logout, user } = useAuth();
     const summary = useSummary()
@@ -53,10 +56,6 @@ export function Dashboard(){
         await ListAllDeliverys();
     }
 
-    useEffect(() =>{
-        loadDeliverys();
-    }, [])
-
     useFocusEffect(useCallback(() =>{ //recarregar qdo navegar dps de um insert por exemplo.
         loadDeliverys();
     }, []));
@@ -64,6 +63,15 @@ export function Dashboard(){
     async function handleLogout(){
         await Logout();
         await CleanDeliverys();
+    }
+
+    async function handleDeliverySelected(delivery: IDelivery){
+        setSelectedDelivery(delivery)
+        setShowDeliveryModalOpen(true)
+    }
+
+    async function handleCloseModal(){
+        setShowDeliveryModalOpen(false)
     }
 
     return(
@@ -93,20 +101,17 @@ export function Dashboard(){
                     </Header>
                     <HighLightCards>
                         <HighLightCard
-                            title="Em andamento"
-                            icon={<ArrowCircleUp />}
+                            title="Em andamento"                           
                             status="inprogress"
                             amount={summary.inprogress}
                         />
                         <HighLightCard
-                            title="Finalizadas"
-                            icon={<ArrowCircleDown />}
+                            title="Finalizadas"                  
                             status="closed"
                             amount={summary.closed}
                         />
                         <HighLightCard
-                            title="Total"
-                            icon={<CurrencyDollar  />}
+                            title="Total"         
                             status="total"
                             amount={summary.total}
                         />
@@ -114,10 +119,13 @@ export function Dashboard(){
                     <Deliverys>
                         <Title>Listagem</Title>
                         <FlatList
-                            data={deliverys}
+                            data={dataDeliverys}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
-                                <DeliveryCard data={item} />
+                                <DeliveryCard 
+                                    data={item} 
+                                    onPress={() =>handleDeliverySelected(item)}
+                                />
                             )}
                             showsVerticalScrollIndicator={false}
                             contentContainerStyle={{
@@ -126,7 +134,13 @@ export function Dashboard(){
                         />
                     </Deliverys>                
                 </>
-            }           
+            }
+            <Modal visible={showDeliveryModalOpen}>
+                <ShowDelivery
+                    deliverySelected={selectedDelivery}
+                    closeModalDelivery={() => handleCloseModal()}
+                />
+            </Modal>           
         </Container>
     )
 }

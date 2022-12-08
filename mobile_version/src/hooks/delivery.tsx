@@ -1,3 +1,4 @@
+import {addMonths, subMonths } from 'date-fns';
 import {
     createContext,
     useContext,
@@ -12,7 +13,9 @@ import {IDelivery} from '../services/interfaces/deliveryInterfaces';
 interface DeliveryContextData{
     ListAllDeliverys: () => Promise<void>,
     CleanDeliverys: () => Promise<void>,
-    deliverys: IDelivery[]
+    ChangeDateFilter: (action: 'next' | 'previus') => Promise<void>,
+    deliverys: IDelivery[],
+    dateFilter: Date,
 }
 
 interface DeliveryProviderProps{
@@ -24,9 +27,18 @@ export const DeliveryContext = createContext({} as DeliveryContextData)
 function DeliveryProvider({children}: DeliveryProviderProps){
     const [deliverys, setDeliverys] = useState<IDelivery[]>([] as IDelivery[]);
     const [ emptyDelivery, setEmptyDelivery] = useState<IDelivery[]>([] as IDelivery[])
+    const [ dateFilter, setDateFilter] = useState<Date>(new Date)
     const { user } = useAuth()
     const url_localhost = 'http://localhost:3000/delivery';
 
+
+    async function ChangeDateFilter(action: 'next' | 'previus'): Promise<void>{
+        if(action === 'next'){
+           setDateFilter(addMonths(dateFilter, 1));          
+        }else{ 
+           setDateFilter(subMonths(dateFilter, 1)); 
+        }
+    }
 
     function setBearerToken() {
         const configBearer = {
@@ -62,7 +74,9 @@ function DeliveryProvider({children}: DeliveryProviderProps){
         <DeliveryContext.Provider value={{
             ListAllDeliverys,
             CleanDeliverys,
+            ChangeDateFilter,
             deliverys,
+            dateFilter,
         }}>
             {children}
         </DeliveryContext.Provider>

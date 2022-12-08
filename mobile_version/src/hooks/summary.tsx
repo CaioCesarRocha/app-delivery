@@ -7,7 +7,7 @@ export function useSummary() {
   //utilizando useMemo para evitar q essa variável seja recriada na memoria sem ter mudado
   const summary = useMemo(() =>{ 
     if(deliverys.length === 0) 
-      return { inprogress: 0, closed: 0, total: 0, lastDelivery: 0}
+      return { inprogress: 0, closed: 0, total: 0, lastDelivery: 1}
     return deliverys.reduce(
       (acc, delivery) => {
         if (delivery.status === 'inprogress') {
