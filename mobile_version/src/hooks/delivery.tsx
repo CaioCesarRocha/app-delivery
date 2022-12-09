@@ -14,6 +14,7 @@ interface DeliveryContextData{
     ListAllDeliverys: () => Promise<void>,
     CleanDeliverys: () => Promise<void>,
     ChangeDateFilter: (action: 'next' | 'previus') => Promise<void>,
+    UpdateDelivery:(id: string, delivery: IDelivery, action: 'select' | 'finish') => Promise<boolean>;
     deliverys: IDelivery[],
     dateFilter: Date,
 }
@@ -53,7 +54,7 @@ function DeliveryProvider({children}: DeliveryProviderProps){
             if (user.typeUser === 'client') {
                 const deliverys = await api.get(`${url_localhost}/client`, configBearer)
                 setDeliverys(deliverys.data);
-                return
+                return;
             }
             if (user.typeUser === 'deliveryman') {
                 const deliverys = await api.get(`${url_localhost}/available/0`, configBearer)
@@ -66,6 +67,44 @@ function DeliveryProvider({children}: DeliveryProviderProps){
         }
     }
 
+    async function UpdateDelivery(
+        id: string, 
+        delivery: IDelivery,
+        action: 'select' | 'finish'
+        ): Promise<boolean> {
+        const config = setBearerToken();
+        delivery.id_deliveryman = user?.id || '';
+        if (action === 'select') 
+            delivery.status = 'inprogress';
+        else
+            delivery.status = 'closed';
+        
+
+        //const newListDeliverys: IDelivery[] = []
+        try {
+          const updatedDelivery = await api.put(
+            `${url_localhost}/${id}`,
+            delivery,
+            config,
+          )
+          if (updatedDelivery) {
+            /*deliverys.forEach((delivery) => {
+              if (delivery.id !== id) newListDeliverys.push(delivery)
+            })
+            newListDeliverys.push(delivery)*/
+            setDeliverys(prevState => prevState.filter(delivery => delivery.id !== id))
+            deliverys.includes(updatedDelivery.data)
+            //setDeliverys(newListDeliverys)
+            return true
+          }
+          return false
+        } catch (err) {
+          if (err instanceof Error) 
+            throw new Error(err.message)
+          return false
+        }
+      }
+
     async function CleanDeliverys(){
         setDeliverys({} as IDelivery[])
     }
@@ -75,6 +114,7 @@ function DeliveryProvider({children}: DeliveryProviderProps){
             ListAllDeliverys,
             CleanDeliverys,
             ChangeDateFilter,
+            UpdateDelivery,
             deliverys,
             dateFilter,
         }}>

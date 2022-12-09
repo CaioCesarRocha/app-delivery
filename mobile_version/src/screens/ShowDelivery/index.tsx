@@ -1,9 +1,27 @@
+import { Alert } from 'react-native';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/auth';
+import { useDelivery } from '../../hooks/delivery';
 import { ButtonForm } from '../../components/Forms/Button';
+import { ContentStatus } from '../../components/ContentStatus';
+import { Loading } from '../../components/Loading';
 import { IDelivery } from '../../services/interfaces/deliveryInterfaces';
+import { 
+    priceFormatter, 
+    statusFormatter, 
+    dateFormatter, 
+    IconSizeFormatter 
+} from '../../services/utils/formatter';
 import {
     Container,
     Header,
-    Title
+    Title,
+    CloseModalButton,
+    CloseIcon,
+    Content,
+    DeliveryName,
+    ContainerStatus,
+    Footer,
 } from './styles';
 
 
@@ -16,32 +34,95 @@ export function ShowDelivery({
     deliverySelected,
     closeModalDelivery
 }: Props){
+    const [updateDeliveryAction, setUpdateDeliveryAction] = useState<'select'|'finish'>('select');
+    const [isLoading, setIsLoading] = useState(false);
+    const { user } = useAuth();
+    const { UpdateDelivery} = useDelivery();
 
-    function handleStatusDelivery(){
-        console.log('Entrega selecionada')
-        closeModalDelivery()
+    useEffect(() =>{
+        if(deliverySelected.status === 'open')
+            setUpdateDeliveryAction('select')
+        else
+            setUpdateDeliveryAction('finish')
+    }, [deliverySelected])
+
+    async function handleStatusDelivery(){
+        setIsLoading(true);
+        const resultUpdate = await UpdateDelivery(
+            deliverySelected.id,
+            deliverySelected,
+            updateDeliveryAction
+        )
+        if(!resultUpdate){
+            Alert.alert('Não foi possível concluir a operação');
+            console.log('error ao concluir operação');
+            return;
+        }  
+        if(updateDeliveryAction === 'select')
+            Alert.alert('Entrega Selecionada com sucesso');
+        else
+            Alert.alert('Entrega Selecionada com sucesso'); 
+        console.log('Entrega alterada');    
+        setIsLoading(false);
+        closeModalDelivery();   
     }
 
     return(
         <Container>
-            <Header>
+            <Header>              
                 <Title>
-                    Entrega
-                </Title>
+                    Entregas
+                </Title>  
+                <CloseModalButton onPress={() => closeModalDelivery()}>
+                    <CloseIcon/>
+                </CloseModalButton>               
             </Header>
-
-            <Title>
-                   {deliverySelected.name_item}
-                </Title>
-                <Title>
-                    {deliverySelected.price}
-                </Title>
-
-
-            <ButtonForm
-                title='Enviar'
-                onPress={() => handleStatusDelivery()}
-            />
+            <Content>
+                {
+                    isLoading ? 
+                        <Loading/> :
+                        <>
+                            <DeliveryName>
+                                {deliverySelected.name_item}
+                            </DeliveryName>
+                            <ContainerStatus>
+                                <ContentStatus
+                                    statusTitle="Status:"
+                                    status={deliverySelected.status}
+                                    statusContent={statusFormatter(deliverySelected.status)}
+                                />
+                                <ContentStatus
+                                    statusTitle="Tipo:"
+                                    statusContent={IconSizeFormatter(deliverySelected.size_item)}
+                                />
+                            </ContainerStatus>
+                            <ContainerStatus>
+                                <ContentStatus
+                                    statusTitle="Data de Criação:"
+                                    statusContent={dateFormatter.format(
+                                        new Date(deliverySelected.created_at)
+                                    )}
+                                />
+                            </ContainerStatus>
+                            <ContainerStatus>
+                                <ContentStatus
+                                    statusTitle="Lucro:"
+                                    status={'open'}
+                                    statusContent={priceFormatter.format(deliverySelected.price)}
+                                />
+                            </ContainerStatus> 
+                        </>                                 
+                } 
+            </Content> 
+            <Footer>
+                {deliverySelected.status === 'closed' ? null :
+                    user.typeUser === 'deliveryman' &&
+                        <ButtonForm
+                            title={ deliverySelected.status === 'open' ? 'Selecionar':'Finalizar'}
+                            onPress={() => handleStatusDelivery()}
+                        />        
+                } 
+            </Footer>         
         </Container>
     )
 }

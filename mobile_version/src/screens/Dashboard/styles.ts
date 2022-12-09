@@ -1,5 +1,4 @@
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { FlatList } from "react-native";
 import { BorderlessButton} from 'react-native-gesture-handler';
 import styled from "styled-components/native";
 import { Power} from "phosphor-react-native";

@@ -33,7 +33,7 @@ export function Home() {
     return (
         <View style={styles.container}>
             <Header 
-                title=""
+                
             />
 
             <View style={styles.form}>
