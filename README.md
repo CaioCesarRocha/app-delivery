@@ -21,6 +21,8 @@
 
 - Curso de consumos de API e Perfomance React JS disponilibizado pela <img align="center" alt="Caio-Js" height="25" width="80" src="https://embed.filekitcdn.com/e/tBsgk1B9duMKbVtFjcLnK8/6kwAbrCXdvYVzhXpMy5CCY/email">
 
+- Curso de React Native (Expo, Async Storage, Formulários, Navegação e Contextos) disponibilizados pela <img align="center" alt="Caio-Js" height="25" width="80" src="https://embed.filekitcdn.com/e/tBsgk1B9duMKbVtFjcLnK8/6kwAbrCXdvYVzhXpMy5CCY/email">
+
 
 ### Descrição API
 - Foi utilizado os conceitos do Clean Architecture separando as regras de negócio da aplicação dentro do @Core 
@@ -36,8 +38,6 @@
 - O preço da entrega é calculado utilizando o tamanho do produto, e a distância a ser percorrida.
 
 - Testes unitários utilizando o JEST
-
-### Tenolocias utilizadas 
 
 <div style="display: inline_block">
   <img align="center" alt="Caio-Js" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
@@ -63,30 +63,49 @@
   <img align="center" alt="Caio-Ts" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
   <img align="center" alt="Caio-HTML" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
   <img align="center" alt="Caio-React" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
-  
-  <img align="center" alt="Caio-React-Hooks" height="28" width="40" src="https://miro.medium.com/max/581/1*IUqLu4fox1-zw_kfxfgxOw.png">
-  <img align="center" alt="Caio-React-Leaflet" height="40" width="60" src="https://rosolutions.com.mx/blog/wp-content/uploads/2018/11/leafletjs-card.png">
-  <img align="center" alt="Caio-Axios" height="28" width="80" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png">
-  
+  <img align="center" alt="Caio-React-Hooks" height="28" width="36" src="https://miro.medium.com/max/581/1*IUqLu4fox1-zw_kfxfgxOw.png">
+  <img align="center" alt="Caio-React-Leaflet" height="60" width="70" src="https://rosolutions.com.mx/blog/wp-content/uploads/2018/11/leafletjs-card.png">
+  <img align="center" alt="Caio-Axios" height="14" width="70" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png">
+  <img align="center" alt="Caio-ESLINT" height="35" width="60" src="https://i.imgur.com/0XlkrTV.png">
   <img align="center" alt="Caio-docker" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain-wordmark.svg" />
 
-</div><br>
+</div>
+
+### Descrição Mobile
+- Foi desenvolvido um aplicativo mobile com base no curso de React Native disponibilizado pela Rocketseat;
+
+- Permite usuário cliente visualizar/monitorar as suas entregas e o seu status, bem como o entregador selecionar as entregas disponíveis e encerrar entregas já finalizadas;
+
+<div style="display: inline_block">
+  <img align="center" alt="Caio-Js" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
+  <img align="center" alt="Caio-Ts" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
+  <img align="center" alt="Caio-React-native" height="30" width="60" src="https://www.datocms-assets.com/45470/1631026680-logo-react-native.png">
+  <img align="center" alt="Caio-React-EXPO" height="30" width="70" src="https://miro.medium.com/max/1400/1*EKXYhntirnqHjXdTGmLXyw.png">
+  <img align="center" alt="Caio-React-Hooks" height="28" width="36" src="https://miro.medium.com/max/581/1*IUqLu4fox1-zw_kfxfgxOw.png">
+  <img align="center" alt="Caio-Axios" height="14" width="70" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png">
+  <img align="center" alt="Caio-docker" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain-wordmark.svg" />
+  </div><br>
+
 
 ### Outras tecnologias
 
-- Prisma para manipular as tabelas/migrations do banco
+- Prisma para manipular migrations e criar as tabelas do banco.
 
-- Insominia para testar as rotas da aplicação
-
-- DBeaver para visualizar/manipular os dados gerado nas tabelas do banco
+- Insominia && DBeaver para testar as rotas da aplicação e visualizar/manipular os dados gerado nas tabelas do banco.
 
 - Styled Components && RadixUI && PhosphorIcons para estilização do frontend e promover melhor interação para o usuário.
 
 - React Load Spinner para tela de carregamento e React Toastify para exibir alerts personalizados.
 
-- JS-Cookie para salvar os dados do usuário logado;
+- React-Hook-Form && Zod && Yup para criação e validação de formulários.
 
-- React-Hook-Form && Zod para criação e validação de formulários
+- JS-Cookie && AsyncStorage para manter os dados do usuário logado na Web e Mobile respectivamente.
+
+- Date-fns para lidar com manipulação de datas.
+
+- React Navigation Native (Stack && BottomTabs), para navegação no mobile.
+
+- Recharts && Victory-Native para criação de gráficos para Web e Mobile respectivamente.
 
 
 ## Como rodar a aplicação
