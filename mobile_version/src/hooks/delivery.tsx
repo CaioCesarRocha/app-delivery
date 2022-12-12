@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useAuth } from './auth';
 import api from '../services/Connection/api';
-import {IDelivery} from '../services/interfaces/deliveryInterfaces';
+import { IDelivery } from '../services/interfaces/deliveryInterfaces';
 
 
 interface DeliveryContextData{
@@ -30,8 +30,8 @@ function DeliveryProvider({children}: DeliveryProviderProps){
     const [deliverys, setDeliverys] = useState<IDelivery[]>([] as IDelivery[]);
     const [ dateFilter, setDateFilter] = useState<Date>(new Date)
     const { user } = useAuth()
-    const url_localhost = 'http://localhost:3000/delivery';
 
+    const url_localhost = 'http://localhost:3000/delivery';
 
     async function ChangeDateFilter(action: 'next' | 'previus'): Promise<void>{
         if(action === 'next'){

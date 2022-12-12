@@ -5,7 +5,7 @@ import { useDelivery } from './delivery'
 export function useResume() {
   const { COLORS } = useTheme();
   const { deliverys, dateFilter } = useDelivery();
-  //utilizando useMemo para evitar q essa variável seja recriada na memoria sem ter mudado
+  
   const resume = useMemo(() =>{ 
     return deliverys.reduce(
       (acc, delivery) => {

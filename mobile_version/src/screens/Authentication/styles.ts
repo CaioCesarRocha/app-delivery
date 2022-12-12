@@ -19,9 +19,3 @@ export const Fields = styled.View`
     margin-top: ${RFPercentage(-6)}px;
 `
 
-export const UserTypes = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 8px
-`
-

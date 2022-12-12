@@ -68,7 +68,6 @@ function AuthProvider({children}: AuthProviderProps){
                     token,
                     typeUser: user.typeUser,
                 }
-                console.log('userLogged', userLogged)
                 setUser(userLogged)
                 await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged))
             }

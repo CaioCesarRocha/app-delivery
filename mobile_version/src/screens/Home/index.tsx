@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View, ScrollView, FlatList, Alert } from 'react-native';
 import { styles, HighLightCards } from './styles';
-import { Header } from '../../components/Header';
-import { User } from '../../components/User';
 import { HighLightCard } from '../../components/HighlightCard';
 
 export function Home() {
@@ -32,9 +30,7 @@ export function Home() {
 
     return (
         <View style={styles.container}>
-            <Header 
-                
-            />
+     
 
             <View style={styles.form}>
                 <TextInput 
@@ -55,11 +51,7 @@ export function Home() {
                 keyExtractor={item => item}
                 showsVerticalScrollIndicator={false}
                 renderItem={({item}) =>(
-                    <User 
-                        key={ item} 
-                        name={item} 
-                        onRemove={() => handleRemoveName(item)}
-                    />
+                    <Text>name</Text>
                 )}
                 ListEmptyComponent={() => (
                     <Text>Nenhum nome adicionado</Text>
@@ -68,11 +60,7 @@ export function Home() {
 
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
                 { names.map((name, index) =>(
-                    <User 
-                        key={ index} 
-                        name={name} 
-                        onRemove={() => handleRemoveName(name)}
-                    />
+                    <Text>name</Text>
                 ))}
             </ScrollView>
         </View>

@@ -71,7 +71,7 @@ export function ShowDelivery({
         <Container>
             <Header>              
                 <Title>
-                    Entregas
+                    Entrega
                 </Title>  
                 <CloseModalButton onPress={() => closeModalDelivery()}>
                     <CloseIcon/>
@@ -80,38 +80,38 @@ export function ShowDelivery({
             <Content>
                 {
                     isLoading ? 
-                        <Loading/> :
-                        <>
-                            <DeliveryName>
-                                {deliverySelected.name_item}
-                            </DeliveryName>
-                            <ContainerStatus>
-                                <ContentStatus
-                                    statusTitle="Status:"
-                                    status={deliverySelected.status}
-                                    statusContent={statusFormatter(deliverySelected.status)}
-                                />
-                                <ContentStatus
-                                    statusTitle="Tipo:"
-                                    statusContent={IconSizeFormatter(deliverySelected.size_item)}
-                                />
-                            </ContainerStatus>
-                            <ContainerStatus>
-                                <ContentStatus
-                                    statusTitle="Data de Criação:"
-                                    statusContent={dateFormatter.format(
-                                        new Date(deliverySelected.created_at)
-                                    )}
-                                />
-                            </ContainerStatus>
-                            <ContainerStatus>
-                                <ContentStatus
-                                    statusTitle={user.typeUser === 'client' ? 'Preço:' : 'Lucro:'}
-                                    status={user.typeUser === 'client' ? 'inprogress' : 'open'}
-                                    statusContent={priceFormatter.format(deliverySelected.price)}
-                                />
-                            </ContainerStatus> 
-                        </>                                 
+                    <Loading/> :
+                    <>
+                        <DeliveryName>
+                            {deliverySelected.name_item}
+                        </DeliveryName>
+                        <ContainerStatus>
+                            <ContentStatus
+                                statusTitle="Status:"
+                                status={deliverySelected.status}
+                                statusContent={statusFormatter(deliverySelected.status)}
+                            />
+                            <ContentStatus
+                                statusTitle="Tipo:"
+                                statusContent={IconSizeFormatter(deliverySelected.size_item)}
+                            />
+                        </ContainerStatus>
+                        <ContainerStatus>
+                            <ContentStatus
+                                statusTitle="Data de Criação:"
+                                statusContent={dateFormatter.format(
+                                    new Date(deliverySelected.created_at)
+                                )}
+                            />
+                        </ContainerStatus>
+                        <ContainerStatus>
+                            <ContentStatus
+                                statusTitle={user.typeUser === 'client' ? 'Preço:' : 'Lucro:'}
+                                status={user.typeUser === 'client' ? 'inprogress' : 'open'}
+                                statusContent={priceFormatter.format(deliverySelected.price)}
+                            />
+                        </ContainerStatus> 
+                    </>                                 
                 } 
             </Content> 
             <Footer>

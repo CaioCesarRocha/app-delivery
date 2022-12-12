@@ -12,16 +12,16 @@ import {
     Alert,
 } from 'react-native'
 import { Header } from "./components/Header";
+import { UserTypeOptions } from "./components/UserTypeOptions";
 import { Loading } from "../../components/Loading";
+
 import { InputForm } from "../../components/Forms/InputForm";
-import { UserTypeButton } from "../../components/Forms/UserTypeButton";
 import { ButtonForm } from "../../components/Forms/Button";
 import { useAuth } from "../../hooks/auth";
 import { 
     Container,
     Form,
     Fields,
-    UserTypes
 } from "./styles";
 
  const schema = Yup.object({
@@ -110,20 +110,11 @@ export function Authentication(){
                                 error={errors.confirmPassword && errors.confirmPassword?.message}                     
                             />  
                         }    
-                        <UserTypes>
-                            <UserTypeButton
-                                title='Cliente'
-                                type='client'
-                                onPress={() => handleUserTypeSelect('client')}
-                                isActive={userType === 'client'}
-                            />
-                            <UserTypeButton
-                                title='Entregador'
-                                type='deliveryman'
-                                onPress={() => handleUserTypeSelect('deliveryman')}
-                                isActive={userType === 'deliveryman'}
-                            />
-                        </UserTypes>
+                        <UserTypeOptions
+                            userType={userType}
+                            setTypeClient={() => setUserType('client')}
+                            setTypeDeliveryman={() => setUserType('deliveryman')}
+                        />
                     </Fields>
                     { isLoading && <Loading/>}        
                     <ButtonForm
