@@ -7,8 +7,9 @@ interface ContainerProps{
 }
 
 export const Container = styled.View<ContainerProps>`
-    background-color: ${({theme}) => theme.COLORS.GRAY_400};
+    background-color: ${({theme}) => theme.COLORS.GRAY_500};
     width: ${RFValue(260)}px;
+    height: ${RFValue(150)}px;
     border-radius: 5px;
     padding: 19px 23px;
     padding-bottom: ${RFValue(20)}px;
@@ -64,7 +65,7 @@ export const TotalIcon = styled(CurrencyDollar).attrs(({theme}) => ({
 }))``;
 
 export const Footer = styled.View`
-    height: 140px;
+    height: 100px;
     justify-content: space-between;
 `;
 
@@ -72,7 +73,7 @@ export const Amount = styled.Text`
     font-family: ${({theme}) => theme.FONT_FAMILY.REGULAR};
     font-size: ${RFValue(32)}px;
     color: ${({theme}) => theme.COLORS.GRAY_200};
-    margin-top: 38px;
+    margin-top: 15px;
     text-align: center;
 `;
 

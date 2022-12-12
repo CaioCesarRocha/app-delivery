@@ -61,8 +61,8 @@ export function ShowDelivery({
         if(updateDeliveryAction === 'select')
             Alert.alert('Entrega Selecionada com sucesso');
         else
-            Alert.alert('Entrega Selecionada com sucesso'); 
-        console.log('Entrega alterada');    
+            Alert.alert('Entrega Encerrada com sucesso'); 
+        console.log('Status da entrega alterada');    
         setIsLoading(false);
         closeModalDelivery();   
     }
@@ -106,8 +106,8 @@ export function ShowDelivery({
                             </ContainerStatus>
                             <ContainerStatus>
                                 <ContentStatus
-                                    statusTitle="Lucro:"
-                                    status={'open'}
+                                    statusTitle={user.typeUser === 'client' ? 'Preço:' : 'Lucro:'}
+                                    status={user.typeUser === 'client' ? 'inprogress' : 'open'}
                                     statusContent={priceFormatter.format(deliverySelected.price)}
                                 />
                             </ContainerStatus> 

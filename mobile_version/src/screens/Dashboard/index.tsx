@@ -1,49 +1,37 @@
-import { FlatList, ActivityIndicator, Modal } from "react-native";
+import { FlatList, Modal, Alert } from "react-native";
 import { useEffect, useState, useCallback } from "react";
-import { useTheme } from "styled-components/native";
 import { useFocusEffect } from "@react-navigation/native";
-import { 
-    ArrowCircleUp, 
-    ArrowCircleDown,
-    CurrencyDollar, 
-} from 'phosphor-react-native'
-import { HighLightCard } from "../../components/HighlightCard";
+import { Header } from "./components/Header/HeaderDashboard";
+import { HighLightCards } from "./components/HighLightCards";
 import { DeliveryCard } from "../../components/DeliveryCard";
+import { Loading } from "../../components/Loading";
 import { ShowDelivery } from "../ShowDelivery";
-import logo_appdelivery from '../../../assets/logo_appdelivery.png';
 import { IDelivery } from "../../services/interfaces/deliveryInterfaces";
 import { 
     Container,
-    Header,
-    UserWrapper,
-    UserInfo,
-    Logo, 
-    User,
-    UserGreeting,
-    UserName,
-    LogoutIcon,
-    LogoutButton,
-    HighLightCards,
     Deliverys,
+    DeliverysHeader,
     Title,
-    LoadContainer
+    ContainerTypeListButton,
+    TextTypeListButton,
+    TextEmptyList
  } from "./styles"
 import { useAuth } from "../../hooks/auth";
 import { useDelivery } from "../../hooks/delivery";
-import { useSummary } from "../../hooks/summary";
 
 
 export function Dashboard(){
     const [ dataDeliverys, setDataDeliverys] = useState<IDelivery[]>([])
     const [isLoading, setIsLoading] = useState(true);
+    const [ typeList, setTypeList] = useState<'available'| 'deliveryman'>('available')
     const [showDeliveryModalOpen, setShowDeliveryModalOpen] = useState(false);
-    const [selectedDelivery, setSelectedDelivery] = useState({} as IDelivery)
-    const {COLORS} = useTheme();
+    const [selectedDelivery, setSelectedDelivery] = useState({} as IDelivery);
     const {Logout, user } = useAuth();
-    const summary = useSummary()
+
     const {
         deliverys, 
-        ListAllDeliverys, 
+        ListAllDeliverys,
+        ListDeliverymanDeliverys, 
         CleanDeliverys
     } = useDelivery();
 
@@ -53,12 +41,21 @@ export function Dashboard(){
     }, [deliverys]);
 
     async function loadDeliverys(){
-        await ListAllDeliverys();
+        try{
+            if(typeList === 'available')
+                await ListAllDeliverys();
+            else
+                await ListDeliverymanDeliverys();
+        }catch(error){
+            console.log('error', error)
+            Alert.alert('Não foi possível carregar as entregas')
+        }      
     }
 
     useFocusEffect(useCallback(() =>{ //recarregar qdo navegar dps de um insert por exemplo.
+        setIsLoading(true)
         loadDeliverys();
-    }, []));
+    }, [typeList]));
 
     async function handleLogout(){
         await Logout();
@@ -75,65 +72,50 @@ export function Dashboard(){
     }
 
     return(
-        <Container>
+        <Container>      
+            <Header/>
             {
                 isLoading ? 
-                    <LoadContainer>
-                        <ActivityIndicator 
-                            color={COLORS.GRAY_700}
-                            size="large"
-                        />
-                    </LoadContainer> :
-                <>
-                    <Header>
-                        <UserWrapper>
-                            <UserInfo>
-                                <Logo source={logo_appdelivery}/>
-                                <User>
-                                    <UserGreeting> Olá, </UserGreeting>
-                                    <UserName>{user.username} </UserName>
-                                </User>
-                            </UserInfo>
-                        </UserWrapper>
-                        <LogoutButton onPress={handleLogout}>
-                            <LogoutIcon />
-                        </LogoutButton>
-                    </Header>
-                    <HighLightCards>
-                        <HighLightCard
-                            title="Em andamento"                           
-                            status="inprogress"
-                            amount={summary.inprogress}
-                        />
-                        <HighLightCard
-                            title="Finalizadas"                  
-                            status="closed"
-                            amount={summary.closed}
-                        />
-                        <HighLightCard
-                            title="Total"         
-                            status="total"
-                            amount={summary.total}
-                        />
-                    </HighLightCards>           
-                    <Deliverys>
-                        <Title>Listagem</Title>
-                        <FlatList
-                            data={dataDeliverys}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <DeliveryCard 
-                                    data={item} 
-                                    onPress={() =>handleDeliverySelected(item)}
-                                />
-                            )}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{
-                                paddingBottom: 10,
-                            }}
-                        />
-                    </Deliverys>                
-                </>
+                    <Loading/> :
+                    <>
+                        <HighLightCards/>
+                        <Deliverys>
+                            <DeliverysHeader>
+                                <Title>Listagem</Title>
+                                {user.typeUser === 'deliveryman' &&
+                                    <ContainerTypeListButton 
+                                        onPress={() => setTypeList(
+                                            typeList === 'available' ? 
+                                            'deliveryman' : 'available'
+                                    )}>
+                                        <TextTypeListButton>
+                                            {typeList === 'available' ? 
+                                            'Minhas entregas': 'Entregas disponíveis'}
+                                        </TextTypeListButton>
+                                    </ContainerTypeListButton>
+                                }                      
+                            </DeliverysHeader>
+                            <FlatList
+                                data={dataDeliverys}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) => (
+                                    <DeliveryCard 
+                                        data={item} 
+                                        onPress={() =>handleDeliverySelected(item)}
+                                    />
+                                )}
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={{
+                                    paddingBottom: 10,
+                                }}
+                                ListEmptyComponent={() => (
+                                    <TextEmptyList>
+                                        Nenhuma entrega encontrada.
+                                    </TextEmptyList>
+                                )}
+                            />               
+                        </Deliverys>                
+                    </>
             }
             <Modal visible={showDeliveryModalOpen}>
                 <ShowDelivery

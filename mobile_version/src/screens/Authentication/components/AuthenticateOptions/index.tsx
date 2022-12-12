@@ -5,17 +5,17 @@ import {
     SignInButtonText
 } from "./styles"
 
-interface SignInProps{
+interface AuthenticateOptionsProps{
     title: string,
     info: string,
     onPress: () => void;
 }
 
-export function SignInInfo({
+export function AuthenticateOptions({
     title,
     info,
     onPress
-}: SignInProps){
+}: AuthenticateOptionsProps){
     return(
         <Container>
             <SignInTitle> 

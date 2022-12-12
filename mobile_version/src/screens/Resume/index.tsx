@@ -91,21 +91,16 @@ export function Resume(){
                                 </NotFoundContainer>                  
                             }           
                         </ChartContainer>
-                        <HistoryCard
-                            color={COLORS.GRAPH_SMALL}
-                            title={'Pequenas'}
-                            amount={resume.data[0].value}
-                        />
-                        <HistoryCard
-                            color={COLORS.GRAPH_MEDIUM}
-                            title={'Médias'}
-                            amount={resume.data[1].value}
-                        />
-                        <HistoryCard
-                            color={COLORS.GRAPH_LARGE}
-                            title={'Grandes'}
-                            amount={resume.data[2].value}
-                        />
+                        {
+                            resume.data.map( (resume, index) =>(
+                                <HistoryCard
+                                    key={index}
+                                    color={resume.color}
+                                    title={resume.title}
+                                    amount={resume.value}
+                                />                      
+                            ))
+                        }             
                         <HistoryCard
                             color={COLORS.GREEN_500}
                             title={'Preço Médio '}

@@ -1,6 +1,6 @@
 import styled, {css} from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { X, Bicycle, Truck, Jeep, CheckCircle } from 'phosphor-react-native'
+import { Bicycle, Truck, Jeep } from 'phosphor-react-native'
 
 export const Container = styled.TouchableOpacity`
     background-color: ${({theme}) => theme.COLORS.GRAY_600};

@@ -1,31 +1,28 @@
 import { useState } from "react";
-import { useTheme } from "styled-components/native";
-import { useForm, Control, FieldValues } from "react-hook-form";
+import { 
+    useForm, 
+    Control, 
+    FieldValues 
+} from "react-hook-form";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
     TouchableWithoutFeedback,
     Keyboard,
     Alert,
-    ActivityIndicator
 } from 'react-native'
+import { Header } from "./components/Header";
+import { Loading } from "../../components/Loading";
 import { InputForm } from "../../components/Forms/InputForm";
 import { UserTypeButton } from "../../components/Forms/UserTypeButton";
 import { ButtonForm } from "../../components/Forms/Button";
-import { SignInInfo } from "./components/SignInInfo";
+import { useAuth } from "../../hooks/auth";
 import { 
     Container,
-    Header,
     Form,
-    TitleWrapper,
-    Title,
-    Logo,
     Fields,
     UserTypes
 } from "./styles";
-import logo_appdelivery from '../../../assets/logo_appdelivery.png';
-import { useAuth } from "../../hooks/auth";
-
 
  const schema = Yup.object({
     username: Yup.string().required('Username é obrigatório'),
@@ -42,7 +39,6 @@ export function Authentication(){
     const [screen, setScreen] = useState<'login'|'register'>('login')
     const [ userType, setUserType] = useState<'client'| 'deliveryman'>('client')
     const { Login } = useAuth();
-    const { COLORS} = useTheme();
  
     const {
         control,
@@ -85,29 +81,11 @@ export function Authentication(){
     return(
        // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <Container>
-                <Header>
-                    <TitleWrapper>
-                        <Logo source={logo_appdelivery}/>
-                        <Title>
-                            Controle suas {'\n'}
-                            entregas de forma {'\n'}
-                            muito mais simples {'\n'}
-                        </Title>
-                    </TitleWrapper> 
-                    { screen === 'login' ? 
-                        <SignInInfo 
-                            title="Faça seu login abaixo"
-                            info="Ainda não cadastrou? Aqui."
-                            onPress={() => setScreen('register')}
-                        />
-                    :
-                        <SignInInfo 
-                            title="Registre sua conta abaixo"
-                            info="Fazer login."
-                            onPress={() => setScreen('login')}
-                        />
-                    }         
-                </Header>
+                <Header
+                    screen={screen}
+                    setScreenRegister={() => setScreen('register')}
+                    setScreenLogin={() => setScreen('login')}
+                />
                 <Form>
                     <Fields>
                         <InputForm
@@ -147,11 +125,7 @@ export function Authentication(){
                             />
                         </UserTypes>
                     </Fields>
-                    { isLoading && 
-                    <ActivityIndicator 
-                        color={COLORS.GRAY_200}
-                        size={"large"}
-                    />}        
+                    { isLoading && <Loading/>}        
                     <ButtonForm
                         title={screen === 'login' ? 'Entrar' : 'Cadastrar'}
                         onPress={handleSubmit(handleRegister)}

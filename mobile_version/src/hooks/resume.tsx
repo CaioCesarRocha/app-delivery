@@ -36,17 +36,20 @@ export function useResume() {
       { 
         percentage: `${((resume.small *100)/deliverys.length).toFixed(2)}%`, 
         value: resume.small,
-        color: COLORS.GRAPH_SMALL
+        color: COLORS.GRAPH_SMALL,
+        title: 'Pequenas'
       },
       {
         percentage: `${((resume.medium *100)/deliverys.length).toFixed(2)}%`, 
         value: resume.medium,
-        color: COLORS.GRAPH_MEDIUM
+        color: COLORS.GRAPH_MEDIUM,
+        title: 'Médias',
       },
       {
         percentage: `${((resume.large *100)/deliverys.length).toFixed(2)}%`, 
         value: resume.large,
-        color: COLORS.GRAPH_LARGE
+        color: COLORS.GRAPH_LARGE,
+        title: 'Grandes'
       },   
     ],
     average: resume.average,

@@ -1,16 +1,18 @@
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { BorderlessButton} from 'react-native-gesture-handler';
+import { RectButton } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import { Power} from "phosphor-react-native";
 
 export const Container = styled.View`
     flex: 1;
     background-color: ${({theme}) => theme.COLORS.WHITE};
+    background-color: ${({theme}) => theme.COLORS.GRAY_400};
 `
 
 export const Header = styled.View`
     width: 100%;
-    height: ${RFPercentage(42)}px;
+    height: ${RFPercentage(36)}px;
     background-color: ${({theme}) => theme.COLORS.GRAY_700};
     flex-direction: row;   
 `;
@@ -58,28 +60,47 @@ export const LogoutIcon = styled(Power).attrs(({theme}) => ({
 
 export const LogoutButton = styled(BorderlessButton)``;
 
-export const HighLightCards = styled.ScrollView.attrs({
-    horizontal: true,
-    showsHorizontalScrollIndicator: false,
-    contentContainerStyle: {paddingHorizontal: 24}
-})`
-    width: 100%;
-    position: absolute;
-    margin-top: ${RFPercentage(20)}px;
-`;
-
 export const Deliverys = styled.View`
-    flex: 1%;
-    padding: 0 24px;
+    padding: 0px 24px ;
+    height: ${RFPercentage(42)}px;
     margin-top: ${RFPercentage(10)}px;
     margin-bottom: ${RFPercentage(3.3)}px;
 `;
 
-export const Title = styled.Text`
-    font-size: ${RFValue(18)}px;
-    font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
+export const DeliverysHeader = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
+`
+
+export const Title = styled.Text`
+    font-size: ${RFValue(23)}px;
+    font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
+    color: ${({theme}) => theme.COLORS.GRAY_200};
 `;
+
+export const ContainerTypeListButton = styled(RectButton)`
+    width: ${RFPercentage(20)}px;
+    background-color: ${({theme}) => theme.COLORS.GRAY_600}; 
+    padding: 14px 0px;
+    border-radius: 5px;
+    align-items: center;
+`;
+
+export const TextTypeListButton = styled.Text`
+    color: ${({theme}) => theme.COLORS.WHITE};
+    font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
+    font-size: ${RFValue(13)}px;   
+`
+
+export const TextEmptyList = styled.Text`
+    color: ${({theme}) => theme.COLORS.GRAY_600};
+    font-family: ${({theme}) => theme.FONT_FAMILY.MEDIUM};
+    font-size: ${RFValue(18)}px;   
+    margin-top: 50px;
+    align-self: center;
+`
 
 export const LoadContainer = styled.View`
     flex: 1;
