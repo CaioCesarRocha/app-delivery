@@ -83,10 +83,8 @@
   <img align="center" alt="Caio-React-EXPO" height="30" width="70" src="https://miro.medium.com/max/1400/1*EKXYhntirnqHjXdTGmLXyw.png">
   <img align="center" alt="Caio-React-Hooks" height="28" width="36" src="https://miro.medium.com/max/581/1*IUqLu4fox1-zw_kfxfgxOw.png">
   <img align="center" alt="Caio-Axios" height="14" width="70" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Axios_%28computer_library%29_logo.svg/1280px-Axios_%28computer_library%29_logo.svg.png">
-  <img align="center" alt="Caio-docker" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain-wordmark.svg" />
-  </div><br>
-
-
+ 
+ 
 ### Outras tecnologias
 
 - Prisma para manipular migrations e criar as tabelas do banco.
@@ -123,3 +121,7 @@
 #### ATENÇÃO!!
 
 - Necessário configurar as suas variáveis de ambiente no arquivo .env, conforme exemplificado no arquivo env.example na Api;
+
+#### Mobile
+
+- Basta entrar na pasta raiz do projeto executar os comandos npm install && expo start
