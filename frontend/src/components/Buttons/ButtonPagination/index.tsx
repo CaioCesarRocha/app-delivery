@@ -4,7 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import { ButtonPage } from './styles';
 
 export function ButtonPagination() {
-  const {deliverys, page, handlePagination} = useDeliverys();
+  const {deliverys, page, handlePagination, allDeliverys} = useDeliverys();
   const { user } = useAuth()
   const numberMaxDelivery = 5
 
@@ -16,16 +16,16 @@ export function ButtonPagination() {
 
   return (
     <>
-      {deliverys.length === numberMaxDelivery ? (
+      {deliverys.length === numberMaxDelivery && (
         <ButtonPage onClick={() => handleLoadDeliverys(5)} variant="right">
           <CaretDoubleRight size={35} />
         </ButtonPage>
-      ) : null}
-      {page > 0 ? (
+      )}
+      {page > 0 && (
         <ButtonPage onClick={() => handleLoadDeliverys(-5)} variant="left">
           <CaretDoubleLeft size={35} />
         </ButtonPage>
-      ) : null}
+      )}
     </>
   )
 }

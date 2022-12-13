@@ -3,12 +3,12 @@ import { createContext } from 'use-context-selector';
 import useAuth from '../hooks/useAuth'
 import { IError } from '../services/utils/interfaces/error_interface'
 import api from '../services/connection/api'
-import {IInputCreateDelivery, IDelivery } from '../services/utils/interfaces/delivery'
+import {IInputCreateDelivery, IDelivery } from '../services/utils/interfaces/delivery';
 
 interface DeliveryContextType {
   allDeliverys: IDelivery[]
   cleanDeliverys: () => Promise<void>
-  createDelivery: (data: IInputCreateDelivery) => Promise<boolean>
+  createDelivery: (data: IInputCreateDelivery, token: string) => Promise<boolean>
   deleteDelivery: (id: string) => Promise<boolean>
   deliverys: IDelivery[]
   error: IError
@@ -33,20 +33,8 @@ export const DeliverysContext = createContext({} as DeliveryContextType)
 export function DeliveryProvider({ children }: DeliveryProviderProps) {
   const [deliverys, setDeliverys] = useState<IDelivery[]>([])
   const [allDeliverys, setAllDeliverys] = useState<IDelivery[]>([])
-  const [ ,setAvailableDeliverys] = useState<IDelivery[]>([])
-  const [emptyDelivery, ] = useState<IDelivery>({
-    id: '',
-    id_client: '',
-    id_deliveryman: '',
-    name_item: '',
-    size_item: 'small',
-    status: 'open',
-    price: 0,
-    startPosition: [0, 0],
-    endPosition: [0, 0],
-    created_at: new Date(),
-    end_at: new Date(),
-  })
+  //const [ ,setAvailableDeliverys] = useState<IDelivery[]>([])
+  const [emptyDelivery, ] = useState<IDelivery>({} as IDelivery)
   const [deliverymanDeliverys, setDeliverymanDeliverys] = useState<boolean>(false)
   const [error, setError] = useState<IError>({ msg: '', active: false })
   const [page, setPage] = useState<number>(0)
@@ -54,7 +42,13 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
   const url_localhost = 'http://localhost:3000/delivery'
   const maxNumberPerPage = 5
 
-  function setBearerToken() {
+  function setBearerToken(token?: string) {
+    if(token){
+      const config = {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+      return config
+    }
     const config = {
       headers: { Authorization: 'Bearer ' + user?.token },
     }
@@ -64,7 +58,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
   async function getOneDelivery(id: string): Promise<IDelivery> {
     try {
       const delivery = await api.get(`${url_localhost}/${id}`)
-      return delivery.data
+      return delivery.data;
     } catch (err) {
       if (err instanceof Error) setError({ msg: err.message, active: true })
       return emptyDelivery
@@ -92,19 +86,14 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     try {
       const config = setBearerToken()
-      const deliverys = await api.get(
+      const deliverysSearched = await api.get(
         `${url_localhost}/search/${search}`,
         config,
       )
-      const userDeliverys: IDelivery[] = []
-      deliverys.data.forEach((delivery: IDelivery) => {
-        if (
-          delivery.id_client === user.id ||
-          delivery.id_deliveryman === user.id
-        )
-          userDeliverys.push(delivery)
-      })
-      setDeliverys(userDeliverys)
+      setDeliverys(deliverysSearched.data.filter((delivery: IDelivery) => 
+        delivery.id_client === user.id || 
+        delivery.id_deliveryman === user.id
+      ))
       return true
     } catch (err) {
       if (err instanceof Error) setError({ msg: err.message, active: true })
@@ -116,19 +105,14 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     try {
       const config = setBearerToken()
-      const deliverys = await api.get(
+      const deliverysFiltered = await api.get(
         `${url_localhost}/filter/${filter}`,
         config,
       )
-      const userDeliverys: IDelivery[] = []
-      deliverys.data.forEach((delivery: IDelivery) => {
-        if (
-          delivery.id_client === user.id ||
-          delivery.id_deliveryman === user.id
-        )
-          userDeliverys.push(delivery)
-      })
-      setDeliverys(userDeliverys)
+      setDeliverys(deliverysFiltered.data.filter((delivery: IDelivery) => 
+        delivery.id_client === user.id || 
+        delivery.id_deliveryman === user.id
+      ))
       return true
     } catch (err) {
       if (err instanceof Error) setError({ msg: err.message, active: true })
@@ -137,14 +121,15 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
   }
 
   const createDelivery = useCallback(
-    async(data: IInputCreateDelivery): Promise<boolean> =>{
+    async(data: IInputCreateDelivery, token: string): Promise<boolean> =>{
       await new Promise((resolve) => setTimeout(resolve, 2000)) // importante usar pra simular delay
-      const { name_item, size_item, startPosition, endPosition } = data
-      const config = setBearerToken()
+      const { name_item, size_item, startPosition, endPosition } = data;
+      const config = setBearerToken(token);
+      console.log('config', config)
       try {
         const createdDelivery = await api.post(
-          url_localhost,
-          {  //CLEAN CODE \/
+          "http://localhost:3000/delivery",
+          { 
             name_item,
             size_item,
             endPosition,
@@ -170,7 +155,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     if (delivery.status === 'inprogress') delivery.status = 'closed'
     if (delivery.status === 'open') delivery.status = 'inprogress'
     delivery.id_deliveryman = user?.id || ''
-    const newListDeliverys: IDelivery[] = []
+   
     try {
       const updatedDelivery = await api.put(
         `${url_localhost}/${id}`,
@@ -178,10 +163,8 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
         config,
       )
       if (updatedDelivery) {
-        deliverys.forEach((delivery) => {
-          if (delivery.id !== id) newListDeliverys.push(delivery)
-        })
-        newListDeliverys.push(delivery)
+        const listDeliverys = deliverys.filter(delivery => delivery.id !== id);
+        const newListDeliverys: IDelivery[] = [...listDeliverys, delivery];
         setDeliverys(newListDeliverys)
         return true
       }
@@ -196,11 +179,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
     const config = setBearerToken()
     try {
       await api.delete(`${url_localhost}/${id}`, config)
-      const newListDeliverys: IDelivery[] = []
-      deliverys.forEach((delivery) => {
-        if (delivery.id !== id) newListDeliverys.push(delivery)
-      })
-      setDeliverys(newListDeliverys)
+      setDeliverys(prevState => prevState.filter(delivery => delivery.id !== id))
       return true
     } catch (err) {
       if (err instanceof Error) setError({ msg: err.message, active: true })
@@ -210,7 +189,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
 
   async function cleanDeliverys() {
     setAllDeliverys([])
-    setAvailableDeliverys([])
+    //setAvailableDeliverys([])
     setDeliverys([])
   }
 
@@ -227,7 +206,7 @@ export function DeliveryProvider({ children }: DeliveryProviderProps) {
         config,
       )
       setDeliverys(deliverys.data)
-      setAvailableDeliverys((state) => [...deliverys.data, state])
+      //setAvailableDeliverys((state) => [...deliverys.data, state])
     } else {
       const showDeliverys: IDelivery[] = allDeliverys.slice(
         newPage,

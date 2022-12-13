@@ -11,7 +11,7 @@ import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import { X, Bicycle, Truck, Jeep, CheckCircle } from 'phosphor-react'
 import { RotatingLines } from 'react-loader-spinner'
-import Alert from '../Alert'
+import Alert from '../Alert';
 import {
   Overlay,
   Content,
@@ -21,7 +21,8 @@ import {
   ContentSearchingDelivery,
 } from './styles'
 import { useContextSelector } from 'use-context-selector'
-import { DeliverysContext } from '../../contexts/DeliveryContext'
+import { DeliverysContext } from '../../contexts/DeliveryContext';
+import useAuth from '../../hooks/useAuth';
 
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -45,6 +46,7 @@ export function NewDeliveryModal() {
   const createDelivery = useContextSelector(DeliverysContext, (context) =>{
     return context.createDelivery
   })
+  const { user} = useAuth()
 
   const {
     control, // qdo nao for html nativo(ex: input), precisa usar o control pra pegar os valores
@@ -92,7 +94,7 @@ export function NewDeliveryModal() {
       startPosition,
       endPosition,
     }
-    const createdDelivery = await createDelivery(dataDelivery)
+    const createdDelivery = await createDelivery(dataDelivery, user.token!)
     if (createdDelivery) {
       setFinished(true)
     }
