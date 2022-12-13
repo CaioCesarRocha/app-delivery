@@ -25,7 +25,6 @@ deliveryRoutes.get('/delivery',  async(req: Request, res: Response) =>{
 
 deliveryRoutes.get('/delivery/client', ensureAuthenticateClient, async(req: Request, res: Response) =>{
     const { id_client } = req;
-    console.log('passei no id client')
     const listDeliverysClient = new ListDeliverysClientUseCase(deliveryRepo);
     const output = await listDeliverysClient.execute(id_client)
     res.status(200).json(output)
@@ -69,7 +68,7 @@ deliveryRoutes.get('/delivery/:id',  async(req: Request, res: Response) =>{
 //middlware necessário pois o cliente precisa estar com login válido(token) na hora de criar uma delivery
 deliveryRoutes.post('/delivery', ensureAuthenticateClient, async(req: Request, res: Response) =>{ 
     const { id_client } = req; //id_client vira depois de ser válido no middlware
-    console.log('CHEGUEI AQUI NO BACK', id_client)
+
     const delivery = req.body;  
     const newDelivery = { id_client, ...delivery}
     const createUseCase = new CreateDeliveryUseCase(deliveryRepo) 
